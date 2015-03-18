@@ -24,12 +24,41 @@ gulp.task('bower', function () {
  * Resolve all bower javascript dependencies and add them to the /app/lib
  * directory.
  */
-gulp.task('update_dependencies',['bower'], function () {
+gulp.task('update_dependencies',
+    [
+        '_update_js_dependencies',
+        '_update_css_dependencies',
+        '_update_font_dependencies'
+    ], function() {
+
+    }
+);
+
+/**
+ * Resolve all javascript dependencies.
+ */
+gulp.task('_update_js_dependencies', ['bower'], function () {
     return gulp.src(mainBowerFiles())
         .pipe(filter('*.js'))
-        .pipe(gulp.dest(dir.app + '/lib'))
-        .pipe(git.add())
-        .pipe(notify('Ironic: Updated dependencies.'));
+        .pipe(gulp.dest(dir.app + '/js'));
+});
+
+/**
+ * Resolve all javascript dependencies.
+ */
+gulp.task('_update_css_dependencies', ['bower'], function () {
+    return gulp.src(mainBowerFiles())
+        .pipe(filter('*.css'))
+        .pipe(gulp.dest(dir.app + '/css'));
+});
+
+/**
+ * Resolve all font dependencies.
+ */
+gulp.task('_update_font_dependencies', ['bower'], function () {
+    return gulp.src(mainBowerFiles())
+        .pipe(filter(['*.eot', '*.svg', '*.ttf', '*.woff', '*.woff2']))
+        .pipe(gulp.dest(dir.app + '/fonts'));
 });
 
 /**
