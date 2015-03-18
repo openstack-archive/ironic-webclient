@@ -1,5 +1,7 @@
 <html>
 <head>
+    <title>Ironic</title>
+
     <!-- build:js js/lib.js -->
     <script type="application/javascript"
             src="js/lib/angular.js"></script>
@@ -12,14 +14,56 @@
     <!-- build:css css/lib.css -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
     <!-- endbuild -->
+
+    <!-- build:css css/theme.css -->
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <!-- endbuild -->
 </head>
 <body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#/ironic">
+                Ironic
+            </a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active">
+                <a href="#/ironic/chassis">Chassis</a>
+            </li>
+            <li>
+                <a href="#/ironic/drivers">Drivers</a>
+            </li>
+            <li>
+                <a href="#/ironic/nodes">Nodes</a>
+            </li>
+            <li>
+                <a href="#/ironic/ports">Ports</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#/ironic/configure"><i class="glyphicon glyphicon-cog"></i></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
-            <h1><i class="glyphicon glyphicon-heart"></i> Hello Ironic!</h1>
+            <ol class="breadcrumb">
+                <li><a href="#/ironic/chassis">Chassis</a></li>
+                <li class="active">eaaca217-e7d8-47b4-bb41-3f99f20eed89</li>
+            </ol>
         </div>
     </div>
+    <div class="row"></div>
 </div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid">
+    </div>
+</nav>
 </body>
 </html>
