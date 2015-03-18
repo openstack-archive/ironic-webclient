@@ -35,7 +35,7 @@ performance of this application.
 2. Run `npm install`
     1. Realize that you don't have node installed. Install node, and npm.
        Then try again.
-3. Run `npm run gulp`
+3. Run `npm run serve`
 
 ## Other options
 
@@ -45,5 +45,5 @@ performance of this application.
     // Will package the site.
     npm run package
     
-    // Will spin up a local dummy server and run it.
+    // Will spin up a local server and host the raw, unpackaged application.
     npm run serve

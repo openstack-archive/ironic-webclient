@@ -5,6 +5,7 @@ var filter = require('gulp-filter');
 var git = require('gulp-git');
 var debug = require('gulp-debug');
 var notify = require('gulp-notify');
+var webserver = require('gulp-webserver');
 
 var dir = {
     app: ['./app/'],
@@ -29,4 +30,16 @@ gulp.task('update_dependencies',['bower'], function () {
         .pipe(gulp.dest(dir.app + '/lib'))
         .pipe(git.add())
         .pipe(notify('Ironic: Updated dependencies.'));
+});
+
+/**
+ * Start a local server and serve the raw application code. This is equivalent
+ * to opening index.html in a browser.
+ */
+gulp.task('serve:raw', function () {
+    return gulp.src(dir.app)
+        .pipe(webserver({
+            livereload: true,
+            open: true
+        }));
 });
