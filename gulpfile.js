@@ -7,9 +7,10 @@ var debug = require('gulp-debug');
 var notify = require('gulp-notify');
 var webserver = require('gulp-webserver');
 var sequence = require('gulp-sequence');
+var useref = require('gulp-useref');
 
 var dir = {
-    app: ['./app/'],
+    app: './app',
     dist: './dist'
 };
 
@@ -53,4 +54,23 @@ gulp.task('serve:raw', function () {
             livereload: true,
             open: true
         }));
+});
+
+/**
+ * Package a concatenated, but not minified, application.
+ */
+gulp.task('package', function () {
+    var assets = useref.assets();
+
+    var concat_assets = gulp.src(dir.app + '/*.html')
+        .pipe(assets)
+        .pipe(assets.restore())
+        .pipe(useref())
+        .pipe(gulp.dest(dir.dist));
+
+    var copy_assets = gulp.src(
+        [dir.app + '/**/*.+(eot|svg|ttf|woff|woff2)'])
+        .pipe(gulp.dest(dir.dist));
+
+    return sequence(concat_assets, copy_assets)
 });
