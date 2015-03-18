@@ -5,7 +5,8 @@
   "main": "index.html",
   "scripts": {
     "update_dependencies": "./node_modules/.bin/gulp update_dependencies",
-    "serve": "./node_modules/.bin/gulp serve:raw"
+    "serve": "./node_modules/.bin/gulp serve:raw",
+    "package": "./node_modules/.bin/gulp package"
   },
   "author": "Michael Krotscheck",
   "license": "Apache 2.0",
@@ -13,13 +14,12 @@
     "bower": "^1.3.12",
     "gulp": "^3.8.11",
     "gulp-bower": "^0.0.10",
-    "gulp-debug": "^2.0.1",
+    "gulp-eslint": "^0.7.0",
     "gulp-filter": "^2.0.2",
-    "gulp-git": "^1.1.0",
-    "gulp-notify": "^2.2.0",
     "gulp-sequence": "^0.3.2",
     "gulp-useref": "^1.1.1",
     "gulp-webserver": "^0.9.0",
-    "main-bower-files": "^2.5.0"
+    "main-bower-files": "^2.5.0",
+    "rimraf": "^2.3.2"
   }
 }
