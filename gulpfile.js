@@ -6,6 +6,7 @@ var git = require('gulp-git');
 var debug = require('gulp-debug');
 var notify = require('gulp-notify');
 var webserver = require('gulp-webserver');
+var sequence = require('gulp-sequence');
 
 var dir = {
     app: ['./app/'],
@@ -21,44 +22,25 @@ gulp.task('bower', function () {
 });
 
 /**
- * Resolve all bower javascript dependencies and add them to the /app/lib
- * directory.
+ * Resolve all bower dependencies and add them to our app directory.
  */
-gulp.task('update_dependencies',
-    [
-        '_update_js_dependencies',
-        '_update_css_dependencies',
-        '_update_font_dependencies'
-    ], function() {
+gulp.task('update_dependencies', ['bower'], function () {
 
-    }
-);
+    var files = mainBowerFiles();
 
-/**
- * Resolve all javascript dependencies.
- */
-gulp.task('_update_js_dependencies', ['bower'], function () {
-    return gulp.src(mainBowerFiles())
+    var resolve_js = gulp.src(files)
         .pipe(filter('*.js'))
-        .pipe(gulp.dest(dir.app + '/js'));
-});
+        .pipe(gulp.dest(dir.app + '/js/lib'));
 
-/**
- * Resolve all javascript dependencies.
- */
-gulp.task('_update_css_dependencies', ['bower'], function () {
-    return gulp.src(mainBowerFiles())
+    var resolve_css = gulp.src(files)
         .pipe(filter('*.css'))
         .pipe(gulp.dest(dir.app + '/css'));
-});
 
-/**
- * Resolve all font dependencies.
- */
-gulp.task('_update_font_dependencies', ['bower'], function () {
-    return gulp.src(mainBowerFiles())
+    var resolve_fonts = gulp.src(files)
         .pipe(filter(['*.eot', '*.svg', '*.ttf', '*.woff', '*.woff2']))
         .pipe(gulp.dest(dir.app + '/fonts'));
+
+    return sequence(resolve_js, resolve_css, resolve_fonts)
 });
 
 /**
