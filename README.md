@@ -10,6 +10,9 @@ It is imperative that the design and infrastructure of this project makes it eas
 * ECMAScript 5 only, no transpiled languages such as TypeScript or CoffeeScript.
 * All javascript libraries used at runtime (in the browser) must be committed to source.
 
+Note that we do not guarantee performance if running in this mode. Certain things, such as in-browser CSS compilation
+will severely degrade the performance of this application.
+
 ##### The project must be easy to develop on.
 * We use common javascript tooling to assist in development (npm, gulp, eslint, bower, etc).
 * These tools are supportive, but not required, as such they are considered to be environmental, and thus not committed to source.
@@ -27,8 +30,8 @@ It is imperative that the design and infrastructure of this project makes it eas
 
 ## Other options
 
-    // Will resolve all the runtime dependencies.
-    npm run bower
+    // Will resolve all the runtime dependencies. Remember to commit them.
+    npm run update_dependencies
     
     // Will package the site.
     npm run package
