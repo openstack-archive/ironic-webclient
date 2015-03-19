@@ -11,6 +11,7 @@
     var rimraf = require('rimraf');
     var eslint = require('gulp-eslint');
     var ghPages = require('gulp-gh-pages');
+    var debug = require('gulp-debug');
 
     var dir = {
         app: './app',
@@ -84,14 +85,14 @@
     gulp.task('package', ['clean'], function () {
         var assets = useref.assets();
 
-        var concat_assets = gulp.src(dir.app + '/*.html')
+        var concat_assets = gulp.src(dir.app + '/index.html')
             .pipe(assets)
             .pipe(assets.restore())
             .pipe(useref())
             .pipe(gulp.dest(dir.dist));
 
         var copy_assets = gulp.src(
-            [dir.app + '/**/*.+(eot|svg|ttf|woff|woff2)'])
+            [dir.app + '/**/*.+(eot|svg|ttf|woff|woff2|html)'])
             .pipe(gulp.dest(dir.dist));
 
         return streamqueue({ objectMode: true },

@@ -1,5 +1,5 @@
 {
-  "name": "openstack-onboarding",
+  "name": "ironic-webclient",
   "version": "1.0.0",
   "description": "An onboarding course for OpenStack Contributors.",
   "main": "index.html",

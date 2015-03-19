@@ -1,4 +1,4 @@
-<html>
+<html ng-app="ironic">
 <head>
     <title>Ironic</title>
 
@@ -9,6 +9,37 @@
             src="js/lib/angular-ui-router.js"></script>
     <script type="application/javascript"
             src="js/lib/ui-bootstrap-tpls.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js js/ironic.js -->
+    <script type="application/javascript"
+            src="js/ironic.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/ironic_chassis.js -->
+    <script type="application/javascript"
+            src="js/modules/chassis/module.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/ironic_ports.js -->
+    <script type="application/javascript"
+            src="js/modules/ports/module.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/ironic_drivers.js -->
+    <script type="application/javascript"
+            src="js/modules/drivers/module.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/ironic_nodes.js -->
+    <script type="application/javascript"
+            src="js/modules/nodes/module.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/ironic_configure.js -->
+    <script type="application/javascript"
+            src="js/modules/configure/module.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/ironic_util.js -->
+    <script type="application/javascript"
+            src="js/modules/util/module.js"></script>
+    <script type="application/javascript"
+            src="js/modules/util/directive/active_path.js"></script>
     <!-- endbuild -->
 
     <!-- build:css css/lib.css -->
@@ -23,43 +54,37 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#/ironic">
+            <a class="navbar-brand"
+               href="#/ironic"
+               active-path="^\/ironic$">
                 Ironic
             </a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active">
+            <li active-path="^\/ironic/chassis.*">
                 <a href="#/ironic/chassis">Chassis</a>
             </li>
-            <li>
+            <li active-path="^\/ironic/drivers.*">
                 <a href="#/ironic/drivers">Drivers</a>
             </li>
-            <li>
+            <li active-path="^\/ironic/nodes.*">
                 <a href="#/ironic/nodes">Nodes</a>
             </li>
-            <li>
+            <li active-path="^\/ironic/ports.*">
                 <a href="#/ironic/ports">Ports</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a href="#/ironic/configure"><i class="glyphicon glyphicon-cog"></i></a>
+            <li active-path="^\/ironic/configure.*">
+                <a href="#/ironic/configure">
+                    <i class="glyphicon glyphicon-cog"></i>&nbsp;
+                </a>
             </li>
         </ul>
     </div>
 </nav>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12">
-            <ol class="breadcrumb">
-                <li><a href="#/ironic/chassis">Chassis</a></li>
-                <li class="active">eaaca217-e7d8-47b4-bb41-3f99f20eed89</li>
-            </ol>
-        </div>
-    </div>
-    <div class="row"></div>
-</div>
+<div ui-view></div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">
