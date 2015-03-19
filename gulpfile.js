@@ -80,24 +80,51 @@
     });
 
     /**
-     * Package a concatenated, but not minified, application.
+     * Start a local server and serve the packaged application code.
      */
-    gulp.task('package', ['clean'], function () {
+    gulp.task('serve:dist', function () {
+
+        gulp.watch(
+            [dir.app + '/**/*.+(eot|svg|ttf|woff|woff2|html)'],
+            ['package:static']);
+        gulp.watch(
+            [dir.app + '/**/*.+(js|css)', dir.app + '/index.html'],
+            ['package:app']);
+
+        return gulp.src(dir.dist)
+            .pipe(webserver({
+                livereload: true,
+                open: true
+            }));
+    });
+
+    /**
+     * Build a concatenated application.
+     */
+    gulp.task('package:app', function () {
         var assets = useref.assets();
 
-        var concat_assets = gulp.src(dir.app + '/index.html')
+        return gulp.src(dir.app + '/index.html')
             .pipe(assets)
             .pipe(assets.restore())
             .pipe(useref())
             .pipe(gulp.dest(dir.dist));
-
-        var copy_assets = gulp.src(
-            [dir.app + '/**/*.+(eot|svg|ttf|woff|woff2|html)'])
-            .pipe(gulp.dest(dir.dist));
-
-        return streamqueue({ objectMode: true },
-            concat_assets, copy_assets);
     });
+
+    /**
+     * Copy static assets into our package.
+     */
+    gulp.task('package:static', function () {
+        return gulp.src([
+                dir.app + '/**/*.+(eot|svg|ttf|woff|woff2|html)',
+                '!' + dir.app + '/index.html'
+        ]).pipe(gulp.dest(dir.dist));
+    });
+
+    /**
+     * Package the app
+     */
+    gulp.task('package', ['package:static', 'package:app']);
 
     /**
      * Deploy the site to gh-pages.
