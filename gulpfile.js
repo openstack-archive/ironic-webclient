@@ -6,10 +6,11 @@
     var mainBowerFiles = require('main-bower-files');
     var filter = require('gulp-filter');
     var webserver = require('gulp-webserver');
-    var sequence = require('gulp-sequence');
+    var streamqueue = require('streamqueue');
     var useref = require('gulp-useref');
     var rimraf = require('rimraf');
     var eslint = require('gulp-eslint');
+    var ghPages = require('gulp-gh-pages');
 
     var dir = {
         app: './app',
@@ -20,7 +21,7 @@
      * Clean the output directory.
      */
     gulp.task('clean', function (cb) {
-        rimraf(dir.dist, cb);
+        return rimraf(dir.dist, cb);
     });
 
     /**
@@ -50,7 +51,8 @@
             .pipe(filter(['*.eot', '*.svg', '*.ttf', '*.woff', '*.woff2']))
             .pipe(gulp.dest(dir.app + '/fonts'));
 
-        return sequence(resolve_js, resolve_css, resolve_fonts);
+        return streamqueue({ objectMode: true },
+            resolve_js, resolve_css, resolve_fonts);
     });
 
     /**
@@ -92,6 +94,15 @@
             [dir.app + '/**/*.+(eot|svg|ttf|woff|woff2)'])
             .pipe(gulp.dest(dir.dist));
 
-        return sequence(concat_assets, copy_assets);
+        return streamqueue({ objectMode: true },
+            concat_assets, copy_assets);
+    });
+
+    /**
+     * Deploy the site to gh-pages.
+     */
+    gulp.task('deploy', ['package'], function () {
+        return gulp.src('./dist/**/*')
+            .pipe(ghPages());
     });
 })();
