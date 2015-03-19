@@ -12,6 +12,8 @@
     var eslint = require('gulp-eslint');
     var ghPages = require('gulp-gh-pages');
     var debug = require('gulp-debug');
+    var iconfont = require('gulp-iconfont');
+    var consolidate = require('gulp-consolidate');
 
     var dir = {
         app: './app',
@@ -34,9 +36,32 @@
     });
 
     /**
+     * Build our font from the icon svg.
+     */
+    gulp.task('iconfont', function () {
+        gulp.src([ dir.app + '/fonts/ironic/*.svg'])
+            .pipe(iconfont({
+                fontName: 'ironic',
+                appendCodepoints: true
+            }))
+            .on('codepoints', function (codepoints) {
+                var options = {
+                    glyphs: codepoints,
+                    fontName: 'ironic',
+                    fontPath: '../fonts/', // set path to font (from your CSS file if relative)
+                    className: 'if' // set class name in your CSS
+                };
+                gulp.src(dir.app + '/fonts/ironic/ironic-font.css')
+                    .pipe(consolidate('lodash', options))
+                    .pipe(gulp.dest('./app/css/')); // set path to export your CSS
+            })
+            .pipe(gulp.dest(dir.app + '/fonts'));
+    });
+
+    /**
      * Resolve all bower dependencies and add them to our app directory.
      */
-    gulp.task('update_dependencies', ['bower'], function () {
+    gulp.task('update_dependencies', ['bower', 'iconfont'], function () {
 
         var files = mainBowerFiles();
 
