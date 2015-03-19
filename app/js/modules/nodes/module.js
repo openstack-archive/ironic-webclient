@@ -24,6 +24,10 @@ angular.module('ironic.nodes', [ 'ui.router', 'ui.bootstrap'])
         $stateProvider
             .state('ironic.nodes', {
                 url: '/nodes',
-                templateUrl: 'view/nodes/index.html'
+                views: {
+                    '@': {
+                        templateUrl: 'view/nodes/index.html'
+                    }
+                }
             });
     });

@@ -82,7 +82,7 @@
     /**
      * Start a local server and serve the packaged application code.
      */
-    gulp.task('serve:dist', function () {
+    gulp.task('serve:dist', ['package'], function () {
 
         gulp.watch(
             [dir.app + '/**/*.+(eot|svg|ttf|woff|woff2|html)'],

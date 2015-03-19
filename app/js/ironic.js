@@ -35,8 +35,11 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.chassis',
         // the application fully initializes.
         $stateProvider
             .state('ironic', {
-                abstract: true,
                 url: '/ironic',
-                template: '<div ui-view></div>'
+                views: {
+                    '@': {
+                        templateUrl: 'view/index.html'
+                    }
+                }
             });
     });

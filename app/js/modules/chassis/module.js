@@ -24,6 +24,10 @@ angular.module('ironic.chassis', [ 'ui.router', 'ui.bootstrap'])
         $stateProvider
             .state('ironic.chassis', {
                 url: '/chassis',
-                templateUrl: 'view/chassis/index.html'
+                views: {
+                    '@': {
+                        templateUrl: 'view/chassis/index.html'
+                    }
+                }
             });
     });

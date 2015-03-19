@@ -24,6 +24,10 @@ angular.module('ironic.drivers', [ 'ui.router', 'ui.bootstrap'])
         $stateProvider
             .state('ironic.drivers', {
                 url: '/drivers',
-                templateUrl: 'view/drivers/index.html'
+                views: {
+                    '@': {
+                        templateUrl: 'view/drivers/index.html'
+                    }
+                }
             });
     });

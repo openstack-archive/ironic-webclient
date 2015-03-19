@@ -24,6 +24,10 @@ angular.module('ironic.ports', [ 'ui.router', 'ui.bootstrap'])
         $stateProvider
             .state('ironic.ports', {
                 url: '/ports',
-                templateUrl: 'view/ports/index.html'
+                views: {
+                    '@': {
+                        templateUrl: 'view/ports/index.html'
+                    }
+                }
             });
     });

@@ -24,6 +24,10 @@ angular.module('ironic.configure', [ 'ui.router', 'ui.bootstrap'])
         $stateProvider
             .state('ironic.configure', {
                 url: '/configure',
-                templateUrl: 'view/configure/index.html'
+                views: {
+                    '@': {
+                        templateUrl: 'view/configure/index.html'
+                    }
+                }
             });
     });
