@@ -41,6 +41,20 @@
     <script type="application/javascript"
             src="js/modules/util/directive/active_path.js"></script>
     <!-- endbuild -->
+    <!-- build:js js/ironic_api.js -->
+    <script type="application/javascript"
+            src="js/modules/api/module.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/openstack.js -->
+    <script type="application/javascript"
+            src="js/modules/openstack/module.js"></script>
+    <script type="application/javascript"
+            src="js/modules/openstack/configuration.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/ironic_api.js -->
+    <script type="application/javascript"
+            src="js/modules/api/module.js"></script>
+    <!-- endbuild -->
 
     <!-- build:css css/lib.css -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
@@ -58,8 +72,6 @@
             <a class="navbar-brand"
                href="#/ironic"
                active-path="^\/ironic$">
-                <i class="if if-bearmetal"></i>
-                &nbsp;
                 Ironic
             </a>
         </div>
@@ -80,7 +92,7 @@
         <ul class="nav navbar-nav navbar-right">
             <li active-path="^\/ironic/configure.*">
                 <a href="#/ironic/configure">
-                    <i class="glyphicon glyphicon-cog"></i>&nbsp;
+                    <i class="if if-bearmetal"></i>&nbsp;
                 </a>
             </li>
         </ul>

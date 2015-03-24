@@ -21,15 +21,12 @@
  */
 angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.chassis',
     'ironic.configure', 'ironic.drivers', 'ironic.nodes', 'ironic.ports',
-    'ironic.util'])
+    'ironic.util', 'ironic.api'])
     .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
         'use strict';
 
         // Default UI route
         $urlRouterProvider.otherwise('/ironic');
-
-        // Attach common request headers out of courtesy to the API
-        $httpProvider.defaults.headers.common['X-Client'] = 'ironic-webclient';
 
         // Ironic's root state, used to resolve global resources before
         // the application fully initializes.
@@ -39,6 +36,11 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.chassis',
                 views: {
                     '@': {
                         templateUrl: 'view/index.html'
+                    }
+                },
+                resolve: {
+                    configuration: function (Configuration) {
+                        return Configuration.resolve();
                     }
                 }
             });
