@@ -1,30 +1,31 @@
 {
-    "name": "openstack-ironic-webclient",
-    "version": "1.0.0",
-    "homepage": "https://github.com/krotscheck/ironic-webclient",
-    "description": "A webclient for OpenStack Ironic.",
-    "license": "Apache2.0",
-    "dependencies": {
-        "angular": "~1.3.14",
-        "bootstrap": "~3.3.4",
-        "angular-ui-bootstrap-bower": "~0.12.1",
-        "angular-ui-router": "~0.2.13"
-    },
-    "devDependencies": {},
-    "overrides": {
-        "bootstrap": {
-            "dependencies": false,
-            "main": [
-                "dist/css/bootstrap.css",
-                "dist/fonts/glyphicons-halflings-regular.eot",
-                "dist/fonts/glyphicons-halflings-regular.svg",
-                "dist/fonts/glyphicons-halflings-regular.ttf",
-                "dist/fonts/glyphicons-halflings-regular.woff",
-                "dist/fonts/glyphicons-halflings-regular.woff2"
-            ]
-        }
-    },
-    "resolutions": {
-        "angular": "~1.3.14"
+  "name": "openstack-ironic-webclient",
+  "version": "1.0.0",
+  "homepage": "https://github.com/krotscheck/ironic-webclient",
+  "description": "A webclient for OpenStack Ironic.",
+  "license": "Apache2.0",
+  "dependencies": {
+    "angular": "~1.3.14",
+    "bootstrap": "~3.3.4",
+    "angular-ui-bootstrap-bower": "~0.12.1",
+    "angular-ui-router": "~0.2.13",
+    "fontawesome": "~4.3.0"
+  },
+  "devDependencies": {},
+  "overrides": {
+    "bootstrap": {
+      "dependencies": false,
+      "main": [
+        "dist/css/bootstrap.css",
+        "dist/fonts/glyphicons-halflings-regular.eot",
+        "dist/fonts/glyphicons-halflings-regular.svg",
+        "dist/fonts/glyphicons-halflings-regular.ttf",
+        "dist/fonts/glyphicons-halflings-regular.woff",
+        "dist/fonts/glyphicons-halflings-regular.woff2"
+      ]
     }
+  },
+  "resolutions": {
+    "angular": "~1.3.14"
+  }
 }
