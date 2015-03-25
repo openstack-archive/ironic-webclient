@@ -13,25 +13,27 @@
 
     <!-- build:js js/ironic.js -->
     <script type="application/javascript"
-            src="js/ironic.js"></script>
+            src="js/modules/ironic/module.js"></script>
+    <script type="application/javascript"
+            src="js/modules/ironic/controller/header_controller.js"></script>
     <!-- endbuild -->
-    <!-- build:js js/ironic_chassis.js -->
+    <!-- build:js js/ironic_ui_chassis.js -->
     <script type="application/javascript"
             src="js/modules/chassis/module.js"></script>
     <!-- endbuild -->
-    <!-- build:js js/ironic_ports.js -->
+    <!-- build:js js/ironic_ui_ports.js -->
     <script type="application/javascript"
             src="js/modules/ports/module.js"></script>
     <!-- endbuild -->
-    <!-- build:js js/ironic_drivers.js -->
+    <!-- build:js js/ironic_ui_drivers.js -->
     <script type="application/javascript"
             src="js/modules/drivers/module.js"></script>
     <!-- endbuild -->
-    <!-- build:js js/ironic_nodes.js -->
+    <!-- build:js js/ironic_ui_nodes.js -->
     <script type="application/javascript"
             src="js/modules/nodes/module.js"></script>
     <!-- endbuild -->
-    <!-- build:js js/ironic_configure.js -->
+    <!-- build:js js/ironic_ui_configure.js -->
     <script type="application/javascript"
             src="js/modules/configure/module.js"></script>
     <!-- endbuild -->
@@ -51,10 +53,6 @@
     <script type="application/javascript"
             src="js/modules/openstack/configuration.js"></script>
     <!-- endbuild -->
-    <!-- build:js js/ironic_api.js -->
-    <script type="application/javascript"
-            src="js/modules/api/module.js"></script>
-    <!-- endbuild -->
 
     <!-- build:css css/lib.css -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
@@ -66,37 +64,8 @@
     <!-- endbuild -->
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand"
-               href="#/ironic"
-               active-path="^\/ironic$">
-                Ironic
-            </a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li active-path="^\/ironic/chassis.*">
-                <a href="#/ironic/chassis">Chassis</a>
-            </li>
-            <li active-path="^\/ironic/drivers.*">
-                <a href="#/ironic/drivers">Drivers</a>
-            </li>
-            <li active-path="^\/ironic/nodes.*">
-                <a href="#/ironic/nodes">Nodes</a>
-            </li>
-            <li active-path="^\/ironic/ports.*">
-                <a href="#/ironic/ports">Ports</a>
-            </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li active-path="^\/ironic/configure.*">
-                <a href="#/ironic/configure">
-                    <i class="if if-bearmetal"></i>&nbsp;
-                </a>
-            </li>
-        </ul>
-    </div>
+<nav class="navbar navbar-default navbar-fixed-top"
+     ng-include src="'view/ironic/header.html'">
 </nav>
 
 <div ui-view></div>

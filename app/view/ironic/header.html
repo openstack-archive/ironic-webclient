@@ -1,0 +1,34 @@
+<div class="container-fluid"
+     ng-controller="HeaderController">
+    <div class="navbar-header">
+        <a class="navbar-brand"
+           href="#/ironic"
+           active-path="^\/ironic$">
+            Ironic
+        </a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li active-path="^\/ironic/chassis.*">
+            <a href="#/ironic/chassis">Chassis</a>
+        </li>
+        <li active-path="^\/ironic/drivers.*">
+            <a href="#/ironic/drivers">Drivers</a>
+        </li>
+        <li active-path="^\/ironic/nodes.*">
+            <a href="#/ironic/nodes">Nodes</a>
+        </li>
+        <li active-path="^\/ironic/ports.*">
+            <a href="#/ironic/ports">Ports</a>
+        </li>
+    </ul>
+    {{configuration}}
+
+
+    <ul class="nav navbar-nav navbar-right">
+        <li active-path="^\/ironic/configure.*">
+            <a href="#/ironic/configure">
+                <i class="if if-bearmetal"></i>&nbsp;
+            </a>
+        </li>
+    </ul>
+</div>

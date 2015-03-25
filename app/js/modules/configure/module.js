@@ -17,13 +17,23 @@
 /**
  * Configuration handling for the Ironic UI.
  */
-angular.module('ironic.configure', [ 'ui.router', 'ui.bootstrap'])
+angular.module('ironic.configure', ['ui.router', 'ui.bootstrap'])
     .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
         'use strict';
 
         $stateProvider
             .state('ironic.configure', {
                 url: '/configure',
+                abstract: true,
+                views: {
+                    '@': {
+                        templateUrl: 'view/configure/index.html'
+                    }
+                }
+            })
+            .state('ironic.configure.cloud', {
+                url: '/configure',
+                abstract: true,
                 views: {
                     '@': {
                         templateUrl: 'view/configure/index.html'
