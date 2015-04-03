@@ -17,4 +17,4 @@
 /**
  * OpenStack specific configuration discovery.
  */
-angular.module('openstack', []);
+angular.module('openstack', ['ngCookies']);

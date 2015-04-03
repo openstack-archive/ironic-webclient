@@ -20,7 +20,7 @@
  * This module defines dependencies, but no actual functionality.
  */
 angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.chassis',
-    'ironic.configure', 'ironic.drivers', 'ironic.nodes', 'ironic.ports',
+    'ironic.drivers', 'ironic.nodes', 'ironic.ports',
     'ironic.util', 'ironic.api'])
     .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
         'use strict';
@@ -35,12 +35,16 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.chassis',
                 url: '/ironic',
                 views: {
                     '@': {
-                        templateUrl: 'view/index.html'
+                        controller: 'ApplicationController',
+                        templateUrl: 'view/ironic/index.html'
                     }
                 },
                 resolve: {
                     configuration: function (Configuration) {
-                        return Configuration.resolve();
+                        return Configuration.resolveAll();
+                    },
+                    selectedConfiguration: function (Configuration) {
+                        return Configuration.resolveSelected();
                     }
                 }
             });

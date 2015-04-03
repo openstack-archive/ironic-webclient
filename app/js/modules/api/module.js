@@ -19,6 +19,8 @@
  */
 angular.module('ironic.api', ['openstack'])
     .config(function ($httpProvider) {
+        'use strict';
+
         // Attach common request headers out of courtesy to the API
         $httpProvider.defaults.headers.common['X-Client'] = 'ironic-webclient';
     });

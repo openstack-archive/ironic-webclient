@@ -1,5 +1,4 @@
-<div class="container-fluid"
-     ng-controller="HeaderController">
+<div class="container-fluid">
     <div class="navbar-header">
         <a class="navbar-brand"
            href="#/ironic"
@@ -21,14 +20,26 @@
             <a href="#/ironic/ports">Ports</a>
         </li>
     </ul>
-    {{configuration}}
-
 
     <ul class="nav navbar-nav navbar-right">
-        <li active-path="^\/ironic/configure.*">
-            <a href="#/ironic/configure">
-                <i class="if if-bearmetal"></i>&nbsp;
+        <li dropdown is-open="status.isopen">
+            <a href="#"
+               dropdown-toggle
+               data-toggle="dropdown">
+                <i class="fa fa-cloud"></i>&nbsp;
+                {{selectedConfiguration.name}}
+                <span class="caret"></span>
             </a>
+            <ul class="dropdown-menu">
+                <li class="dropdown-header">Switch to...</li>
+                <li ng-repeat="cloud in configuration">
+                    <a href="#"
+                       ng-click="switchCloud(cloud)">
+                        <i class="fa fa-cloud"></i>&nbsp;
+                        {{cloud.name}}
+                    </a>
+                </li>
+            </ul>
         </li>
     </ul>
 </div>

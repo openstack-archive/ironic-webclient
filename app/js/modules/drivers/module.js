@@ -25,7 +25,7 @@ angular.module('ironic.drivers', [ 'ui.router', 'ui.bootstrap'])
             .state('ironic.drivers', {
                 url: '/drivers',
                 views: {
-                    '@': {
+                    'main': {
                         templateUrl: 'view/drivers/index.html'
                     }
                 }

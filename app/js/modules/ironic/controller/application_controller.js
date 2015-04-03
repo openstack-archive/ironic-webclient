@@ -17,13 +17,18 @@
 /**
  * Controller for our application header.
  */
-angular.module('ironic').controller('HeaderController',
-    function ($scope, Configuration) {
+angular.module('ironic').controller('ApplicationController',
+    function ($scope, $state, configuration, selectedConfiguration, $window,
+              $persistentStorage, Configuration) {
         'use strict';
 
-        Configuration.resolve().then(function (result) {
-            console.warn(result);
-            $scope.configuration = result;
-        });
+        $scope.configuration = configuration;
+        $scope.selectedConfiguration = selectedConfiguration;
 
+        $scope.switchCloud = function (cloudConfig) {
+            if (cloudConfig !== selectedConfiguration) {
+                Configuration.setSelected(cloudConfig.id);
+                $window.location.reload();
+            }
+        };
     });

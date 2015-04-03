@@ -33,18 +33,24 @@
  * }]
  */
 angular.module('openstack').factory('Configuration',
-    function ($q, $http, $log, $location) {
+    function ($q, $http, $log, $location, $persistentStorage) {
         'use strict';
 
         /**
-         * The configuration that has been detected and cached.
+         * The key we use in our persistent storage to keep track of the
+         * selected id.
          */
-        var configuration;
+        var storageId = 'selected-cloud';
 
         /**
-         * The singleton configuration promise.
+         * The singleton configuration promise for all configurations.
          */
-        var deferred;
+        var deferAll;
+
+        /**
+         * The singleton configuration promise for the selected configuration.
+         */
+        var deferSelected;
 
         /**
          * Attempt to load an included configuration file.
@@ -69,68 +75,145 @@ angular.module('openstack').factory('Configuration',
          */
         function defaultConfiguration() {
             $log.info('Configuring local API endpoint.');
-            var deferred = $q.defer();
+            var defaultDefer = $q.defer();
             var ironicApi =
                 $location.protocol() + '://' + $location.host() + ':6385/';
-            deferred.resolve([
-                {
-                    'name': 'Default',
-                    'ironic': {
-                        'api': ironicApi
+
+            $http.get(ironicApi).then(function (response) {
+                var name = response.data.name || 'Local';
+                var defaultVersion = response.data.default_version.links[0];
+                var localConfig = [
+                    {
+                        'id': 'localhost',
+                        'name': name,
+                        'ironic': {
+                            'api': defaultVersion.href,
+                            'version': response.data.default_version.id
+                        }
                     }
-                }
-            ]);
-            return deferred.promise;
+                ];
+                defaultDefer.resolve(localConfig);
+            }, function () {
+                defaultDefer.resolve([]);
+            });
+            return defaultDefer.promise;
         }
+
+        /**
+         * Resolve all the configurations.
+         */
+        function resolveAllConfigurations() {
+            if (!deferAll) {
+                deferAll = $q.defer();
+
+                // Resolve the configuration.
+                $q.all({
+                    'config': loadConfigurationFile(),
+                    'default': defaultConfiguration()
+                }).then(function (results) {
+                    var fileConfigs = results.config;
+                    var defaultConfigs = results.default;
+
+                    var config = [];
+                    for (var i = 0; i < fileConfigs.length; i++) {
+                        var c = fileConfigs[i];
+                        if (c.hasOwnProperty('id')) {
+                            config.push(c);
+                        } else {
+                            $log.warn('Config block missing "id" ' +
+                            'field, ignoring.', c);
+                        }
+                    }
+                    if (config.length === 0) {
+                        config = defaultConfigs;
+                    }
+
+                    deferAll.resolve(config);
+                }, function () {
+                    deferAll.resolve([]);
+                });
+            }
+
+            return deferAll.promise;
+        }
+
+        /**
+         * Resolve the current selected configuration.
+         */
+        function resolveSelectedConfiguration() {
+            if (!deferSelected) {
+                deferSelected = $q.defer();
+
+                var selectedId = $persistentStorage.get(storageId);
+
+                resolveAllConfigurations().then(
+                    function (configs) {
+                        if (configs.length === 0) {
+                            deferSelected.reject();
+                            return;
+                        }
+
+                        // Pick the configuration from the loaded configs. Note
+                        // that if the selectedId is null, this will never
+                        // match.
+                        var selectedConfig = configs[0];
+                        configs.forEach(function (config) {
+                            if (config.id === selectedId) {
+                                $log.debug('Selecting config: ' + selectedId);
+                                selectedConfig = config;
+                            }
+                        });
+
+                        // If the selected config does not match the selected
+                        // id, then it's likely that the config disappeared.
+                        // Reset the selectedId to match the chosen one.
+                        if (selectedId !== selectedConfig.id) {
+                            selectedId = selectedConfig.id;
+                            $persistentStorage.set(storageId, selectedId);
+                            $log.debug('AutoSelecting cloud: ' + selectedId);
+                        }
+                        deferSelected.resolve(selectedConfig);
+                    }
+                );
+            }
+
+            return deferSelected.promise;
+        }
+
 
         /**
          * Resolve any configuration parameters.
          */
         return {
             /**
-             * Asynchronously resolve the Cloud Configuration.
+             * Asynchronously resolve the Cloud Configuration. This will always
+             * resolve, however it is likely that the resulting configuration
+             * array is empty.
              *
-             * @returns {*}
+             * @returns {promise}
              */
-            resolve: function () {
-                if (!deferred) {
-                    deferred = $q.defer();
-
-                    // Have we already cached this?
-                    if (configuration != null) {
-                        deferred.resolve(configuration);
-                    } else {
-                        // Resolve the configuration.
-                        $q.all({
-                            'config': loadConfigurationFile(),
-                            'default': defaultConfiguration()
-                        }).then(function (results) {
-                            var config = [];
-                            if (results['config'].length > 0) {
-                                config = results['config'];
-                            } else {
-                                config = results['default'];
-                            }
-                            configuration = config;
-                            deferred.resolve(configuration);
-                        }, function () {
-                            configuration = [];
-                            deferred.resolve(configuration);
-                        });
-                    }
-                }
-
-                return deferred.promise;
+            resolveAll: function () {
+                return resolveAllConfigurations();
             },
 
             /**
-             * Return the current configuration.
+             * Asynchronously resolve the selected configuration. This promise
+             * will be rejected if the detected cloud configuration has no
+             * valid configuration blocks.
              *
              * @returns {*}
              */
-            get: function () {
-                return configuration;
+            resolveSelected: function () {
+                return resolveSelectedConfiguration();
+            },
+
+            /**
+             * Set the selected configuration. Note that you're going to have
+             * to reload the entire application to make this work.
+             */
+            setSelected: function (selectedId) {
+                $persistentStorage.set(storageId, selectedId);
+                deferSelected = null;
             }
-        }
-    })
-;
+        };
+    });

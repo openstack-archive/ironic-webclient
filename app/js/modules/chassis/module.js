@@ -25,7 +25,7 @@ angular.module('ironic.chassis', [ 'ui.router', 'ui.bootstrap'])
             .state('ironic.chassis', {
                 url: '/chassis',
                 views: {
-                    '@': {
+                    'main': {
                         templateUrl: 'view/chassis/index.html'
                     }
                 }

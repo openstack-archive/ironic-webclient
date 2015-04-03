@@ -8,6 +8,8 @@
     <script type="application/javascript"
             src="js/lib/angular-ui-router.js"></script>
     <script type="application/javascript"
+            src="js/lib/angular-cookies.js"></script>
+    <script type="application/javascript"
             src="js/lib/ui-bootstrap-tpls.js"></script>
     <!-- endbuild -->
 
@@ -15,7 +17,7 @@
     <script type="application/javascript"
             src="js/modules/ironic/module.js"></script>
     <script type="application/javascript"
-            src="js/modules/ironic/controller/header_controller.js"></script>
+            src="js/modules/ironic/controller/application_controller.js"></script>
     <!-- endbuild -->
     <!-- build:js js/ironic_ui_chassis.js -->
     <script type="application/javascript"
@@ -33,10 +35,6 @@
     <script type="application/javascript"
             src="js/modules/nodes/module.js"></script>
     <!-- endbuild -->
-    <!-- build:js js/ironic_ui_configure.js -->
-    <script type="application/javascript"
-            src="js/modules/configure/module.js"></script>
-    <!-- endbuild -->
     <!-- build:js js/ironic_util.js -->
     <script type="application/javascript"
             src="js/modules/util/module.js"></script>
@@ -52,6 +50,8 @@
             src="js/modules/openstack/module.js"></script>
     <script type="application/javascript"
             src="js/modules/openstack/configuration.js"></script>
+    <script type="application/javascript"
+            src="js/modules/openstack/storage.js"></script>
     <!-- endbuild -->
 
     <!-- build:css css/lib.css -->
@@ -65,15 +65,6 @@
     <!-- endbuild -->
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top"
-     ng-include src="'view/ironic/header.html'">
-</nav>
-
 <div ui-view></div>
-
-<nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container-fluid">
-    </div>
-</nav>
 </body>
 </html>
