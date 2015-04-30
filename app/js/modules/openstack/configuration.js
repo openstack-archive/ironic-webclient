@@ -15,6 +15,40 @@
  */
 
 /**
+ * Configuration values used inside of the configuration component.
+ */
+angular.module('openstack').config(function ($$errorCode) {
+    'use strict';
+
+    /**
+     * Add the 'no configuration' error code to our error constants.
+     */
+    $$errorCode.NO_CONFIGURATION = 'no_configuration';
+
+    /**
+     * Add the 'has configuration' error code to our error constants.
+     */
+    $$errorCode.HAS_CONFIGURATION = 'has_configuration';
+});
+
+
+/**
+ * A default configuration structure. This may be overridden by applications by
+ * injecting their own 'defaultConfiguration' constant into the application
+ * after this file is loaded.
+ */
+angular.module('openstack').factory('$$defaultConfiguration', function () {
+    'use strict';
+
+    return {
+        name: '',
+        ironic: {
+            api: ''
+        }
+    };
+});
+
+/**
  * This resource attempts to automatically detect your cloud's configuration
  * by searching for it in common locations. First we check config.json, living
  * on the server adjacent to index.html. Secondly, we construct a default
@@ -32,8 +66,8 @@
  *     }
  * }]
  */
-angular.module('openstack').factory('Configuration',
-    function ($q, $http, $log, $location, $persistentStorage) {
+angular.module('openstack').service('$$configuration',
+    function ($q, $http, $log, $location, $$persistentStorage, $$errorCode) {
         'use strict';
 
         /**
@@ -144,12 +178,12 @@ angular.module('openstack').factory('Configuration',
             if (!deferSelected) {
                 deferSelected = $q.defer();
 
-                var selectedId = $persistentStorage.get(storageId);
+                var selectedId = $$persistentStorage.get(storageId);
 
                 resolveAllConfigurations().then(
                     function (configs) {
                         if (configs.length === 0) {
-                            deferSelected.reject();
+                            deferSelected.reject($$errorCode.NO_CONFIGURATION);
                             return;
                         }
 
@@ -169,7 +203,7 @@ angular.module('openstack').factory('Configuration',
                         // Reset the selectedId to match the chosen one.
                         if (selectedId !== selectedConfig.id) {
                             selectedId = selectedConfig.id;
-                            $persistentStorage.set(storageId, selectedId);
+                            $$persistentStorage.set(storageId, selectedId);
                             $log.debug('AutoSelecting cloud: ' + selectedId);
                         }
                         deferSelected.resolve(selectedConfig);
@@ -212,7 +246,7 @@ angular.module('openstack').factory('Configuration',
              * to reload the entire application to make this work.
              */
             setSelected: function (selectedId) {
-                $persistentStorage.set(storageId, selectedId);
+                $$persistentStorage.set(storageId, selectedId);
                 deferSelected = null;
             }
         };

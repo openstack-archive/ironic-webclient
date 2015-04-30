@@ -2,6 +2,9 @@
 <head>
     <title>Ironic</title>
 
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
     <!-- build:js js/lib.js -->
     <script type="application/javascript"
             src="js/lib/angular.js"></script>
@@ -18,6 +21,8 @@
             src="js/modules/ironic/module.js"></script>
     <script type="application/javascript"
             src="js/modules/ironic/controller/application_controller.js"></script>
+    <script type="application/javascript"
+            src="js/modules/ironic/controller/configuration_controller.js"></script>
     <!-- endbuild -->
     <!-- build:js js/ironic_ui_chassis.js -->
     <script type="application/javascript"
@@ -44,10 +49,16 @@
     <!-- build:js js/ironic_api.js -->
     <script type="application/javascript"
             src="js/modules/api/module.js"></script>
+    <script type="application/javascript"
+            src="js/modules/api/chassis.js"></script>
+    <script type="application/javascript"
+            src="js/modules/api/validator.js"></script>
     <!-- endbuild -->
     <!-- build:js js/openstack.js -->
     <script type="application/javascript"
             src="js/modules/openstack/module.js"></script>
+    <script type="application/javascript"
+            src="js/modules/openstack/error_code.js"></script>
     <script type="application/javascript"
             src="js/modules/openstack/configuration.js"></script>
     <script type="application/javascript"

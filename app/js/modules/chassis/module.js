@@ -26,7 +26,12 @@ angular.module('ironic.chassis', [ 'ui.router', 'ui.bootstrap'])
                 url: '/chassis',
                 views: {
                     'main': {
-                        templateUrl: 'view/chassis/index.html'
+                        templateUrl: 'view/chassis/index.html',
+                        resolve: {
+                            chassis : function(IronicChassis) {
+                                return IronicChassis.query({}).$promise;
+                            }
+                        }
                     }
                 }
             });

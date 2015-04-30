@@ -16,19 +16,19 @@
 
 /**
  * This file provides four storage abstraction providers with the same
- * interface. Available are $cookieStorage, $localStorage, $sessionStorage,
- * $memoryStorage, and $persistentStorage, and they all implement
+ * interface. Available are $$cookieStorage, $$localStorage, $$sessionStorage,
+ * $$memoryStorage, and $$persistentStorage, and they all implement
  * isSupported(), set(), get(), remove(), keys(), clearAll(), and length().
  * They each support typed key/value data.
  */
 
 /**
- * A $sessionStorage service behind a common API. If sessionStorage is not
+ * A $$sessionStorage service behind a common API. If sessionStorage is not
  * supported, this will default to a simple in-memory storage, and log a
  * warning to the console.
  */
-angular.module('openstack').factory('$sessionStorage',
-    function ($memoryStorage, $window, $log) {
+angular.module('openstack').factory('$$sessionStorage',
+    function ($$memoryStorage, $window, $log) {
         'use strict';
 
         /**
@@ -77,8 +77,8 @@ angular.module('openstack').factory('$sessionStorage',
                 if (isSupported) {
                     $window.sessionStorage.setItem(key, value);
                 } else {
-                    $log.warn('$sessionStorage not supported, using $memoryStorage');
-                    $memoryStorage.set(key, value);
+                    $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+                    $$memoryStorage.set(key, value);
                 }
 
                 return value;
@@ -94,8 +94,8 @@ angular.module('openstack').factory('$sessionStorage',
                 if (isSupported) {
                     return $window.sessionStorage.getItem(key);
                 } else {
-                    $log.warn('$sessionStorage not supported, using $memoryStorage');
-                    return $memoryStorage.get(key);
+                    $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+                    return $$memoryStorage.get(key);
                 }
             },
 
@@ -108,8 +108,8 @@ angular.module('openstack').factory('$sessionStorage',
                 if (isSupported) {
                     return $window.sessionStorage.removeItem(key);
                 } else {
-                    $log.warn('$sessionStorage not supported, using $memoryStorage');
-                    return $memoryStorage.remove(key);
+                    $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+                    return $$memoryStorage.remove(key);
                 }
             },
 
@@ -126,8 +126,8 @@ angular.module('openstack').factory('$sessionStorage',
                     }
                     return keys;
                 } else {
-                    $log.warn('$sessionStorage not supported, using $memoryStorage');
-                    return $memoryStorage.keys();
+                    $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+                    return $$memoryStorage.keys();
                 }
             },
 
@@ -141,8 +141,8 @@ angular.module('openstack').factory('$sessionStorage',
                         this.remove(keys[i]);
                     }
                 } else {
-                    $log.warn('$sessionStorage not supported, using $memoryStorage');
-                    return $memoryStorage.keys();
+                    $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+                    return $$memoryStorage.keys();
                 }
             },
 
@@ -155,21 +155,21 @@ angular.module('openstack').factory('$sessionStorage',
                 if (isSupported) {
                     return $window.sessionStorage.length;
                 } else {
-                    $log.warn('$sessionStorage not supported, using $memoryStorage');
-                    return $memoryStorage.length();
+                    $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+                    return $$memoryStorage.length();
                 }
             }
         };
     });
 
 /**
- * A $localStorage service behind a common API. If localStorage is not
+ * A $$localStorage service behind a common API. If localStorage is not
  * supported, this will default to a simple in-memory storage, and log a
  * warning to the console. If you want a provider that gracefully degrades, use
- * $persistentStorage.
+ * $$persistentStorage.
  */
-angular.module('openstack').factory('$localStorage',
-    function ($memoryStorage, $window, $log) {
+angular.module('openstack').factory('$$localStorage',
+    function ($$memoryStorage, $window, $log) {
         'use strict';
 
         /**
@@ -218,8 +218,8 @@ angular.module('openstack').factory('$localStorage',
                 if (isSupported) {
                     $window.localStorage.setItem(key, value);
                 } else {
-                    $log.warn('$localStorage not supported, using $memoryStorage');
-                    $memoryStorage.set(key, value);
+                    $log.warn('$$localStorage not supported, using $$memoryStorage');
+                    $$memoryStorage.set(key, value);
                 }
 
                 return value;
@@ -235,8 +235,8 @@ angular.module('openstack').factory('$localStorage',
                 if (isSupported) {
                     return $window.localStorage.getItem(key);
                 } else {
-                    $log.warn('$localStorage not supported, using $memoryStorage');
-                    return $memoryStorage.get(key);
+                    $log.warn('$$localStorage not supported, using $$memoryStorage');
+                    return $$memoryStorage.get(key);
                 }
             },
 
@@ -249,8 +249,8 @@ angular.module('openstack').factory('$localStorage',
                 if (isSupported) {
                     return $window.localStorage.removeItem(key);
                 } else {
-                    $log.warn('$localStorage not supported, using $memoryStorage');
-                    return $memoryStorage.remove(key);
+                    $log.warn('$$localStorage not supported, using $$memoryStorage');
+                    return $$memoryStorage.remove(key);
                 }
             },
 
@@ -267,8 +267,8 @@ angular.module('openstack').factory('$localStorage',
                     }
                     return keys;
                 } else {
-                    $log.warn('$localStorage not supported, using $memoryStorage');
-                    return $memoryStorage.keys();
+                    $log.warn('$$localStorage not supported, using $$memoryStorage');
+                    return $$memoryStorage.keys();
                 }
             },
 
@@ -282,8 +282,8 @@ angular.module('openstack').factory('$localStorage',
                         this.remove(keys[i]);
                     }
                 } else {
-                    $log.warn('$localStorage not supported, using $memoryStorage');
-                    return $memoryStorage.keys();
+                    $log.warn('$$localStorage not supported, using $$memoryStorage');
+                    return $$memoryStorage.keys();
                 }
             },
 
@@ -296,20 +296,20 @@ angular.module('openstack').factory('$localStorage',
                 if (isSupported) {
                     return $window.localStorage.length;
                 } else {
-                    $log.warn('$localStorage not supported, using $memoryStorage');
-                    return $memoryStorage.length();
+                    $log.warn('$$localStorage not supported, using $$memoryStorage');
+                    return $$memoryStorage.length();
                 }
             }
         };
     });
 
 /**
- * This file provides the $secureStorage service behind a common API. If
+ * This file provides the $$secureStorage service behind a common API. If
  * secureStorage is not supported, this will default to a simple in-memory
  * storage, and log a warning to the console. If you want a provider
- * that gracefully degrades, use $persistentStorage.
+ * that gracefully degrades, use $$persistentStorage.
  */
-angular.module('openstack').factory('$secureStorage',
+angular.module('openstack').factory('$$secureStorage',
     function ($storageFactory) {
         'use strict';
 
@@ -322,7 +322,7 @@ angular.module('openstack').factory('$secureStorage',
  * a fallback option for all other storage mechanisms, to prevent unexpected
  * runtime failures.
  */
-angular.module('openstack').factory('$memoryStorage',
+angular.module('openstack').factory('$$memoryStorage',
     function () {
         'use strict';
 
@@ -418,7 +418,7 @@ angular.module('openstack').factory('$memoryStorage',
  * cookie for this domain, as configured by the $cookieProvider, and will
  * grant access to all values stored this way.
  */
-angular.module('openstack').factory('$cookieStorage',
+angular.module('openstack').factory('$$cookieStorage',
     function ($cookies) {
         'use strict';
 
@@ -504,21 +504,21 @@ angular.module('openstack').factory('$cookieStorage',
  * persistent, storage mechanism available in the current runtime. This does
  * not include sessionStorage, which must be used independently.
  */
-angular.module('openstack').factory('$persistentStorage',
-    function ($log, $cookieStorage, $memoryStorage, $localStorage) {
+angular.module('openstack').factory('$$persistentStorage',
+    function ($log, $$cookieStorage, $$memoryStorage, $$localStorage) {
         'use strict';
 
         // Check for local storage.
-        if ($localStorage.isSupported()) {
-            return $localStorage;
+        if ($$localStorage.isSupported()) {
+            return $$localStorage;
         }
 
         // Check for cookie storage.
-        if ($cookieStorage.isSupported()) {
-            return $cookieStorage;
+        if ($$cookieStorage.isSupported()) {
+            return $$cookieStorage;
         }
 
         $log.warn('Warning: No persistent storage mechanism supported, all' +
         ' storage will be transient.');
-        return $memoryStorage;
+        return $$memoryStorage;
     });

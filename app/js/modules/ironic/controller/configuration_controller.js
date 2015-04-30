@@ -15,20 +15,17 @@
  */
 
 /**
- * Controller for our application header.
+ * This controller allows the management of a single cloud configuration entry.
  */
-angular.module('ironic').controller('ApplicationController',
-    function ($scope, $state, configuration, selectedConfiguration, $window,
-              $$persistentStorage, Configuration) {
+angular.module('ironic').controller('ConfigurationController',
+    function ($scope, $state, $location, configuration) {
         'use strict';
 
         $scope.configuration = configuration;
-        $scope.selectedConfiguration = selectedConfiguration;
-
-        $scope.switchCloud = function (cloudConfig) {
-            if (cloudConfig !== selectedConfiguration) {
-                Configuration.setSelected(cloudConfig.id);
-                $window.location.reload();
-            }
+        $scope.location = {
+            'host': $location.host(),
+            'protocol': $location.protocol(),
+            'port': $location.port()
         };
+
     });

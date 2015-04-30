@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>No configuration found</h3>
+
+            <p>The server did not provide a configuration file, and we were
+                unable to automatically detect Ironic. You may manually
+                provide an API endpoint, which should be available from your
+                systems administrator or customer service representative.
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <form>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input id="name"
+                           type="text"
+                           class="form-control"
+                           ng-model="configuration.name"
+                           required
+                           placeholder="Please enter a unique name for your cloud.">
+                    <small class="help-block">This will be used to
+                        distinguish this group of API's from others.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="ironic">Ironic API URL</label>
+                    <input id="ironic"
+                           type="url"
+                           required
+                           ironic-api-url
+                           class="form-control"
+                           ng-model="configuration.ironic.api"
+                           placeholder="https://ironic.example.com:6385/">
+                    <small class="help-block">Your API must support CORS
+                        requests from
+                        {{location.protocol}}://{{location.host}}:{{location.port}}
+                    </small>
+                </div>
+                <button type="submit"
+                        ng-click="addConfiguration()"
+                        class="btn btn-default pull-right">Save
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

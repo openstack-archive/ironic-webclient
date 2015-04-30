@@ -15,20 +15,8 @@
  */
 
 /**
- * Controller for our application header.
+ * An application-wide static constant that contains error code constants.
+ * Different modules and components may dynamically add error codes that serve
+ * their own needs.
  */
-angular.module('ironic').controller('ApplicationController',
-    function ($scope, $state, configuration, selectedConfiguration, $window,
-              $$persistentStorage, Configuration) {
-        'use strict';
-
-        $scope.configuration = configuration;
-        $scope.selectedConfiguration = selectedConfiguration;
-
-        $scope.switchCloud = function (cloudConfig) {
-            if (cloudConfig !== selectedConfiguration) {
-                Configuration.setSelected(cloudConfig.id);
-                $window.location.reload();
-            }
-        };
-    });
+angular.module('openstack').constant('$$errorCode', {});
