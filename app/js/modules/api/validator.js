@@ -16,7 +16,8 @@
 
 /**
  * Form validator that will perform an asynchronous check to see if Ironic is
- * available at the provided url.
+ * available at the provided url. It will expose a variable on the control to
+ * which it is applied, with an array of detected API versions.
  */
 angular.module('ironic.api').directive('ironicApiUrl',
     function ($q, $http) {
@@ -26,11 +27,19 @@ angular.module('ironic.api').directive('ironicApiUrl',
             require: 'ngModel',
             link: function (scope, elm, attrs, ctrl) {
 
+                ctrl.$ironicVersions = [];
+
                 ctrl.$asyncValidators.ironicApiUrl =
                     function (modelValue) {
                         var def = $q.defer();
 
-                        $http.get(modelValue).then(function (response) {
+                        $http.get(modelValue).then(function (result) {
+                            var versions = result.data.versions || [];
+
+                            for (var i = 0; i < versions.length; i++) {
+                                versions[i] = versions[i].id;
+                            }
+                            ctrl.$ironicVersions = versions;
                             def.resolve();
                         }, function () {
                             def.reject();

@@ -12,34 +12,70 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <form>
-                <div class="form-group">
-                    <label for="name">Name</label>
+            <form name="configForm">
+                <div class="form-group has-feedback"
+                     ng-class="{'has-error': configForm.name.$invalid && configForm.name.$dirty,
+                     'has-success': configForm.name.$valid && configForm.name.$dirty}">
+                    <label for="name" class="control-label">Name</label>
                     <input id="name"
+                           name="name"
                            type="text"
                            class="form-control"
                            ng-model="configuration.name"
                            required
+                           ng-minlength="5"
                            placeholder="Please enter a unique name for your cloud.">
+                    <span class="glyphicon glyphicon-remove form-control-feedback"
+                          ng-if="!configForm.name.$valid && configForm.name.$dirty">
+                    </span>
+                    <span class="glyphicon glyphicon-ok form-control-feedback"
+                          ng-if="configForm.name.$valid">
+                    </span>
                     <small class="help-block">This will be used to
-                        distinguish this group of API's from others.
+                        distinguish this group of API's from others. Please
+                        use a name longer than 5 characters.
                     </small>
                 </div>
-                <div class="form-group">
-                    <label for="ironic">Ironic API URL</label>
+                <div class="form-group has-feedback"
+                     ng-class="{'has-error': configForm.ironic.$invalid && configForm.ironic.$dirty,
+                     'has-success': configForm.ironic.$valid && configForm.ironic.$dirty}">
+                    <label class="control-label" for="ironic">
+                        Ironic API URL
+                        <small class="text-muted"
+                               ng-if="configForm.ironic.$pending">
+                            &emsp;
+                            <i class="fa fa-spin fa-refresh"></i>
+                            Checking...
+                        </small>
+                    </label>
+
                     <input id="ironic"
+                           name="ironic"
                            type="url"
                            required
                            ironic-api-url
                            class="form-control"
                            ng-model="configuration.ironic.api"
+                           ng-model-options="{debounce: 250}"
                            placeholder="https://ironic.example.com:6385/">
-                    <small class="help-block">Your API must support CORS
-                        requests from
+                    <span class="glyphicon glyphicon-remove form-control-feedback"
+                          ng-if="!configForm.ironic.$valid && configForm.ironic.$dirty">
+                    </span>
+                    <span class="glyphicon glyphicon-ok form-control-feedback"
+                          ng-if="configForm.ironic.$valid">
+                    </span>
+                    <small class="help-block"
+                           ng-if="!configForm.ironic.$valid">Your API must
+                        support CORS requests from
                         {{location.protocol}}://{{location.host}}:{{location.port}}
+                    </small>
+                    <small class="help-block"
+                           ng-if="configForm.ironic.$valid">Versions
+                        {{configForm.ironic.$ironicVersions.join(', ')}} detected.
                     </small>
                 </div>
                 <button type="submit"
+                        ng-disabled="!configForm.$valid"
                         ng-click="addConfiguration()"
                         class="btn btn-default pull-right">Save
                 </button>
