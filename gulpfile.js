@@ -140,7 +140,7 @@
      */
     gulp.task('package:static', function () {
         return gulp.src([
-            dir.app + '/**/*.+(eot|svg|ttf|woff|woff2|html)',
+            dir.app + '/**/*.+(eot|svg|ttf|woff|woff2|html|ico)',
             '!' + dir.app + '/index.html'
         ]).pipe(gulp.dest(dir.dist));
     });

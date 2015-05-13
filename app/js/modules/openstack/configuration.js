@@ -131,7 +131,7 @@ angular.module('openstack').service('$$configuration',
             var ironicApi =
                 $location.protocol() + '://' + $location.host() + ':6385/';
 
-            $http.get(ironicApi).then(function (response) {
+            $http.get(ironicApi, {timeout: 1000}).then(function (response) {
                 var name = response.data.name || 'Local';
                 var config = [
                     {

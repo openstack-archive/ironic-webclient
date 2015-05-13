@@ -2,8 +2,8 @@
 <head>
     <title>Ironic</title>
 
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
 
     <!-- build:js js/lib.js -->
     <script type="application/javascript"
@@ -76,6 +76,11 @@
     <!-- endbuild -->
 </head>
 <body>
-<div ui-view></div>
+<div ui-view>
+    <p class="text-center">
+        <i class="fa fa-refresh fa-spin"></i>
+        Loading...
+    </p>
+</div>
 </body>
 </html>
