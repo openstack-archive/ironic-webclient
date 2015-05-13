@@ -17,7 +17,7 @@
 /**
  * Driver handling for the Ironic UI.
  */
-angular.module('ironic.drivers', [ 'ui.router', 'ui.bootstrap'])
+angular.module('ironic.drivers', ['ui.router', 'ui.bootstrap'])
     .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
         'use strict';
 

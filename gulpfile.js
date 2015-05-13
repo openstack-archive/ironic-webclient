@@ -38,7 +38,7 @@
      * Build our font from the icon svg.
      */
     gulp.task('iconfont', function () {
-        gulp.src([ dir.app + '/fonts/ironic/*.svg'])
+        gulp.src([dir.app + '/fonts/ironic/*.svg'])
             .pipe(iconfont({
                 fontName: 'ironic',
                 appendCodepoints: true
@@ -47,12 +47,12 @@
                 var options = {
                     glyphs: codepoints,
                     fontName: 'ironic',
-                    fontPath: '../fonts/', // set path to font (from your CSS file if relative)
-                    className: 'if' // set class name in your CSS
+                    fontPath: '../fonts/',
+                    className: 'if'
                 };
                 gulp.src(dir.app + '/fonts/ironic/ironic-font.css')
                     .pipe(consolidate('lodash', options))
-                    .pipe(gulp.dest('./app/css/')); // set path to export your CSS
+                    .pipe(gulp.dest('./app/css/'));
             })
             .pipe(gulp.dest(dir.app + '/fonts'));
     });
@@ -76,7 +76,7 @@
             .pipe(filter(['*.eot', '*.svg', '*.ttf', '*.woff', '*.woff2']))
             .pipe(gulp.dest(dir.app + '/fonts'));
 
-        return streamqueue({ objectMode: true },
+        return streamqueue({objectMode: true},
             resolve_js, resolve_css, resolve_fonts);
     });
 
@@ -85,7 +85,7 @@
      */
     gulp.task('lint', function () {
         return gulp.src(['gulpfile.js', dir.app + '/js/**/*.js',
-                '!' + dir.app + '/js/lib/*.js'])
+            '!' + dir.app + '/js/lib/*.js'])
             .pipe(eslint())
             .pipe(eslint.format())
             .pipe(eslint.failOnError());
@@ -140,8 +140,8 @@
      */
     gulp.task('package:static', function () {
         return gulp.src([
-                dir.app + '/**/*.+(eot|svg|ttf|woff|woff2|html)',
-                '!' + dir.app + '/index.html'
+            dir.app + '/**/*.+(eot|svg|ttf|woff|woff2|html)',
+            '!' + dir.app + '/index.html'
         ]).pipe(gulp.dest(dir.dist));
     });
 

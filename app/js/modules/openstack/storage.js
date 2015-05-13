@@ -77,7 +77,8 @@ angular.module('openstack').factory('$$sessionStorage',
                 if (isSupported) {
                     $window.sessionStorage.setItem(key, value);
                 } else {
-                    $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+                    $log.warn('$$sessionStorage not supported, ' +
+                    'using $$memoryStorage');
                     $$memoryStorage.set(key, value);
                 }
 
@@ -94,7 +95,8 @@ angular.module('openstack').factory('$$sessionStorage',
                 if (isSupported) {
                     return $window.sessionStorage.getItem(key);
                 } else {
-                    $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+                    $log.warn('$$sessionStorage not supported, ' +
+                    'using $$memoryStorage');
                     return $$memoryStorage.get(key);
                 }
             },
@@ -108,7 +110,8 @@ angular.module('openstack').factory('$$sessionStorage',
                 if (isSupported) {
                     return $window.sessionStorage.removeItem(key);
                 } else {
-                    $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+                    $log.warn('$$sessionStorage not supported, ' +
+                    'using $$memoryStorage');
                     return $$memoryStorage.remove(key);
                 }
             },
@@ -126,7 +129,8 @@ angular.module('openstack').factory('$$sessionStorage',
                     }
                     return keys;
                 } else {
-                    $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+                    $log.warn('$$sessionStorage not supported, ' +
+                    'using $$memoryStorage');
                     return $$memoryStorage.keys();
                 }
             },
@@ -141,7 +145,8 @@ angular.module('openstack').factory('$$sessionStorage',
                         this.remove(keys[i]);
                     }
                 } else {
-                    $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+                    $log.warn('$$sessionStorage not supported, ' +
+                    'using $$memoryStorage');
                     return $$memoryStorage.keys();
                 }
             },
@@ -155,7 +160,8 @@ angular.module('openstack').factory('$$sessionStorage',
                 if (isSupported) {
                     return $window.sessionStorage.length;
                 } else {
-                    $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+                    $log.warn('$$sessionStorage not supported, ' +
+                    'using $$memoryStorage');
                     return $$memoryStorage.length();
                 }
             }
@@ -218,7 +224,8 @@ angular.module('openstack').factory('$$localStorage',
                 if (isSupported) {
                     $window.localStorage.setItem(key, value);
                 } else {
-                    $log.warn('$$localStorage not supported, using $$memoryStorage');
+                    $log.warn('$$localStorage not supported, ' +
+                    'using $$memoryStorage');
                     $$memoryStorage.set(key, value);
                 }
 
@@ -235,7 +242,8 @@ angular.module('openstack').factory('$$localStorage',
                 if (isSupported) {
                     return $window.localStorage.getItem(key);
                 } else {
-                    $log.warn('$$localStorage not supported, using $$memoryStorage');
+                    $log.warn('$$localStorage not supported, ' +
+                    'using $$memoryStorage');
                     return $$memoryStorage.get(key);
                 }
             },
@@ -249,7 +257,8 @@ angular.module('openstack').factory('$$localStorage',
                 if (isSupported) {
                     return $window.localStorage.removeItem(key);
                 } else {
-                    $log.warn('$$localStorage not supported, using $$memoryStorage');
+                    $log.warn('$$localStorage not supported, ' +
+                    'using $$memoryStorage');
                     return $$memoryStorage.remove(key);
                 }
             },
@@ -267,7 +276,8 @@ angular.module('openstack').factory('$$localStorage',
                     }
                     return keys;
                 } else {
-                    $log.warn('$$localStorage not supported, using $$memoryStorage');
+                    $log.warn('$$localStorage not supported, ' +
+                    'using $$memoryStorage');
                     return $$memoryStorage.keys();
                 }
             },
@@ -282,7 +292,8 @@ angular.module('openstack').factory('$$localStorage',
                         this.remove(keys[i]);
                     }
                 } else {
-                    $log.warn('$$localStorage not supported, using $$memoryStorage');
+                    $log.warn('$$localStorage not supported, ' +
+                    'using $$memoryStorage');
                     return $$memoryStorage.keys();
                 }
             },
@@ -296,7 +307,8 @@ angular.module('openstack').factory('$$localStorage',
                 if (isSupported) {
                     return $window.localStorage.length;
                 } else {
-                    $log.warn('$$localStorage not supported, using $$memoryStorage');
+                    $log.warn('$$localStorage not supported, ' +
+                    'using $$memoryStorage');
                     return $$memoryStorage.length();
                 }
             }

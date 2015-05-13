@@ -17,7 +17,7 @@
 /**
  * Chassis handling for the Ironic UI.
  */
-angular.module('ironic.chassis', [ 'ui.router', 'ui.bootstrap'])
+angular.module('ironic.chassis', ['ui.router', 'ui.bootstrap'])
     .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
         'use strict';
 
@@ -28,7 +28,7 @@ angular.module('ironic.chassis', [ 'ui.router', 'ui.bootstrap'])
                     'main': {
                         templateUrl: 'view/chassis/index.html',
                         resolve: {
-                            chassis : function(IronicChassis) {
+                            chassis: function (IronicChassis) {
                                 return IronicChassis.query({}).$promise;
                             }
                         }

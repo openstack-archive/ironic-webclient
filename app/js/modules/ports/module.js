@@ -17,7 +17,7 @@
 /**
  * Node handling for the Ironic UI.
  */
-angular.module('ironic.ports', [ 'ui.router', 'ui.bootstrap'])
+angular.module('ironic.ports', ['ui.router', 'ui.bootstrap'])
     .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
         'use strict';
 
