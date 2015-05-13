@@ -49,6 +49,62 @@ angular.module('openstack').factory('$$defaultConfiguration', function () {
 });
 
 /**
+ * This service exposes methods by which local configurations may be stored and
+ * retrieved.
+ */
+angular.module('openstack').service('$$localConfiguration',
+    function ($q, $$persistentStorage) {
+        'use strict';
+
+        var storageKey = 'local-configuration';
+        var raw = $$persistentStorage.get(storageKey) || '[]';
+        var configs = JSON.parse(raw);
+
+        function save() {
+            $$persistentStorage.set(storageKey, JSON.stringify(configs));
+        }
+
+        return {
+            /**
+             * Resolve all of the locally stored configuration blocks.
+             *
+             * @returns {promise}
+             */
+            resolve: function () {
+                var deferred = $q.defer();
+                deferred.resolve(configs);
+                return deferred.promise;
+            },
+
+            /**
+             * This method adds a new configuration to the application.
+             *
+             * @param config
+             */
+            add: function (config) {
+                configs.push(config);
+                save();
+            },
+
+            /**
+             * This method removes a configuration from the application.
+             *
+             * @param config
+             */
+            remove: function (config) {
+                for (var i = 0; i < configs.length; i++) {
+                    var c = configs[i];
+                    if (c.id === config.id) {
+                        configs.splice(i, 1);
+                        save();
+                        break;
+                    }
+                }
+            }
+        };
+    });
+
+/**
  * This resource attempts to automatically detect your cloud's configuration
  * by searching for it in common locations. First we check config.json, living
  * on the server adjacent to index.html. Secondly, we construct a default
@@ -67,7 +123,8 @@ angular.module('openstack').factory('$$defaultConfiguration', function () {
  * }]
  */
 angular.module('openstack').service('$$configuration',
-    function ($q, $http, $log, $location, $$persistentStorage, $$errorCode) {
+    function ($q, $http, $log, $location, $$persistentStorage, $$errorCode,
+              $$localConfiguration) {
         'use strict';
 
         /**
@@ -102,6 +159,14 @@ angular.module('openstack').service('$$configuration',
                 }
             );
             return deferred.promise;
+        }
+
+        /**
+         * Attempt to resolve configurations from localStorage.
+         */
+        function loadLocalStorage() {
+            $log.info('Attempting to load parameters from localStorage');
+            return $$localConfiguration.resolve();
         }
 
         /**
@@ -143,14 +208,16 @@ angular.module('openstack').service('$$configuration',
                 // Resolve the configuration.
                 $q.all({
                     'config': loadConfigurationFile(),
-                    'default': defaultConfiguration()
+                    'default': defaultConfiguration(),
+                    'local': loadLocalStorage()
                 }).then(function (results) {
                     var fileConfigs = results.config;
                     var defaultConfigs = results.default;
+                    var localConfigs = results.local;
 
                     var config = [];
-                    for (var i = 0; i < fileConfigs.length; i++) {
-                        var c = fileConfigs[i];
+
+                    function addConfig(c) {
                         if (c.hasOwnProperty('id')) {
                             config.push(c);
                         } else {
@@ -158,9 +225,12 @@ angular.module('openstack').service('$$configuration',
                             'field, ignoring.', c);
                         }
                     }
-                    if (config.length === 0) {
-                        config = defaultConfigs;
-                    }
+
+                    fileConfigs.forEach(addConfig);
+                    defaultConfigs.forEach(addConfig);
+                    localConfigs.forEach(addConfig);
+
+                    $log.debug(config);
 
                     deferAll.resolve(config);
                 }, function () {
@@ -248,6 +318,14 @@ angular.module('openstack').service('$$configuration',
             setSelected: function (selectedId) {
                 $$persistentStorage.set(storageId, selectedId);
                 deferSelected = null;
+            },
+
+            /**
+             * Reset the configuration loader.
+             */
+            reset: function () {
+                deferSelected = null;
+                deferAll = null;
             }
         };
     });

@@ -64,7 +64,7 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.chassis',
                 },
                 resolve: {
                     configuration: function ($$defaultConfiguration) {
-                        return $$defaultConfiguration;
+                        return angular.copy($$defaultConfiguration);
                     },
                     assertNoConfiguration: function ($q, $$configuration,
                                                      $$errorCode) {
@@ -100,12 +100,14 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.chassis',
                     // state.
                     case $$errorCode.NO_CONFIGURATION:
                         $log.warn('No configuration found.');
+                        event.preventDefault();
                         $state.go('error.no_configuration');
                         return;
 
                     // If the route resolution indicates that a configuration
                     // was found, take the user to the root state.
                     case $$errorCode.HAS_CONFIGURATION:
+                        event.preventDefault();
                         $state.go('ironic');
                         return;
                 }

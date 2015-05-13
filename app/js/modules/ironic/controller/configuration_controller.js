@@ -18,7 +18,8 @@
  * This controller allows the management of a single cloud configuration entry.
  */
 angular.module('ironic').controller('ConfigurationController',
-    function ($scope, $state, $location, configuration) {
+    function ($scope, $state, $location, configuration, $$localConfiguration,
+              $$configuration) {
         'use strict';
 
         $scope.configuration = configuration;
@@ -28,4 +29,10 @@ angular.module('ironic').controller('ConfigurationController',
             'port': $location.port()
         };
 
+        $scope.save = function () {
+            $scope.configuration.id = $scope.configuration.name;
+            $$localConfiguration.add($scope.configuration);
+            $$configuration.reset();
+            $state.go('ironic');
+        };
     });
