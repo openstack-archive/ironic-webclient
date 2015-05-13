@@ -41,45 +41,37 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.chassis',
                     }
                 },
                 resolve: {
-                    configuration: function ($$configuration) {
-                        return $$configuration.resolveAll();
-                    },
                     selectedConfiguration: function ($$configuration) {
                         return $$configuration.resolveSelected();
+                    },
+                    /**
+                     * Warning! This hack is in place to ensure that the
+                     * selectedConfiguration - which asserts that at least one
+                     * configuration exists, executes before the below
+                     * configuration.
+                     */
+                    configuration: function (selectedConfiguration,
+                                             $$configuration) {
+                        return $$configuration.resolveAll();
                     }
                 }
             })
-            .state('error', {
-                url: '/error',
-                abstract: true,
-                templateUrl: 'view/ironic/error.html'
-            })
-            .state('error.no_configuration', {
-                url: '/no_configuration',
-                views: {
-                    'main': {
-                        controller: 'ConfigurationController',
-                        templateUrl: 'view/ironic/error/no_configuration.html'
-                    }
-                },
+            .state('config', {
+                url: '/config',
+                templateUrl: 'view/ironic/config.html',
+                controller: 'ConfigurationController',
                 resolve: {
-                    configuration: function ($$defaultConfiguration) {
-                        return angular.copy($$defaultConfiguration);
+                    defaultConfiguration: function ($$defaultConfiguration) {
+                        return $$defaultConfiguration;
                     },
-                    assertNoConfiguration: function ($q, $$configuration,
-                                                     $$errorCode) {
-                        // Make sure we have an invalid configuration in case
-                        // someone deep-links.
-                        var deferred = $q.defer();
-                        $$configuration.resolveSelected().then(
-                            function () {
-                                deferred.reject($$errorCode.HAS_CONFIGURATION);
-                            },
-                            function () {
-                                deferred.resolve();
-                            }
-                        );
-                        return deferred.promise;
+                    localConfig: function ($$configuration) {
+                        return $$configuration.resolveLocal();
+                    },
+                    autoConfig: function ($$configuration) {
+                        return $$configuration.resolveAutodetection();
+                    },
+                    fileConfig: function ($$configuration) {
+                        return $$configuration.resolveConfigured();
                     }
                 }
             });
@@ -87,29 +79,11 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.chassis',
         // Attach common request headers out of courtesy to the API
         $httpProvider.defaults.headers.common['X-Client'] = 'ironic-webclient';
     })
-    .run(function ($rootScope, $$errorCode, $state, $log) {
+    .run(function ($rootScope, $state) {
         'use strict';
 
         $rootScope.$on('$stateChangeError',
-            function (event, toState, toParams, fromState, fromParams,
-                      error) {
-                switch (error) {
-
-                    // If route resolution indicates that no configuration was
-                    // found, take the user to the no_configuration error
-                    // state.
-                    case $$errorCode.NO_CONFIGURATION:
-                        $log.warn('No configuration found.');
-                        event.preventDefault();
-                        $state.go('error.no_configuration');
-                        return;
-
-                    // If the route resolution indicates that a configuration
-                    // was found, take the user to the root state.
-                    case $$errorCode.HAS_CONFIGURATION:
-                        event.preventDefault();
-                        $state.go('ironic');
-                        return;
-                }
+            function () {
+                $state.go('ironic');
             });
     });

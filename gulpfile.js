@@ -11,7 +11,6 @@
     var rimraf = require('rimraf');
     var eslint = require('gulp-eslint');
     var ghPages = require('gulp-gh-pages');
-    var debug = require('gulp-debug');
     var iconfont = require('gulp-iconfont');
     var consolidate = require('gulp-consolidate');
 

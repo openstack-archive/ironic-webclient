@@ -15,24 +15,6 @@
  */
 
 /**
- * Configuration values used inside of the configuration component.
- */
-angular.module('openstack').config(function ($$errorCode) {
-    'use strict';
-
-    /**
-     * Add the 'no configuration' error code to our error constants.
-     */
-    $$errorCode.NO_CONFIGURATION = 'no_configuration';
-
-    /**
-     * Add the 'has configuration' error code to our error constants.
-     */
-    $$errorCode.HAS_CONFIGURATION = 'has_configuration';
-});
-
-
-/**
  * A default configuration structure. This may be overridden by applications by
  * injecting their own 'defaultConfiguration' constant into the application
  * after this file is loaded.
@@ -47,62 +29,6 @@ angular.module('openstack').factory('$$defaultConfiguration', function () {
         }
     };
 });
-
-/**
- * This service exposes methods by which local configurations may be stored and
- * retrieved.
- */
-angular.module('openstack').service('$$localConfiguration',
-    function ($q, $$persistentStorage) {
-        'use strict';
-
-        var storageKey = 'local-configuration';
-        var raw = $$persistentStorage.get(storageKey) || '[]';
-        var configs = JSON.parse(raw);
-
-        function save() {
-            $$persistentStorage.set(storageKey, JSON.stringify(configs));
-        }
-
-        return {
-            /**
-             * Resolve all of the locally stored configuration blocks.
-             *
-             * @returns {promise}
-             */
-            resolve: function () {
-                var deferred = $q.defer();
-                deferred.resolve(configs);
-                return deferred.promise;
-            },
-
-            /**
-             * This method adds a new configuration to the application.
-             *
-             * @param config
-             */
-            add: function (config) {
-                configs.push(config);
-                save();
-            },
-
-            /**
-             * This method removes a configuration from the application.
-             *
-             * @param config
-             */
-            remove: function (config) {
-                for (var i = 0; i < configs.length; i++) {
-                    var c = configs[i];
-                    if (c.id === config.id) {
-                        configs.splice(i, 1);
-                        save();
-                        break;
-                    }
-                }
-            }
-        };
-    });
 
 /**
  * This resource attempts to automatically detect your cloud's configuration
@@ -123,172 +49,244 @@ angular.module('openstack').service('$$localConfiguration',
  * }]
  */
 angular.module('openstack').service('$$configuration',
-    function ($q, $http, $log, $location, $$persistentStorage, $$errorCode,
-              $$localConfiguration) {
+    function ($q, $http, $log, $location, $$persistentStorage, $modal) {
         'use strict';
+
+        /**
+         * The storage key used in $$persistentStorage to store our local
+         * configuration.
+         *
+         * @type {string}
+         */
+        var configStorageKey = 'local-configuration';
+
+        /**
+         * The resolved configuration stored in our local storage.
+         */
+        var localConfig =
+            JSON.parse($$persistentStorage.get(configStorageKey) || '[]');
 
         /**
          * The key we use in our persistent storage to keep track of the
          * selected id.
          */
-        var storageId = 'selected-cloud';
+        var selectedStorageKey = 'selected-cloud';
 
         /**
-         * The singleton configuration promise for all configurations.
+         * Saves a config value to the local storage.
          */
-        var deferAll;
+        function saveLocal() {
+            $$persistentStorage.set(configStorageKey,
+                JSON.stringify(localConfig));
+        }
 
         /**
-         * The singleton configuration promise for the selected configuration.
+         * Removes a passed configuration from the local list.
          */
-        var deferSelected;
+        function removeLocal(config) {
+            for (var i = 0; i < localConfig.length; i++) {
+                var c = localConfig[i];
+                if (c.id === config.id) {
+                    localConfig.splice(i, 1);
+                    saveLocal();
+                    break;
+                }
+            }
+        }
 
         /**
          * Attempt to load an included configuration file.
          */
-        function loadConfigurationFile() {
+        function resolveConfigurationFile() {
             $log.info('Attempting to load parameters from ./config.json');
-            var deferred = $q.defer();
+            var deferConfig = $q.defer();
             $http.get('./config.json').then(
                 function (response) {
-                    deferred.resolve(response);
+                    deferConfig.resolve(response);
                 },
                 function () {
                     $log.warn('Cannot load ./config.json, using defaults.');
-                    deferred.resolve([]);
+                    deferConfig.resolve([]);
                 }
             );
-            return deferred.promise;
+            return deferConfig.promise;
         }
 
         /**
          * Attempt to resolve configurations from localStorage.
          */
-        function loadLocalStorage() {
+        function resolveLocalStorage() {
             $log.info('Attempting to load parameters from localStorage');
-            return $$localConfiguration.resolve();
+            var deferred = $q.defer();
+            deferred.resolve(localConfig);
+            return deferred.promise;
         }
 
         /**
          * Build default configuration for services on the local server.
          */
-        function defaultConfiguration() {
+        function resolveAutodetect() {
             $log.info('Configuring local API endpoint.');
-            var defaultDefer = $q.defer();
+            var deferAutodetect = $q.defer();
             var ironicApi =
                 $location.protocol() + '://' + $location.host() + ':6385/';
 
             $http.get(ironicApi).then(function (response) {
                 var name = response.data.name || 'Local';
-                var defaultVersion = response.data.default_version.links[0];
-                var localConfig = [
+                var config = [
                     {
                         'id': 'localhost',
                         'name': name,
                         'ironic': {
-                            'api': defaultVersion.href,
-                            'version': response.data.default_version.id
+                            'api': ironicApi
                         }
                     }
                 ];
-                defaultDefer.resolve(localConfig);
+                deferAutodetect.resolve(config);
             }, function () {
-                defaultDefer.resolve([]);
+                deferAutodetect.resolve([]);
             });
-            return defaultDefer.promise;
+            return deferAutodetect.promise;
         }
 
         /**
          * Resolve all the configurations.
          */
         function resolveAllConfigurations() {
-            if (!deferAll) {
-                deferAll = $q.defer();
+            var deferAll = $q.defer();
 
-                // Resolve the configuration.
-                $q.all({
-                    'config': loadConfigurationFile(),
-                    'default': defaultConfiguration(),
-                    'local': loadLocalStorage()
-                }).then(function (results) {
-                    var fileConfigs = results.config;
-                    var defaultConfigs = results.default;
-                    var localConfigs = results.local;
+            // Resolve the configuration.
+            $q.all({
+                'config': resolveConfigurationFile(),
+                'default': resolveAutodetect(),
+                'local': resolveLocalStorage()
+            }).then(function (results) {
+                var fileConfigs = results.config;
+                var defaultConfigs = results.default;
+                var localConfigs = results.local;
 
-                    var config = [];
+                var config = [];
 
-                    function addConfig(c) {
-                        if (c.hasOwnProperty('id')) {
-                            config.push(c);
-                        } else {
-                            $log.warn('Config block missing "id" ' +
-                            'field, ignoring.', c);
-                        }
+                function addConfig(c) {
+                    if (c.hasOwnProperty('id')) {
+                        config.push(c);
+                    } else {
+                        $log.warn('Config block missing "id" ' +
+                        'field, ignoring.', c);
                     }
+                }
 
-                    fileConfigs.forEach(addConfig);
-                    defaultConfigs.forEach(addConfig);
-                    localConfigs.forEach(addConfig);
+                fileConfigs.forEach(addConfig);
+                defaultConfigs.forEach(addConfig);
+                localConfigs.forEach(addConfig);
 
-                    $log.debug(config);
-
-                    deferAll.resolve(config);
-                }, function () {
-                    deferAll.resolve([]);
-                });
-            }
+                deferAll.resolve(config);
+            }, function () {
+                deferAll.resolve([]);
+            });
 
             return deferAll.promise;
+        }
+
+        /**
+         * Displays the local configuration add modal.
+         */
+        function addLocal() {
+            var deferred = $q.defer();
+            $modal.open({
+                templateUrl: 'view/openstack/config_add.html',
+                controller: 'ConfigurationAddController',
+                backdrop: 'static',
+                //keyboard: false,
+                resolve: {
+                    configuration: resolveAllConfigurations
+                }
+            }).result.then(function (newConfig) {
+                    localConfig.push(newConfig);
+                    saveLocal();
+                    deferred.resolve(newConfig);
+                }, function () {
+                    deferred.reject();
+                });
+
+            return deferred.promise;
+        }
+
+        /**
+         * This method throws the user into an infinite loop, requiring them to
+         * install a configuration.
+         */
+        function requireAtLeastOneConfiguration() {
+            var deferred = $q.defer();
+
+            function requireAddLocal() {
+                addLocal().then(
+                    function () {
+                        resolveAllConfigurations().then(function (configs) {
+                            deferred.resolve(configs);
+                        });
+                    },
+                    function () {
+                        // Force them to do this until we have a valid
+                        // configuration.
+                        requireAddLocal();
+                    }
+                );
+            }
+
+            resolveAllConfigurations().then(function (configs) {
+                if (configs.length === 0) {
+                    requireAddLocal();
+                } else {
+                    deferred.resolve(configs);
+                }
+            });
+
+            return deferred.promise;
         }
 
         /**
          * Resolve the current selected configuration.
          */
         function resolveSelectedConfiguration() {
-            if (!deferSelected) {
-                deferSelected = $q.defer();
+            var deferSelected = $q.defer();
 
-                var selectedId = $$persistentStorage.get(storageId);
+            var selectedId = $$persistentStorage.get(selectedStorageKey);
 
-                resolveAllConfigurations().then(
-                    function (configs) {
-                        if (configs.length === 0) {
-                            deferSelected.reject($$errorCode.NO_CONFIGURATION);
-                            return;
+            requireAtLeastOneConfiguration().then(
+                function (configs) {
+                    // Pick the configuration from the loaded configs. Note
+                    // that if the selectedId is null, this will never
+                    // match.
+                    var selectedConfig = configs[0];
+                    configs.forEach(function (config) {
+                        if (config.id === selectedId) {
+                            $log.debug('Selecting config: ' + selectedId);
+                            selectedConfig = config;
                         }
+                    });
 
-                        // Pick the configuration from the loaded configs. Note
-                        // that if the selectedId is null, this will never
-                        // match.
-                        var selectedConfig = configs[0];
-                        configs.forEach(function (config) {
-                            if (config.id === selectedId) {
-                                $log.debug('Selecting config: ' + selectedId);
-                                selectedConfig = config;
-                            }
-                        });
-
-                        // If the selected config does not match the selected
-                        // id, then it's likely that the config disappeared.
-                        // Reset the selectedId to match the chosen one.
-                        if (selectedId !== selectedConfig.id) {
-                            selectedId = selectedConfig.id;
-                            $$persistentStorage.set(storageId, selectedId);
-                            $log.debug('AutoSelecting cloud: ' + selectedId);
-                        }
-                        deferSelected.resolve(selectedConfig);
+                    // If the selected config does not match the selected
+                    // id, then it's likely that the config disappeared.
+                    // Reset the selectedId to match the chosen one.
+                    if (selectedId !== selectedConfig.id) {
+                        selectedId = selectedConfig.id;
+                        $$persistentStorage.set(selectedStorageKey,
+                            selectedId);
+                        $log.debug('AutoSelecting cloud: ' + selectedId);
                     }
-                );
-            }
+                    deferSelected.resolve(selectedConfig);
+                }
+            );
 
             return deferSelected.promise;
         }
-
 
         /**
          * Resolve any configuration parameters.
          */
         return {
+
             /**
              * Asynchronously resolve the Cloud Configuration. This will always
              * resolve, however it is likely that the resulting configuration
@@ -298,6 +296,27 @@ angular.module('openstack').service('$$configuration',
              */
             resolveAll: function () {
                 return resolveAllConfigurations();
+            },
+
+            /**
+             * Asynchronously resolve the local configuration.
+             */
+            resolveConfigured: function () {
+                return resolveConfigurationFile();
+            },
+
+            /**
+             * Asynchronously resolve autodetected api's on the same domain.
+             */
+            resolveAutodetection: function () {
+                return resolveAutodetect();
+            },
+
+            /**
+             * Asynchronously resolve configurations in localStorage.
+             */
+            resolveLocal: function () {
+                return resolveLocalStorage();
             },
 
             /**
@@ -316,16 +335,50 @@ angular.module('openstack').service('$$configuration',
              * to reload the entire application to make this work.
              */
             setSelected: function (selectedId) {
-                $$persistentStorage.set(storageId, selectedId);
-                deferSelected = null;
+                $$persistentStorage.set(selectedStorageKey, selectedId);
             },
 
             /**
-             * Reset the configuration loader.
+             * This method adds a new configuration to the application.
              */
-            reset: function () {
-                deferSelected = null;
-                deferAll = null;
+            add: function () {
+                return addLocal();
+            },
+
+            /**
+             * This method removes a configuration from the application.
+             *
+             * @param config
+             */
+            remove: function (config) {
+                return removeLocal(config);
             }
+        };
+    });
+
+/**
+ * This controller allows the creation of a new configuration.
+ */
+angular.module('openstack').controller('ConfigurationAddController',
+    function ($scope, $state, $location, $$defaultConfiguration,
+              $$configuration, $modalInstance, configuration) {
+        'use strict';
+
+        $scope.configuration = configuration;
+        $scope.newConfiguration = angular.copy($$defaultConfiguration);
+
+        $scope.location = {
+            'host': $location.host(),
+            'protocol': $location.protocol(),
+            'port': $location.port()
+        };
+
+        $scope.save = function () {
+            $scope.newConfiguration.id = $scope.newConfiguration.name;
+            $modalInstance.close($scope.newConfiguration);
+        };
+
+        $scope.close = function () {
+            $modalInstance.dismiss();
         };
     });

@@ -1,16 +1,105 @@
-
-<nav class="navbar navbar-default navbar-fixed-top"
-     ng-include src="'view/ironic/header.html'">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand"
+               href="#/ironic"
+               active-path="^\/ironic$">
+                Ironic
+            </a>
+        </div>
+    </div>
 </nav>
 
-<div class="container-fluid" ui-view="main">
+<div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
-            Welcome to the UI.
+            <h3>Manage Clouds</h3>
+
+            <p>Below you see a collection of all the Ironic clouds available
+                to you. You may add additional ones here, or remove ones that
+                you've previously added.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>API Endpoint</th>
+                    <th>Source</th>
+                    <th class="text-right">
+                        <button class="btn btn-default btn-sm"
+                                ng-click="add()">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </th>
+                </tr>
+                </thead>
+                <tbody ng-if="hasConfig">
+                <tr ng-repeat="config in localConfig">
+                    <td>
+                        <a href="" ng-click="select(config)">
+                            {{config.name}}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{config.ironic.api}}" target="_blank">
+                            {{config.ironic.api}}
+                        </a>
+                    </td>
+                    <td>
+                        <small class="text-info">Local</small>
+                        <i class="fa fa-question-circle"
+                           tooltip="These clouds were added by you, and are stored in your browser."></i>
+                    </td>
+                    <td>
+                        <button type="button" class="close"
+                                ng-click="remove(config)">
+                            &times;</button>
+                    </td>
+                </tr>
+                <tr ng-repeat="config in autoConfig">
+                    <td>
+                        <a href="" ng-click="select(config)">
+                            {{config.name}}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{config.ironic.api}}" target="_blank">
+                            {{config.ironic.api}}
+                        </a>
+                    </td>
+                    <td>
+                        <small class="text-warning">Autodetected</small>
+                        <i class="fa fa-question-circle"
+                           tooltip="This API was automatically detected."></i>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr ng-repeat="config in fileConfig">
+                    <td>
+                        <a href="" ng-click="select(config)">
+                            {{config.name}}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{config.ironic.api}}" target="_blank">
+                            {{config.ironic.api}}
+                        </a>
+                    </td>
+                    <td>
+                        <small class="text-success">Provided</small>
+                        <i class="fa fa-question-circle"
+                           tooltip="The administrator for this application has preconfigured these clouds."></i>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">

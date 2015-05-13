@@ -34,8 +34,13 @@ angular.module('ironic.api').directive('ironicApiUrl',
                         var def = $q.defer();
 
                         $http.get(modelValue).then(function (result) {
-                            var versions = result.data.versions || [];
+                            var name = result.data.name;
 
+                            if (name !== 'OpenStack Ironic API') {
+                                def.reject();
+                            }
+
+                            var versions = result.data.versions || [];
                             for (var i = 0; i < versions.length; i++) {
                                 versions[i] = versions[i].id;
                             }

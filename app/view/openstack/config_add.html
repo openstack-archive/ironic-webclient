@@ -1,15 +1,11 @@
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <h3>No configuration found</h3>
-
-            <p>The server did not provide a configuration file, and we were
-                unable to automatically detect Ironic. You may manually
-                provide an API endpoint, which should be available from your
-                systems administrator or customer service representative.
-            </p>
-        </div>
-    </div>
+<div class="modal-header">
+    <button type="button"
+            class="close"
+            ng-if="configuration.length > 0"
+            ng-click="close()">&times;</button>
+    <h3 class="panel-title">Add Cloud</h3>
+</div>
+<div class="modal-body">
     <div class="row">
         <div class="col-xs-12">
             <form name="configForm">
@@ -21,10 +17,10 @@
                            name="name"
                            type="text"
                            class="form-control"
-                           ng-model="configuration.name"
+                           ng-model="newConfiguration.name"
                            required
                            ng-minlength="5"
-                           placeholder="Please enter a unique name for your cloud.">
+                           placeholder="Please provide a distinct name for this cloud.">
                     <span class="glyphicon glyphicon-remove form-control-feedback"
                           ng-if="!configForm.name.$valid && configForm.name.$dirty">
                     </span>
@@ -55,7 +51,7 @@
                            required
                            ironic-api-url
                            class="form-control"
-                           ng-model="configuration.ironic.api"
+                           ng-model="newConfiguration.ironic.api"
                            ng-model-options="{debounce: 250}"
                            placeholder="https://ironic.example.com:6385/">
                     <span class="glyphicon glyphicon-remove form-control-feedback"
@@ -71,15 +67,22 @@
                     </small>
                     <small class="help-block"
                            ng-if="configForm.ironic.$valid">Versions
-                        {{configForm.ironic.$ironicVersions.join(', ')}} detected.
+                        {{configForm.ironic.$ironicVersions.join(', ')}}
+                        detected.
                     </small>
                 </div>
-                <button type="submit"
-                        ng-disabled="!configForm.$valid"
-                        ng-click="save()"
-                        class="btn btn-default pull-right">Save
-                </button>
             </form>
         </div>
     </div>
+</div>
+<div class="modal-footer ng-scope">
+    <button type="submit"
+            ng-disabled="!configForm.$valid"
+            ng-click="save()"
+            class="btn btn-primary">
+        Save
+    </button>
+    <button class="btn btn-default" ng-click="close()"
+            ng-if="configuration.length > 0">Cancel
+    </button>
 </div>
