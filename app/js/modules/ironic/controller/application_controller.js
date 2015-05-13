@@ -19,7 +19,7 @@
  */
 angular.module('ironic').controller('ApplicationController',
     function ($scope, $state, configuration, selectedConfiguration, $window,
-              $$persistentStorage, Configuration) {
+              $$configuration) {
         'use strict';
 
         $scope.configuration = configuration;
@@ -27,7 +27,7 @@ angular.module('ironic').controller('ApplicationController',
 
         $scope.switchCloud = function (cloudConfig) {
             if (cloudConfig !== selectedConfiguration) {
-                Configuration.setSelected(cloudConfig.id);
+                $$configuration.setSelected(cloudConfig.id);
                 $window.location.reload();
             }
         };
