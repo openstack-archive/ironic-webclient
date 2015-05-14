@@ -17,21 +17,21 @@
 /**
  * Chassis handling for the Ironic UI.
  */
-angular.module('ironic.chassis', ['ui.router', 'ui.bootstrap'])
+angular.module('ironic.chassis', ['ui.router', 'ui.bootstrap', 'ironic.api'])
     .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
         'use strict';
 
         $stateProvider
             .state('ironic.chassis', {
                 url: '/chassis',
+                resolve: {
+                    chassis: function (IronicChassis) {
+                        return IronicChassis.query({});
+                    }
+                },
                 views: {
                     'main': {
-                        templateUrl: 'view/chassis/index.html',
-                        resolve: {
-                            chassis: function (IronicChassis) {
-                                return IronicChassis.query({}).$promise;
-                            }
-                        }
+                        templateUrl: 'view/chassis/index.html'
                     }
                 }
             });

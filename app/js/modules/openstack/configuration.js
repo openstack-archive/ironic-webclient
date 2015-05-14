@@ -67,6 +67,11 @@ angular.module('openstack').service('$$configuration',
             JSON.parse($$persistentStorage.get(configStorageKey) || '[]');
 
         /**
+         * In scope storage for the currently selected configuration.
+         */
+        var selectedConfig;
+
+        /**
          * The key we use in our persistent storage to keep track of the
          * selected id.
          */
@@ -272,7 +277,7 @@ angular.module('openstack').service('$$configuration',
                     // Pick the configuration from the loaded configs. Note
                     // that if the selectedId is null, this will never
                     // match.
-                    var selectedConfig = configs[0];
+                    selectedConfig = configs[0];
                     configs.forEach(function (config) {
                         if (config.id === selectedId) {
                             $log.debug('Selecting config: ' + selectedId);
@@ -300,6 +305,19 @@ angular.module('openstack').service('$$configuration',
          * Resolve any configuration parameters.
          */
         return {
+
+            /**
+             * Retrieve the currently selected API base for the provided
+             * service.
+             */
+            getApiBase: function (service) {
+                if (!selectedConfig ||
+                    !selectedConfig.hasOwnProperty(service)) {
+                    return '/';
+                } else {
+                    return selectedConfig[service].api;
+                }
+            },
 
             /**
              * Asynchronously resolve the Cloud Configuration. This will always
