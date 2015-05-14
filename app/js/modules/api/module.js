@@ -39,7 +39,11 @@ angular.module('ironic.api', ['openstack'])
                             method: 'POST'
                         },
                         read: {
-                            method: 'GET'
+                            method: 'GET',
+                            transformResponse: function (data) {
+                                var parsed = JSON.parse(data);
+                                return parsed[resourceName][0];
+                            }
                         },
                         update: {
                             method: 'PUT'

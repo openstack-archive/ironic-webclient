@@ -30,11 +30,32 @@ angular.module('ironic.nodes', ['ui.router', 'ui.bootstrap'])
                         controller: 'NodeListController'
                     }
                 }
+            })
+            .state('ironic.nodes.detail', {
+                url: '/:uuid',
+                resolve: {
+                    node: function (IronicNode, $stateParams) {
+                        return IronicNode.read({
+                            uuid: $stateParams.uuid
+                        }).$promise;
+                    }
+                },
+                views: {
+                    'main@ironic': {
+                        templateUrl: 'view/nodes/detail.html',
+                        controller: 'NodeDetailController'
+                    }
+                }
             });
     })
     .controller('NodeListController', function ($scope, IronicNode) {
         'use strict';
 
         $scope.nodes = IronicNode.query({});
+    })
+    .controller('NodeDetailController', function ($scope, node) {
+        'use strict';
+
+        $scope.node = node;
     });
 

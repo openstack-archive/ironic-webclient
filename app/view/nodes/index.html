@@ -19,7 +19,11 @@
                 <tbody ng-if="nodes.$resolved && nodes.length > 0">
                 <tr ng-repeat="node in nodes">
                     <td>{{node.power_state}}</td>
-                    <td>{{node.uuid}}</td>
+                    <td>
+                        <a href="#/ironic/nodes/{{node.uuid}}">
+                            {{node.uuid}}
+                        </a>
+                    </td>
                     <td>{{node.instance_uuid || 'None'}}</td>
                     <td>{{node.provision_state}}</td>
                     <td>{{node.maintenance}}</td>

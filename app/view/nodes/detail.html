@@ -1,0 +1,17 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Node: {{node.uuid}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table-condensed table table-bordered">
+                <tr ng-repeat="(key, value) in node">
+                    <th>{{key}}</th>
+                    <td>{{value}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
