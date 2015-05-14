@@ -24,15 +24,17 @@ angular.module('ironic.chassis', ['ui.router', 'ui.bootstrap', 'ironic.api'])
         $stateProvider
             .state('ironic.chassis', {
                 url: '/chassis',
-                resolve: {
-                    chassis: function (IronicChassis) {
-                        return IronicChassis.query({});
-                    }
-                },
                 views: {
                     'main': {
-                        templateUrl: 'view/chassis/index.html'
+                        templateUrl: 'view/chassis/index.html',
+                        controller: 'ChassisListController'
                     }
                 }
             });
+    })
+    .controller('ChassisListController', function ($scope, IronicChassis) {
+        'use strict';
+
+        $scope.chassis = IronicChassis.query({});
     });
+

@@ -31,7 +31,8 @@ angular.module('ironic.api', ['openstack'])
                             method: 'GET',
                             isArray: true,
                             transformResponse: function (data) {
-                                return data[resourceName];
+                                var parsed = JSON.parse(data);
+                                return parsed[resourceName];
                             }
                         },
                         create: {

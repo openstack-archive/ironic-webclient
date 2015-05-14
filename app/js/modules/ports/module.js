@@ -26,8 +26,14 @@ angular.module('ironic.ports', ['ui.router', 'ui.bootstrap'])
                 url: '/ports',
                 views: {
                     'main': {
-                        templateUrl: 'view/ports/index.html'
+                        templateUrl: 'view/ports/index.html',
+                        controller: 'PortListController'
                     }
                 }
             });
+    })
+    .controller('PortListController', function ($scope, IronicPort) {
+        'use strict';
+
+        $scope.ports = IronicPort.query({});
     });

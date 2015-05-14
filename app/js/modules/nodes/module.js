@@ -17,7 +17,7 @@
 /**
  * Node handling for the Ironic UI.
  */
-angular.module('ironic.nodes', [ 'ui.router', 'ui.bootstrap'])
+angular.module('ironic.nodes', ['ui.router', 'ui.bootstrap'])
     .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
         'use strict';
 
@@ -26,8 +26,15 @@ angular.module('ironic.nodes', [ 'ui.router', 'ui.bootstrap'])
                 url: '/nodes',
                 views: {
                     'main': {
-                        templateUrl: 'view/nodes/index.html'
+                        templateUrl: 'view/nodes/index.html',
+                        controller: 'NodeListController'
                     }
                 }
             });
+    })
+    .controller('NodeListController', function ($scope, IronicNode) {
+        'use strict';
+
+        $scope.nodes = IronicNode.query({});
     });
+

@@ -26,8 +26,14 @@ angular.module('ironic.drivers', ['ui.router', 'ui.bootstrap'])
                 url: '/drivers',
                 views: {
                     'main': {
-                        templateUrl: 'view/drivers/index.html'
+                        templateUrl: 'view/drivers/index.html',
+                        controller: 'DriverListController'
                     }
                 }
             });
+    })
+    .controller('DriverListController', function ($scope, IronicDriver) {
+        'use strict';
+
+        $scope.drivers = IronicDriver.query({});
     });

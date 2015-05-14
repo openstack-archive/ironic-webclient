@@ -1,15 +1,38 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
-            <ol class="breadcrumb">
-                <li><a href="#/ironic/drivers">Drivers</a></li>
-                <li class="active">eaaca217-e7d8-47b4-bb41-3f99f20eed89</li>
-            </ol>
+            <h1>Drivers</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <p>Things about Drivers.</p>
+            <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th>UUID</th>
+                </tr>
+                </thead>
+                <tbody ng-if="drivers.$resolved && drivers.length > 0">
+                <tr ng-repeat="driver in drivers">
+                    <td>{{driver.uuid}}</td>
+                </tr>
+                </tbody>
+                <tbody ng-if="drivers.$resolved && drivers.length == 0">
+                <tr>
+                    <td colspan="2" class="text-center text-muted">
+                        <small><em>No drivers were found.</em></small>
+                    </td>
+                </tr>
+                </tbody>
+                <tbody ng-if="!drivers.$resolved">
+                <tr>
+                    <td colspan="2" class="text-center text-muted">
+                        <i class="fa fa-refresh fa-spin"></i>
+                        Loading drivers...
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
