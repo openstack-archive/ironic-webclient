@@ -10,11 +10,13 @@
                 <thead>
                 <tr>
                     <th>UUID</th>
+                    <th>Description</th>
                 </tr>
                 </thead>
                 <tbody ng-if="chassis.$resolved && chassis.length > 0">
                 <tr ng-repeat="chassi in chassis">
                     <td>{{chassi.uuid}}</td>
+                    <td>{{chassi.description}}</td>
                 </tr>
                 </tbody>
                 <tbody ng-if="chassis.$resolved && chassis.length == 0">
