@@ -24,34 +24,40 @@ angular.module('ironic.api', ['openstack'])
         $$resourceFactoryProvider
             .$addServiceFactory('ironic', function ($resource) {
                 return function (baseUri, resourceName) {
-                    var resourceUrl = baseUri + '/' + resourceName + '/:uuid';
+                    var resourceUrl = new URL(baseUri + '/' + resourceName +
+                    '/:uuid');
 
-                    return $resource(resourceUrl, {'uuid': '@uuid'}, {
-                        query: {
-                            method: 'GET',
-                            isArray: true,
-                            transformResponse: function (data) {
-                                var parsed = JSON.parse(data);
-                                return parsed[resourceName];
+                    // normalize the path
+                    resourceUrl.pathname =
+                        resourceUrl.pathname.replace('//', '/');
+
+                    return $resource(resourceUrl.toString(),
+                        {'uuid': '@uuid'}, {
+                            query: {
+                                method: 'GET',
+                                isArray: true,
+                                transformResponse: function (data) {
+                                    var parsed = JSON.parse(data);
+                                    return parsed[resourceName];
+                                }
+                            },
+                            create: {
+                                method: 'POST'
+                            },
+                            read: {
+                                method: 'GET',
+                                transformResponse: function (data) {
+                                    var parsed = JSON.parse(data);
+                                    return parsed[resourceName][0];
+                                }
+                            },
+                            update: {
+                                method: 'PUT'
+                            },
+                            delete: {
+                                method: 'DELETE'
                             }
-                        },
-                        create: {
-                            method: 'POST'
-                        },
-                        read: {
-                            method: 'GET',
-                            transformResponse: function (data) {
-                                var parsed = JSON.parse(data);
-                                return parsed[resourceName][0];
-                            }
-                        },
-                        update: {
-                            method: 'PUT'
-                        },
-                        delete: {
-                            method: 'DELETE'
-                        }
-                    });
+                        });
                 };
             });
     })
@@ -86,7 +92,6 @@ angular.module('ironic.api', ['openstack'])
                 };
             };
         }
-
 
         $provide.service('IronicChassis', buildResource('chassis'));
         $provide.service('IronicDriver', buildResource('drivers'));
