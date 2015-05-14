@@ -59,6 +59,7 @@ angular.module('openstack').provider('$$resourceFactory',
          *
          * @param $$configuration Injected configuration service.
          * @param $log Injected log abstraction.
+         * @param $log Injected injector.
          * @returns {{build: Function}}
          */
         this.$get = function resourceFactoryProvider($$configuration, $log,

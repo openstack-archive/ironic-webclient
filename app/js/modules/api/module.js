@@ -24,7 +24,7 @@ angular.module('ironic.api', ['openstack'])
         $$resourceFactoryProvider
             .$addServiceFactory('ironic', function ($resource) {
                 return function (baseUri, resourceName) {
-                    var resourceUrl = baseUri + resourceName + '/:uuid';
+                    var resourceUrl = baseUri + '/' + resourceName + '/:uuid';
 
                     return $resource(resourceUrl, {'uuid': '@uuid'}, {
                         query: {
