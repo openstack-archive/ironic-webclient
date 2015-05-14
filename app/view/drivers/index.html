@@ -9,12 +9,14 @@
             <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
-                    <th>UUID</th>
+                    <th>Name</th>
+                    <th>Hosts</th>
                 </tr>
                 </thead>
                 <tbody ng-if="drivers.$resolved && drivers.length > 0">
                 <tr ng-repeat="driver in drivers">
-                    <td>{{driver.uuid}}</td>
+                    <td>{{driver.name}}</td>
+                    <td>{{driver.hosts.join(', ') || 'No Hosts Found'}}</td>
                 </tr>
                 </tbody>
                 <tbody ng-if="drivers.$resolved && drivers.length == 0">
