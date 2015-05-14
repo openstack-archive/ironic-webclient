@@ -73,6 +73,16 @@ angular.module('openstack').service('$$configuration',
         var selectedStorageKey = 'selected-cloud';
 
         /**
+         * Promise for the deferred file configuration.
+         */
+        var deferFile;
+
+        /**
+         * Promise for the autodetection configuration.
+         */
+        var deferAuto;
+
+        /**
          * Saves a config value to the local storage.
          */
         function saveLocal() {
@@ -98,18 +108,20 @@ angular.module('openstack').service('$$configuration',
          * Attempt to load an included configuration file.
          */
         function resolveConfigurationFile() {
-            $log.info('Attempting to load parameters from ./config.json');
-            var deferConfig = $q.defer();
-            $http.get('./config.json').then(
-                function (response) {
-                    deferConfig.resolve(response);
-                },
-                function () {
-                    $log.warn('Cannot load ./config.json, using defaults.');
-                    deferConfig.resolve([]);
-                }
-            );
-            return deferConfig.promise;
+            if (!deferFile) {
+                $log.info('Attempting to load parameters from ./config.json');
+                deferFile = $q.defer();
+                $http.get('./config.json').then(
+                    function (response) {
+                        deferFile.resolve(response);
+                    },
+                    function () {
+                        $log.warn('Cannot load ./config.json, using defaults.');
+                        deferFile.resolve([]);
+                    }
+                );
+            }
+            return deferFile.promise;
         }
 
         /**
@@ -126,27 +138,29 @@ angular.module('openstack').service('$$configuration',
          * Build default configuration for services on the local server.
          */
         function resolveAutodetect() {
-            $log.info('Configuring local API endpoint.');
-            var deferAutodetect = $q.defer();
-            var ironicApi =
-                $location.protocol() + '://' + $location.host() + ':6385/';
+            if (!deferAuto) {
+                $log.info('Configuring local API endpoint.');
+                deferAuto = $q.defer();
+                var ironicApi =
+                    $location.protocol() + '://' + $location.host() + ':6385/';
 
-            $http.get(ironicApi, {timeout: 1000}).then(function (response) {
-                var name = response.data.name || 'Local';
-                var config = [
-                    {
-                        'id': 'localhost',
-                        'name': name,
-                        'ironic': {
-                            'api': ironicApi
+                $http.get(ironicApi, {timeout: 1000}).then(function (response) {
+                    var name = response.data.name || 'Local';
+                    var config = [
+                        {
+                            'id': 'localhost',
+                            'name': name,
+                            'ironic': {
+                                'api': ironicApi
+                            }
                         }
-                    }
-                ];
-                deferAutodetect.resolve(config);
-            }, function () {
-                deferAutodetect.resolve([]);
-            });
-            return deferAutodetect.promise;
+                    ];
+                    deferAuto.resolve(config);
+                }, function () {
+                    deferAuto.resolve([]);
+                });
+            }
+            return deferAuto.promise;
         }
 
         /**
