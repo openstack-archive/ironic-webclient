@@ -15,7 +15,11 @@
                 </thead>
                 <tbody ng-if="ports.$resolved && ports.length > 0">
                 <tr ng-repeat="port in ports">
-                    <td>{{port.uuid}}</td>
+                    <td>
+                        <a href="#/ironic/ports/{{port.uuid}}">
+                            {{port.uuid}}
+                        </a>
+                    </td>
                     <td>{{port.address}}</td>
                 </tr>
                 </tbody>

@@ -30,10 +30,32 @@ angular.module('ironic.ports', ['ui.router', 'ui.bootstrap'])
                         controller: 'PortListController'
                     }
                 }
+            })
+            .state('ironic.ports.detail', {
+                url: '/:uuid',
+                resolve: {
+                    port: function (IronicPort, $stateParams) {
+                        return IronicPort.read({
+                            uuid: $stateParams.uuid
+                        }).$promise;
+                    }
+                },
+                views: {
+                    'main@ironic': {
+                        templateUrl: 'view/ports/detail.html',
+                        controller: 'PortDetailController'
+                    }
+                }
             });
     })
     .controller('PortListController', function ($scope, IronicPort) {
         'use strict';
 
         $scope.ports = IronicPort.query({});
+    })
+    .controller('PortDetailController', function ($scope, port) {
+        'use strict';
+
+        $scope.port = port;
     });
+
