@@ -45,11 +45,7 @@ angular.module('ironic.api', ['openstack'])
                                 method: 'POST'
                             },
                             read: {
-                                method: 'GET',
-                                transformResponse: function (data) {
-                                    var parsed = JSON.parse(data);
-                                    return parsed[resourceName][0];
-                                }
+                                method: 'GET'
                             },
                             update: {
                                 method: 'PUT'
@@ -75,19 +71,24 @@ angular.module('ironic.api', ['openstack'])
 
                 return {
                     'query': function () {
-                        return getResource(resourceName).query.call(arguments);
+                        var r = getResource(resourceName);
+                        return r.query.apply(r, arguments);
                     },
                     'create': function () {
-                        return getResource(resourceName).create.call(arguments);
+                        var r = getResource(resourceName);
+                        return r.create.apply(r, arguments);
                     },
                     'read': function () {
-                        return getResource(resourceName).read.call(arguments);
+                        var r = getResource(resourceName);
+                        return r.read.apply(r, arguments);
                     },
                     'update': function () {
-                        return getResource(resourceName).update.call(arguments);
+                        var r = getResource(resourceName);
+                        return r.update.apply(r, arguments);
                     },
                     'delete': function () {
-                        return getResource(resourceName).delete.call(arguments);
+                        var r = getResource(resourceName);
+                        return r.delete.apply(r, arguments);
                     }
                 };
             };
