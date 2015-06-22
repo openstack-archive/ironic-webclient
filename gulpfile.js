@@ -8,10 +8,11 @@
   var webserver = require('gulp-webserver');
   var streamqueue = require('streamqueue');
   var useref = require('gulp-useref');
-  var rimraf = require('rimraf');
+  var del = require('del');
   var ghPages = require('gulp-gh-pages');
   var iconfont = require('gulp-iconfont');
   var consolidate = require('gulp-consolidate');
+  var vinylPaths = require('vinyl-paths');
 
   var dir = {
     'app': './app',
@@ -21,11 +22,17 @@
   /**
    * Clean the output directory.
    *
-   * @param {Object} cb Clean parameters.
+   * @param {Function} cb callback.
    * @return {*} A gulp stream that performs this action.
    */
   gulp.task('clean', function (cb) {
-    return rimraf(dir.dist, cb);
+    return gulp.src([
+      dir.dist,
+      'app/css/*.css',
+      '!app/css/main.css',
+      'app/fonts/*.{eot,svg,ttf,woff,woff2}',
+      'app/js/lib/*.js'
+    ]).pipe(vinylPaths(del));
   });
 
   /**

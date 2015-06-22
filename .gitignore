@@ -4,3 +4,17 @@ bower_components/
 node_modules/
 dist/
 .publish/
+
+# Autoresovled CSS Files.
+app/css/*.css
+!app/css/main.css
+
+# Fonts, generated and resolved.
+app/fonts/*.eot
+app/fonts/*.svg
+app/fonts/*.ttf
+app/fonts/*.woff
+app/fonts/*.woff2
+
+# JS Libs, autoresolved.
+app/js/lib
