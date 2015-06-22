@@ -7,7 +7,8 @@
     "postinstall": "gulp update_dependencies",
     "serve": "gulp serve:raw",
     "package": "gulp package",
-    "lint": "eslint ./"
+    "lint": "eslint ./",
+    "test": "karma start ./karma.conf.js"
   },
   "author": "Michael Krotscheck",
   "license": "Apache-2.0",
@@ -26,6 +27,13 @@
     "gulp-iconfont": "1.0.0",
     "gulp-useref": "1.1.1",
     "gulp-webserver": "0.9.0",
+    "jasmine": "2.3.1",
+    "karma": "0.12.36",
+    "karma-chrome-launcher": "0.1.12",
+    "karma-cli": "0.0.4",
+    "karma-firefox-launcher": "0.1.6",
+    "karma-jasmine": "0.3.5",
+    "karma-phantomjs-launcher": "0.2.0",
     "lodash": "3.5.0",
     "main-bower-files": "2.5.0",
     "streamqueue": "0.1.3",

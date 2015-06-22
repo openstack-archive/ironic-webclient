@@ -11,6 +11,7 @@ plugins:
 # Set up globals
 globals:
   angular: false
+  module: false
 
 # Most environment options are not explicitly enabled or disabled, only
 # included here for completeness' sake. They are commented out, because the

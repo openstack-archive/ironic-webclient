@@ -25,7 +25,7 @@
    * @param {Function} cb callback.
    * @return {*} A gulp stream that performs this action.
    */
-  gulp.task('clean', function (cb) {
+  gulp.task('clean', function () {
     return gulp.src([
       dir.dist,
       'app/css/*.css',
