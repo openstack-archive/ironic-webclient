@@ -30,16 +30,16 @@
                     <th>Source</th>
                     <th class="text-right">
                         <button class="btn btn-default btn-sm"
-                                ng-click="add()">
+                                ng-click="ctrl.add()">
                             <i class="fa fa-plus"></i>
                         </button>
                     </th>
                 </tr>
                 </thead>
-                <tbody ng-if="hasConfig">
-                <tr ng-repeat="config in localConfig">
+                <tbody ng-if="ctrl.hasConfig">
+                <tr ng-repeat="config in ctrl.localConfig">
                     <td>
-                        <a href="" ng-click="select(config)">
+                        <a href="" ng-click="ctrl.select(config)">
                             {{config.name}}
                         </a>
                     </td>
@@ -55,13 +55,13 @@
                     </td>
                     <td>
                         <button type="button" class="close"
-                                ng-click="remove(config)">
+                                ng-click="ctrl.remove(config)">
                             &times;</button>
                     </td>
                 </tr>
-                <tr ng-repeat="config in autoConfig">
+                <tr ng-repeat="config in ctrl.autoConfig">
                     <td>
-                        <a href="" ng-click="select(config)">
+                        <a href="" ng-click="ctrl.select(config)">
                             {{config.name}}
                         </a>
                     </td>
@@ -77,9 +77,9 @@
                     </td>
                     <td>&nbsp;</td>
                 </tr>
-                <tr ng-repeat="config in fileConfig">
+                <tr ng-repeat="config in ctrl.fileConfig">
                     <td>
-                        <a href="" ng-click="select(config)">
+                        <a href="" ng-click="ctrl.select(config)">
                             {{config.name}}
                         </a>
                     </td>

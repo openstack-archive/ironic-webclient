@@ -6,18 +6,20 @@
   "scripts": {
     "update_dependencies": "./node_modules/.bin/gulp update_dependencies",
     "serve": "./node_modules/.bin/gulp serve:raw",
-    "package": "./node_modules/.bin/gulp package"
+    "package": "./node_modules/.bin/gulp package",
+    "lint": "eslint ./"
   },
   "author": "Michael Krotscheck",
   "license": "Apache 2.0",
   "devDependencies": {
     "bower": "^1.3.12",
+    "eslint": "0.23.0",
+    "eslint-plugin-angular": "0.0.11",
     "gulp": "^3.8.11",
     "gulp-bower": "^0.0.10",
     "gulp-clean": "^0.3.1",
     "gulp-consolidate": "^0.1.2",
     "gulp-debug": "^2.0.1",
-    "gulp-eslint": "^0.7.0",
     "gulp-filter": "^2.0.2",
     "gulp-gh-pages": "^0.5.0",
     "gulp-iconfont": "^1.0.0",

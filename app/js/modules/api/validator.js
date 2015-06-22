@@ -19,39 +19,41 @@
  * available at the provided url. It will expose a variable on the control to
  * which it is applied, with an array of detected API versions.
  */
+/*eslint-disable angular/ng_no_services */
 angular.module('ironic.api').directive('ironicApiUrl',
-    function ($q, $http) {
-        'use strict';
+  function ($q, $http) {
+/*eslint-enable angular/ng_no_services */
+    'use strict';
 
-        return {
-            require: 'ngModel',
-            link: function (scope, elm, attrs, ctrl) {
+    return {
+      'require': 'ngModel',
+      'link': function (scope, elm, attrs, ctrl) {
 
-                ctrl.$ironicVersions = [];
+        ctrl.$ironicVersions = [];
 
-                ctrl.$asyncValidators.ironicApiUrl =
-                    function (modelValue) {
-                        var def = $q.defer();
+        ctrl.$asyncValidators.ironicApiUrl =
+          function (modelValue) {
+            var def = $q.defer();
 
-                        $http.get(modelValue).then(function (result) {
-                            var name = result.data.name;
+            $http.get(modelValue).then(function (result) {
+              var name = result.data.name;
 
-                            if (name !== 'OpenStack Ironic API') {
-                                def.reject();
-                            }
+              if (name !== 'OpenStack Ironic API') {
+                def.reject();
+              }
 
-                            var versions = result.data.versions || [];
-                            for (var i = 0; i < versions.length; i++) {
-                                versions[i] = versions[i].id;
-                            }
-                            ctrl.$ironicVersions = versions;
-                            def.resolve();
-                        }, function () {
-                            def.reject();
-                        });
+              var versions = result.data.versions || [];
+              for (var i = 0; i < versions.length; i++) {
+                versions[i] = versions[i].id;
+              }
+              ctrl.$ironicVersions = versions;
+              def.resolve();
+            }, function () {
+              def.reject();
+            });
 
-                        return def.promise;
-                    };
-            }
-        };
-    });
+            return def.promise;
+          };
+      }
+    };
+  });

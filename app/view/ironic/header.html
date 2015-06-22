@@ -27,14 +27,14 @@
                dropdown-toggle
                data-toggle="dropdown">
                 <i class="fa fa-cloud"></i>&nbsp;
-                {{selectedConfiguration.name}}
+                {{appCtrl.selectedConfiguration.name}}
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
                 <li class="dropdown-header">Switch to...</li>
-                <li ng-repeat="cloud in configuration">
+                <li ng-repeat="cloud in appCtrl.configuration">
                     <a href="#"
-                       ng-click="switchCloud(cloud)">
+                       ng-click="appCtrl.switchCloud(cloud)">
                         <i class="fa fa-cloud"></i>&nbsp;
                         {{cloud.name}}
                     </a>

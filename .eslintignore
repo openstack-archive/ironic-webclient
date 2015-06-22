@@ -1,0 +1,4 @@
+app/js/lib
+dist
+bower_components
+node_modules

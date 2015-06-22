@@ -1,8 +1,8 @@
 <div class="modal-header">
     <button type="button"
             class="close"
-            ng-if="configuration.length > 0"
-            ng-click="close()">&times;</button>
+            ng-if="ctrl.configuration.length > 0"
+            ng-click="ctrl.close()">&times;</button>
     <h3 class="panel-title">Add Cloud</h3>
 </div>
 <div class="modal-body">
@@ -17,7 +17,7 @@
                            name="name"
                            type="text"
                            class="form-control"
-                           ng-model="newConfiguration.name"
+                           ng-model="ctrl.newConfiguration.name"
                            required
                            ng-minlength="5"
                            placeholder="Please provide a distinct name for this cloud.">
@@ -51,7 +51,7 @@
                            required
                            ironic-api-url
                            class="form-control"
-                           ng-model="newConfiguration.ironic.api"
+                           ng-model="ctrl.newConfiguration.ironic.api"
                            ng-model-options="{debounce: 250}"
                            placeholder="https://ironic.example.com:6385/">
                     <span class="glyphicon glyphicon-remove form-control-feedback"
@@ -63,7 +63,7 @@
                     <small class="help-block"
                            ng-if="!configForm.ironic.$valid">Your API must
                         support CORS requests from
-                        {{location.protocol}}://{{location.host}}:{{location.port}}
+                        {{ctrl.location.protocol}}://{{ctrl.location.host}}:{{ctrl.location.port}}
                     </small>
                     <small class="help-block"
                            ng-if="configForm.ironic.$valid">Versions
@@ -78,11 +78,11 @@
 <div class="modal-footer ng-scope">
     <button type="submit"
             ng-disabled="!configForm.$valid"
-            ng-click="save()"
+            ng-click="ctrl.save()"
             class="btn btn-primary">
         Save
     </button>
-    <button class="btn btn-default" ng-click="close()"
+    <button class="btn btn-default" ng-click="ctrl.close()"
             ng-if="configuration.length > 0">Cancel
     </button>
 </div>

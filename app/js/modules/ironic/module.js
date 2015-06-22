@@ -21,69 +21,67 @@
  * functionality.
  */
 angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.chassis',
-    'ironic.drivers', 'ironic.nodes', 'ironic.ports',
-    'ironic.util', 'ironic.api'])
-    .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
-        'use strict';
+  'ironic.drivers', 'ironic.nodes', 'ironic.ports',
+  'ironic.util', 'ironic.api'])
+  .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
+    'use strict';
 
-        // Default UI route
-        $urlRouterProvider.otherwise('/ironic');
+    // Default UI route
+    $urlRouterProvider.otherwise('/ironic');
 
-        // Ironic's root state, used to resolve global resources before
-        // the application fully initializes.
-        $stateProvider
-            .state('ironic', {
-                url: '/ironic',
-                views: {
-                    '@': {
-                        controller: 'ApplicationController',
-                        templateUrl: 'view/ironic/index.html'
-                    }
-                },
-                resolve: {
-                    selectedConfiguration: function ($$configuration) {
-                        return $$configuration.resolveSelected();
-                    },
-                    /**
-                     * Warning! This hack is in place to ensure that the
-                     * selectedConfiguration - which asserts that at least one
-                     * configuration exists, executes before the below
-                     * configuration.
-                     */
-                    configuration: function (selectedConfiguration,
-                                             $$configuration) {
-                        return $$configuration.resolveAll();
-                    }
-                }
-            })
-            .state('config', {
-                url: '/config',
-                templateUrl: 'view/ironic/config.html',
-                controller: 'ConfigurationController',
-                resolve: {
-                    defaultConfiguration: function ($$defaultConfiguration) {
-                        return $$defaultConfiguration;
-                    },
-                    localConfig: function ($$configuration) {
-                        return $$configuration.resolveLocal();
-                    },
-                    autoConfig: function ($$configuration) {
-                        return $$configuration.resolveAutodetection();
-                    },
-                    fileConfig: function ($$configuration) {
-                        return $$configuration.resolveConfigured();
-                    }
-                }
-            });
+    // Ironic's root state, used to resolve global resources before
+    // the application fully initializes.
+    $stateProvider
+      .state('ironic', {
+        'url': '/ironic',
+        'views': {
+          '@': {
+            'controller': 'ApplicationController as appCtrl',
+            'templateUrl': 'view/ironic/index.html'
+          }
+        },
+        'resolve': {
+          'selectedConfiguration': function ($$configuration) {
+            return $$configuration.resolveSelected();
+          },
+          // Warning! This hack is in place to ensure that the
+          // selectedConfiguration - which asserts that at least one
+          // configuration exists, executes before the below
+          // configuration.
+          'configuration': function (selectedConfiguration, $$configuration) {
+            return $$configuration.resolveAll();
+          }
+        }
+      })
+      .state('config', {
+        'url': '/config',
+        'templateUrl': 'view/ironic/config.html',
+        'controller': 'ConfigurationController as ctrl',
+        'resolve': {
+          'defaultConfiguration': function ($$defaultConfiguration) {
+            return $$defaultConfiguration;
+          },
+          'localConfig': function ($$configuration) {
+            return $$configuration.resolveLocal();
+          },
+          'autoConfig': function ($$configuration) {
+            return $$configuration.resolveAutodetection();
+          },
+          'fileConfig': function ($$configuration) {
+            return $$configuration.resolveConfigured();
+          }
+        }
+      });
 
-        // Attach common request headers out of courtesy to the API
-        $httpProvider.defaults.headers.common['X-Client'] = 'ironic-webclient';
-    })
-    .run(function ($rootScope, $state) {
-        'use strict';
+    // Attach common request headers out of courtesy to the API
+    $httpProvider.defaults.headers.common['X-Client'] = 'ironic-webclient';
+  })
+  .run(function ($rootScope, $state) {
+    'use strict';
 
-        $rootScope.$on('$stateChangeError',
-            function () {
-                $state.go('ironic');
-            });
-    });
+    var listener = $rootScope.$on('$stateChangeError',
+      function () {
+        $state.go('ironic');
+      });
+    $rootScope.$on('$destroy', listener);
+  });

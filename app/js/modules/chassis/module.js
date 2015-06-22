@@ -18,23 +18,23 @@
  * Chassis handling for the Ironic UI.
  */
 angular.module('ironic.chassis', ['ui.router', 'ui.bootstrap', 'ironic.api'])
-    .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
-        'use strict';
+  .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
+    'use strict';
 
-        $stateProvider
-            .state('ironic.chassis', {
-                url: '/chassis',
-                views: {
-                    'main': {
-                        templateUrl: 'view/chassis/index.html',
-                        controller: 'ChassisListController'
-                    }
-                }
-            });
-    })
-    .controller('ChassisListController', function ($scope, IronicChassis) {
-        'use strict';
-
-        $scope.chassis = IronicChassis.query({});
-    });
+    $stateProvider
+      .state('ironic.chassis', {
+        'url': '/chassis',
+        'views': {
+          'main': {
+            'templateUrl': 'view/chassis/index.html',
+            'controller': 'ChassisListController as ctrl'
+          }
+        }
+      });
+  })
+  .controller('ChassisListController', function ($scope, IronicChassis) {
+    'use strict';
+    var vm = this;
+    vm.chassis = IronicChassis.query({});
+  });
 

@@ -1,44 +1,44 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12">
-            <h1>Ports</h1>
-        </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>Ports</h1>
     </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <table class="table table-condensed table-striped">
-                <thead>
-                <tr>
-                    <th>UUID</th>
-                    <th>Address</th>
-                </tr>
-                </thead>
-                <tbody ng-if="ports.$resolved && ports.length > 0">
-                <tr ng-repeat="port in ports">
-                    <td>
-                        <a href="#/ironic/ports/{{port.uuid}}">
-                            {{port.uuid}}
-                        </a>
-                    </td>
-                    <td>{{port.address}}</td>
-                </tr>
-                </tbody>
-                <tbody ng-if="ports.$resolved && ports.length == 0">
-                <tr>
-                    <td colspan="2" class="text-center text-muted">
-                        <small><em>No ports were found.</em></small>
-                    </td>
-                </tr>
-                </tbody>
-                <tbody ng-if="!ports.$resolved">
-                <tr>
-                    <td colspan="2" class="text-center text-muted">
-                        <i class="fa fa-refresh fa-spin"></i>
-                        Loading ports...
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <table class="table table-condensed table-striped">
+        <thead>
+        <tr>
+          <th>UUID</th>
+          <th>Address</th>
+        </tr>
+        </thead>
+        <tbody ng-if="ctrl.ports.$resolved && ctrl.ports.length > 0">
+        <tr ng-repeat="port in ctrl.ports">
+          <td>
+            <a href="#/ironic/ports/{{port.uuid}}">
+              {{port.uuid}}
+            </a>
+          </td>
+          <td>{{port.address}}</td>
+        </tr>
+        </tbody>
+        <tbody ng-if="ctrl.ports.$resolved && ctrl.ports.length == 0">
+        <tr>
+          <td colspan="2" class="text-center text-muted">
+            <small><em>No ports were found.</em></small>
+          </td>
+        </tr>
+        </tbody>
+        <tbody ng-if="!ctrl.ports.$resolved">
+        <tr>
+          <td colspan="2" class="text-center text-muted">
+            <i class="fa fa-refresh fa-spin"></i>
+            Loading ports...
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>

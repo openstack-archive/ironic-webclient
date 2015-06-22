@@ -18,22 +18,22 @@
  * Driver handling for the Ironic UI.
  */
 angular.module('ironic.drivers', ['ui.router', 'ui.bootstrap'])
-    .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
-        'use strict';
+  .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
+    'use strict';
 
-        $stateProvider
-            .state('ironic.drivers', {
-                url: '/drivers',
-                views: {
-                    'main': {
-                        templateUrl: 'view/drivers/index.html',
-                        controller: 'DriverListController'
-                    }
-                }
-            });
-    })
-    .controller('DriverListController', function ($scope, IronicDriver) {
-        'use strict';
-
-        $scope.drivers = IronicDriver.query({});
-    });
+    $stateProvider
+      .state('ironic.drivers', {
+        'url': '/drivers',
+        'views': {
+          'main': {
+            'templateUrl': 'view/drivers/index.html',
+            'controller': 'DriverListController as ctrl'
+          }
+        }
+      });
+  })
+  .controller('DriverListController', function ($scope, IronicDriver) {
+    'use strict';
+    var vm = this;
+    vm.drivers = IronicDriver.query({});
+  });

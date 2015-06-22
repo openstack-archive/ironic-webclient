@@ -18,38 +18,39 @@
  * This controller allows the management of all the cloud configuration entries.
  */
 angular.module('ironic').controller('ConfigurationController',
-    function ($scope, $state, $location, defaultConfiguration,
-              $$configuration, localConfig, autoConfig,
-              fileConfig) {
-        'use strict';
+  function ($state, $location, defaultConfiguration,
+            $$configuration, localConfig, autoConfig,
+            fileConfig) {
+    'use strict';
+    var vm = this;
 
-        $scope.hasConfig =
-            localConfig.length + autoConfig.length + fileConfig.length > 0;
+    vm.hasConfig =
+      localConfig.length + autoConfig.length + fileConfig.length > 0;
 
-        $scope.localConfig = localConfig;
-        $scope.autoConfig = autoConfig;
-        $scope.fileConfig = fileConfig;
+    vm.localConfig = localConfig;
+    vm.autoConfig = autoConfig;
+    vm.fileConfig = fileConfig;
 
-        $scope.location = {
-            'host': $location.host(),
-            'protocol': $location.protocol(),
-            'port': $location.port()
-        };
+    vm.location = {
+      'host': $location.host(),
+      'protocol': $location.protocol(),
+      'port': $location.port()
+    };
 
-        $scope.add = function () {
-            $$configuration.add().then(
-                function () {
-                    $$configuration.resolveLocal().then(function (configs) {
-                        $scope.localConfig = configs;
-                    });
-                }
-            );
-        };
+    vm.add = function () {
+      $$configuration.add().then(
+        function () {
+          $$configuration.resolveLocal().then(function (configs) {
+            vm.localConfig = configs;
+          });
+        }
+      );
+    };
 
-        $scope.remove = function (config) {
-            $$configuration.remove(config);
-            $$configuration.resolveLocal().then(function (configs) {
-                $scope.localConfig = configs;
-            });
-        };
-    });
+    vm.remove = function (config) {
+      $$configuration.remove(config);
+      $$configuration.resolveLocal().then(function (configs) {
+        vm.localConfig = configs;
+      });
+    };
+  });

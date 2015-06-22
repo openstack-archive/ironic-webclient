@@ -22,119 +22,120 @@
  * configuration parameters.
  */
 angular.module('openstack').provider('$$resourceFactory',
-    function () {
-        'use strict';
+  function () {
+    'use strict';
+
+    /**
+     * Cache of all the factories.
+     *
+     * @type {{}}
+     */
+    var serviceFactoryCache = {};
+
+    /**
+     * Cache of all the constructed services by configName.
+     *
+     * @type {{}}
+     */
+    var apiCache = {};
+
+    /**
+     * Add a service factory for a given openstack service to the central
+     * service factory. For each service, it will have its $build method
+     * invoked with a specific global configuration object, and the name of
+     * the resource that was requested.
+     *
+     * @param {String} serviceName The name of the service.
+     * @param {Function} factory The factory implementation. Must be callable.
+     * @returns {void}
+     */
+    this.$addServiceFactory = function (serviceName, factory) {
+      serviceFactoryCache[serviceName] = factory;
+    };
+
+    /**
+     * The factory's provider. Creates a singleton instance of the
+     * $$resourceFactory service that permits the creation of different
+     * API's.
+     *
+     * @param {*} $$configuration Injected configuration service.
+     * @param {*} $log Injected log abstraction.
+     * @param {*} $injector Injected injector.
+     * @returns {{build: Function}} The constructed service.
+     */
+    this.$get = function resourceFactoryProvider ($$configuration, $log,
+                                                  $injector) {
+
+      /**
+       * Get the cache of services available for a specific API root.
+       *
+       * @param {String} baseUri The root URI for the service cache.
+       * @returns {*} The in-memory service cache.
+       */
+      function getServiceCache (baseUri) {
+        if (!apiCache.hasOwnProperty(baseUri)) {
+          apiCache[baseUri] = {};
+        }
+        return apiCache[baseUri];
+      }
+
+      /**
+       * An internal resource factory, that builds ngResource instances in
+       * accordance to the provided configuration.
+       *
+       * @param {String} serviceName A unique key under which this resource should be cached.
+       * @param {String} baseUri The API's Base URI.
+       * @param {String} resourceName The name of the resource to construct.
+       * @returns {*} A constructed service.
+       */
+      function resourceFactory (serviceName, baseUri, resourceName) {
+
+        // Get the appropriate resource factory.
+        if (!serviceFactoryCache.hasOwnProperty(serviceName)) {
+          $log.error('No resource factory for service [' +
+            serviceName + '] was registered. Did you import the ' +
+            'library?');
+        }
 
         /**
-         * Cache of all the factories.
-         *
-         * @type {{}}
+         * Build the service.
          */
-        var serviceFactoryCache = {};
+        var factoryBuilder = serviceFactoryCache[serviceName];
+        var factory = $injector.invoke(factoryBuilder);
+        return factory(baseUri, resourceName);
+      }
 
+      /**
+       * Retrieve a specific resource for a given service in a given
+       * configuration scope.
+       *
+       * @param {String} serviceName The name of the service. e.g. 'ironic'.
+       * @param {String} resourceName The name of the root resource. e.g. 'chassis'
+       * @returns {*} The constructed service.
+       */
+      function getService (serviceName, resourceName) {
+        var baseUri = $$configuration.getApiBase(serviceName);
+        var cache = getServiceCache(baseUri);
+
+        if (!cache.hasOwnProperty(resourceName)) {
+          cache[resourceName] =
+            resourceFactory(serviceName, baseUri, resourceName);
+        }
+        return cache[resourceName];
+      }
+
+      return {
         /**
-         * Cache of all the constructed services by configName.
+         * Return an instance of a service for the given configuration
+         * name, service name, and resource name.
          *
-         * @type {{}}
+         * @param {String} serviceName The name of the service in the configuration.
+         * @param {String} resourceName The name of the resource to construct.
+         * @returns {*} A singleton instance of the service.
          */
-        var apiCache = {};
-
-        /**
-         * Add a service factory for a given openstack service to the central
-         * service factory. For each service, it will have its $build method
-         * invoked with a specific global configuration object, and the name of
-         * the resource that was requested.
-         *
-         * @param serviceName The name of the service.
-         * @param factory The factory implementation. Must be callable.
-         */
-        this.$addServiceFactory = function (serviceName, factory) {
-            serviceFactoryCache[serviceName] = factory;
-        };
-
-        /**
-         * The factory's provider. Creates a singleton instance of the
-         * $$resourceFactory service that permits the creation of different
-         * API's.
-         *
-         * @param $$configuration Injected configuration service.
-         * @param $log Injected log abstraction.
-         * @param $log Injected injector.
-         * @returns {{build: Function}}
-         */
-        this.$get = function resourceFactoryProvider($$configuration, $log,
-                                                     $injector) {
-
-            /**
-             * Get the cache of services available for a specific API root.
-             *
-             * @param baseUri The root URI for the service cache.
-             * @returns {*}
-             */
-            function getServiceCache(baseUri) {
-                if (!apiCache.hasOwnProperty(baseUri)) {
-                    apiCache[baseUri] = {};
-                }
-                return apiCache[baseUri];
-            }
-
-            /**
-             * An internal resource factory, that builds ngResource instances in
-             * accordance to the provided configuration.
-             *
-             * @param serviceName
-             * @param baseUri
-             * @param resourceName
-             * @returns {*}
-             */
-            function resourceFactory(serviceName, baseUri, resourceName) {
-
-                // Get the appropriate resource factory.
-                if (!serviceFactoryCache.hasOwnProperty(serviceName)) {
-                    $log.error('No resource factory for service [' +
-                    serviceName + '] was registered. Did you import the ' +
-                    'library?');
-                }
-
-                /**
-                 * Build the service.
-                 */
-                var factoryBuilder = serviceFactoryCache[serviceName];
-                var factory = $injector.invoke(factoryBuilder);
-                return factory(baseUri, resourceName);
-            }
-
-            /**
-             * Retrieve a specific resource for a given service in a given
-             * configuration scope.
-             *
-             * @param serviceName The name of the service. e.g. 'ironic'.
-             * @param resourceName The name of the root resource. e.g. 'chassis'
-             */
-            function getService(serviceName, resourceName) {
-                var baseUri = $$configuration.getApiBase(serviceName);
-                var cache = getServiceCache(baseUri);
-
-                if (!cache.hasOwnProperty(resourceName)) {
-                    cache[resourceName] =
-                        resourceFactory(serviceName, baseUri, resourceName);
-                }
-                return cache[resourceName];
-            }
-
-            return {
-                /**
-                 * Return an instance of a service for the given configuration
-                 * name, service name, and resource name.
-                 *
-                 * @param configName
-                 * @param serviceName
-                 * @param resourceName
-                 * @returns {*}
-                 */
-                'build': function (serviceName, resourceName) {
-                    return getService(serviceName, resourceName);
-                }
-            };
-        };
-    });
+        'build': function (serviceName, resourceName) {
+          return getService(serviceName, resourceName);
+        }
+      };
+    };
+  });

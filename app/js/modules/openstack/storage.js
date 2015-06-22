@@ -28,145 +28,140 @@
  * warning to the console.
  */
 angular.module('openstack').factory('$$sessionStorage',
-    function ($$memoryStorage, $window, $log) {
-        'use strict';
+  function ($$memoryStorage, $window, $log) {
+    'use strict';
 
-        /**
-         * Detect whether sessionStorage is supported, and make sure we can
-         * write to it.
-         */
-        var isSupported = (function () {
-            var type = 'sessionStorage';
+    /**
+     * Detect whether sessionStorage is supported, and make sure we can
+     * write to it.
+     */
+    var isSupported = (function () {
+      var type = 'sessionStorage';
 
-            // Does it exist?
-            if (!(type in $window || $window[type] === null)) {
-                return false;
-            }
+      // Does it exist?
+      if (!(type in $window || $window[type] === null)) {
+        return false;
+      }
 
-            // Can we write to it?
-            var testKey = '__' + Math.round(Math.random() * 1e7);
-            var storageImpl = $window[type];
-            try {
-                storageImpl.setItem(testKey, '');
-                storageImpl.removeItem(testKey);
-                return true;
-            } catch (e) {
-                return false;
-            }
-        })();
+      // Can we write to it?
+      var testKey = '__' + Math.round(Math.random() * 1e7);
+      var storageImpl = $window[type];
+      try {
+        storageImpl.setItem(testKey, '');
+        storageImpl.removeItem(testKey);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    })();
 
-        return {
-            /**
-             * Is this storage type supported?
-             *
-             * @returns {boolean}
-             */
-            isSupported: function () {
-                return isSupported;
-            },
+    return {
 
-            /**
-             * Set a value of the provided key. If the
-             * value already exists it will be overwritten.
-             *
-             * @param key The key to store the value at.
-             * @param value The value to store.
-             * @return The stored value.
-             */
-            set: function (key, value) {
-                if (isSupported) {
-                    $window.sessionStorage.setItem(key, value);
-                } else {
-                    $log.warn('$$sessionStorage not supported, ' +
-                    'using $$memoryStorage');
-                    $$memoryStorage.set(key, value);
-                }
+      /**
+       * Is this storage type supported?
+       *
+       * @returns {boolean} True if it is supported, otherwise false.
+       */
+      'isSupported': function () {
+        return isSupported;
+      },
 
-                return value;
-            },
+      /**
+       * Set a value of the provided key. If the
+       * value already exists it will be overwritten.
+       *
+       * @param {String} key The key to store the value at.
+       * @param {*} value The value to store.
+       * @return {*} The stored value.
+       */
+      'set': function (key, value) {
+        if (isSupported) {
+          $window.sessionStorage.setItem(key, value);
+        } else {
+          $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+          $$memoryStorage.set(key, value);
+        }
 
-            /**
-             * Retrieve a value from this storage provider.
-             *
-             * @param key The key to retrieve.
-             * @return The value, or null if it is not set.
-             */
-            get: function (key) {
-                if (isSupported) {
-                    return $window.sessionStorage.getItem(key);
-                } else {
-                    $log.warn('$$sessionStorage not supported, ' +
-                    'using $$memoryStorage');
-                    return $$memoryStorage.get(key);
-                }
-            },
+        return value;
+      },
 
-            /**
-             * Remove a specific value from the storage provider.
-             *
-             * @param key The key to remove.
-             */
-            remove: function (key) {
-                if (isSupported) {
-                    return $window.sessionStorage.removeItem(key);
-                } else {
-                    $log.warn('$$sessionStorage not supported, ' +
-                    'using $$memoryStorage');
-                    return $$memoryStorage.remove(key);
-                }
-            },
+      /**
+       * Retrieve a value from this storage provider.
+       *
+       * @param {String} key The key to retrieve.
+       * @return {*} The value, or null if it is not set.
+       */
+      'get': function (key) {
+        if (isSupported) {
+          return $window.sessionStorage.getItem(key);
+        }
 
-            /**
-             * Return all the keys currently registered.
-             *
-             * @returns {Array}
-             */
-            keys: function () {
-                if (isSupported) {
-                    var keys = [];
-                    for (var i = 0; i < $window.sessionStorage.length; i++) {
-                        keys.push($window.sessionStorage.key(i));
-                    }
-                    return keys;
-                } else {
-                    $log.warn('$$sessionStorage not supported, ' +
-                    'using $$memoryStorage');
-                    return $$memoryStorage.keys();
-                }
-            },
+        $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+        return $$memoryStorage.get(key);
+      },
 
-            /**
-             * Remove everything from the memory storage mechanism.
-             */
-            clearAll: function () {
-                if (isSupported) {
-                    var keys = this.keys();
-                    for (var i = 0; i < keys.length; i++) {
-                        this.remove(keys[i]);
-                    }
-                } else {
-                    $log.warn('$$sessionStorage not supported, ' +
-                    'using $$memoryStorage');
-                    return $$memoryStorage.keys();
-                }
-            },
+      /**
+       * Remove a specific value from the storage provider.
+       *
+       * @param {String} key The key to remove.
+       * @returns {void}
+       */
+      'remove': function (key) {
+        if (isSupported) {
+          return $window.sessionStorage.removeItem(key);
+        }
+        $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+        return $$memoryStorage.remove(key);
+      },
 
-            /**
-             * Return the size of the current memory storage.
-             *
-             * @returns {number}
-             */
-            length: function () {
-                if (isSupported) {
-                    return $window.sessionStorage.length;
-                } else {
-                    $log.warn('$$sessionStorage not supported, ' +
-                    'using $$memoryStorage');
-                    return $$memoryStorage.length();
-                }
-            }
-        };
-    });
+      /**
+       * Return all the keys currently registered.
+       *
+       * @returns {Array} An array of all registered keys.
+       */
+      'keys': function () {
+        if (isSupported) {
+          var keys = [];
+          for (var i = 0; i < $window.sessionStorage.length; i++) {
+            keys.push($window.sessionStorage.key(i));
+          }
+          return keys;
+        }
+        $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+        return $$memoryStorage.keys();
+      },
+
+      /**
+       * Remove everything from the memory storage mechanism.
+       *
+       * @returns {void}
+       */
+      'clearAll': function () {
+        if (isSupported) {
+          var keys = this.keys();
+          for (var i = 0; i < keys.length; i++) {
+            this.remove(keys[i]);
+          }
+        } else {
+          $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+          return $$memoryStorage.keys();
+        }
+      },
+
+      /**
+       * Return the size of the current memory storage.
+       *
+       * @returns {number} The number of keys in storage.
+       */
+      'length': function () {
+        if (isSupported) {
+          return $window.sessionStorage.length;
+        }
+        $log.warn('$$sessionStorage not supported, using $$memoryStorage');
+        return $$memoryStorage.length();
+      }
+    };
+  });
 
 /**
  * A $$localStorage service behind a common API. If localStorage is not
@@ -175,145 +170,146 @@ angular.module('openstack').factory('$$sessionStorage',
  * $$persistentStorage.
  */
 angular.module('openstack').factory('$$localStorage',
-    function ($$memoryStorage, $window, $log) {
-        'use strict';
+  function ($$memoryStorage, $window, $log) {
+    'use strict';
 
-        /**
-         * Detect whether localStorage is supported, and make sure we can write
-         * to it.
-         */
-        var isSupported = (function () {
-            var type = 'localStorage';
+    /**
+     * Detect whether localStorage is supported, and make sure we can write
+     * to it.
+     */
+    var isSupported = (function () {
+      var type = 'localStorage';
 
-            // Does it exist?
-            if (!(type in $window || $window[type] === null)) {
-                return false;
-            }
+      // Does it exist?
+      if (!(type in $window || $window[type] === null)) {
+        return false;
+      }
 
-            // Can we write to it?
-            var testKey = '__' + Math.round(Math.random() * 1e7);
-            var storageImpl = $window[type];
-            try {
-                storageImpl.setItem(testKey, '');
-                storageImpl.removeItem(testKey);
-                return true;
-            } catch (e) {
-                return false;
-            }
-        })();
+      // Can we write to it?
+      var testKey = '__' + Math.round(Math.random() * 1e7);
+      var storageImpl = $window[type];
+      try {
+        storageImpl.setItem(testKey, '');
+        storageImpl.removeItem(testKey);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    })();
 
-        return {
-            /**
-             * Is this storage type supported?
-             *
-             * @returns {boolean}
-             */
-            isSupported: function () {
-                return isSupported;
-            },
+    return {
 
-            /**
-             * Set a value of the provided key. If the
-             * value already exists it will be overwritten.
-             *
-             * @param key The key to store the value at.
-             * @param value The value to store.
-             * @return The stored value.
-             */
-            set: function (key, value) {
-                if (isSupported) {
-                    $window.localStorage.setItem(key, value);
-                } else {
-                    $log.warn('$$localStorage not supported, ' +
-                    'using $$memoryStorage');
-                    $$memoryStorage.set(key, value);
-                }
+      /**
+       * Is this storage type supported?
+       *
+       * @returns {boolean} True if it is supported, otherwise false.
+       */
+      'isSupported': function () {
+        return isSupported;
+      },
 
-                return value;
-            },
+      /**
+       * Set a value of the provided key. If the
+       * value already exists it will be overwritten.
+       *
+       * @param {String} key The key to store the value at.
+       * @param {*} value The value to store.
+       * @return {*} The stored value.
+       */
+      'set': function (key, value) {
+        if (isSupported) {
+          $window.localStorage.setItem(key, value);
+        } else {
+          $log.warn('$$localStorage not supported, ' +
+            'using $$memoryStorage');
+          $$memoryStorage.set(key, value);
+        }
 
-            /**
-             * Retrieve a value from this storage provider.
-             *
-             * @param key The key to retrieve.
-             * @return The value, or null if it is not set.
-             */
-            get: function (key) {
-                if (isSupported) {
-                    return $window.localStorage.getItem(key);
-                } else {
-                    $log.warn('$$localStorage not supported, ' +
-                    'using $$memoryStorage');
-                    return $$memoryStorage.get(key);
-                }
-            },
+        return value;
+      },
 
-            /**
-             * Remove a specific value from the storage provider.
-             *
-             * @param key The key to remove.
-             */
-            remove: function (key) {
-                if (isSupported) {
-                    return $window.localStorage.removeItem(key);
-                } else {
-                    $log.warn('$$localStorage not supported, ' +
-                    'using $$memoryStorage');
-                    return $$memoryStorage.remove(key);
-                }
-            },
+      /**
+       * Retrieve a value from this storage provider.
+       *
+       * @param {String} key The key to retrieve.
+       * @return {*} The value, or null if it is not set.
+       */
+      'get': function (key) {
+        if (isSupported) {
+          return $window.localStorage.getItem(key);
+        }
+        $log.warn('$$localStorage not supported, ' +
+          'using $$memoryStorage');
+        return $$memoryStorage.get(key);
 
-            /**
-             * Return all the keys currently registered.
-             *
-             * @returns {Array}
-             */
-            keys: function () {
-                if (isSupported) {
-                    var keys = [];
-                    for (var i = 0; i < $window.localStorage.length; i++) {
-                        keys.push($window.localStorage.key(i));
-                    }
-                    return keys;
-                } else {
-                    $log.warn('$$localStorage not supported, ' +
-                    'using $$memoryStorage');
-                    return $$memoryStorage.keys();
-                }
-            },
+      },
 
-            /**
-             * Remove everything from the memory storage mechanism.
-             */
-            clearAll: function () {
-                if (isSupported) {
-                    var keys = this.keys();
-                    for (var i = 0; i < keys.length; i++) {
-                        this.remove(keys[i]);
-                    }
-                } else {
-                    $log.warn('$$localStorage not supported, ' +
-                    'using $$memoryStorage');
-                    return $$memoryStorage.keys();
-                }
-            },
+      /**
+       * Remove a specific value from the storage provider.
+       *
+       * @param {String} key The key to remove.
+       * @returns {void}
+       */
+      'remove': function (key) {
+        if (isSupported) {
+          return $window.localStorage.removeItem(key);
+        }
+        $log.warn('$$localStorage not supported, ' +
+          'using $$memoryStorage');
+        return $$memoryStorage.remove(key);
+      },
 
-            /**
-             * Return the size of the current memory storage.
-             *
-             * @returns {number}
-             */
-            length: function () {
-                if (isSupported) {
-                    return $window.localStorage.length;
-                } else {
-                    $log.warn('$$localStorage not supported, ' +
-                    'using $$memoryStorage');
-                    return $$memoryStorage.length();
-                }
-            }
-        };
-    });
+      /**
+       * Return all the keys currently registered.
+       *
+       * @returns {Array} An array of all registered keys.
+       */
+      'keys': function () {
+        if (isSupported) {
+          var keys = [];
+          for (var i = 0; i < $window.localStorage.length; i++) {
+            keys.push($window.localStorage.key(i));
+          }
+          return keys;
+        }
+        $log.warn('$$localStorage not supported, ' +
+          'using $$memoryStorage');
+        return $$memoryStorage.keys();
+      },
+
+      /**
+       * Remove everything from the memory storage mechanism.
+       *
+       * @returns {void}
+       */
+      'clearAll': function () {
+        if (isSupported) {
+          var keys = this.keys();
+          for (var i = 0; i < keys.length; i++) {
+            this.remove(keys[i]);
+          }
+        } else {
+          $log.warn('$$localStorage not supported, ' +
+            'using $$memoryStorage');
+          return $$memoryStorage.keys();
+        }
+      },
+
+      /**
+       * Return the size of the current memory storage.
+       *
+       * @returns {number} The number of keys in storage.
+       */
+      'length': function () {
+        if (isSupported) {
+          return $window.localStorage.length;
+        }
+        $log.warn('$$localStorage not supported, ' +
+          'using $$memoryStorage');
+        return $$memoryStorage.length();
+      }
+    };
+  });
 
 /**
  * This file provides the $$secureStorage service behind a common API. If
@@ -322,12 +318,11 @@ angular.module('openstack').factory('$$localStorage',
  * that gracefully degrades, use $$persistentStorage.
  */
 angular.module('openstack').factory('$$secureStorage',
-    function ($storageFactory) {
-        'use strict';
+  function ($storageFactory) {
+    'use strict';
 
-        return $storageFactory.$get('secureStorage');
-    });
-
+    return $storageFactory.$get('secureStorage');
+  });
 
 /**
  * This provides a memory-based key/value storage mechanism. It's provided as
@@ -335,94 +330,102 @@ angular.module('openstack').factory('$$secureStorage',
  * runtime failures.
  */
 angular.module('openstack').factory('$$memoryStorage',
-    function () {
-        'use strict';
+  function () {
+    'use strict';
 
-        var memoryStorage = {};
+    var memoryStorage = {};
 
-        return {
-            /**
-             * Is this storage type supported?
-             *
-             * @returns {boolean}
-             */
-            isSupported: function () {
-                return true;
-            },
+    return {
 
-            /**
-             * Set a value to the provided key in memory storage. If the
-             * value already exists it will be overwritten.
-             *
-             * @param key The key to store the value at.
-             * @param value The value to store.
-             * @return The stored value.
-             */
-            set: function (key, value) {
-                memoryStorage[key] = value;
+      /**
+       * Is this storage type supported?
+       *
+       * @returns {boolean} True if it is supported, otherwise false.
+       */
+      'isSupported': function () {
+        return true;
+      },
 
-                return value;
-            },
+      /**
+       * Set a value to the provided key in memory storage. If the
+       * value already exists it will be overwritten.
+       *
+       * @param {String} key The key to store the value at.
+       * @param {*} value The value to store.
+       * @return {*} The stored value.
+       */
+      'set': function (key, value) {
+        memoryStorage[key] = value;
 
-            /**
-             * Retrieve a value from this storage provider.
-             *
-             * @param key The key to retrieve.
-             * @return The value, or null if it is not set.
-             */
-            get: function (key) {
-                if (memoryStorage.hasOwnProperty(key)) {
-                    return memoryStorage[key];
-                }
-                return null;
-            },
+        return value;
+      },
 
-            /**
-             * Remove a specific value from the storage provider.
-             *
-             * @param key The key to remove.
-             */
-            remove: function (key) {
-                delete memoryStorage[key];
-            },
+      /**
+       * Retrieve a value from this storage provider.
+       *
+       * @param {String} key The key to retrieve.
+       * @return {*} The value, or null if it is not set.
+       */
+      'get': function (key) {
+        if (memoryStorage.hasOwnProperty(key)) {
+          return memoryStorage[key];
+        }
+        return null;
+      },
 
-            /**
-             * Return all the keys currently registered.
-             *
-             * @returns {Array}
-             */
-            keys: function () {
-                var keys = [];
-                for (var key in memoryStorage) {
-                    keys.push(key);
-                }
-                return keys;
-            },
+      /**
+       * Remove a specific value from the storage provider.
+       *
+       * @param {String} key The key to remove.
+       * @returns {void}
+       */
+      'remove': function (key) {
+        delete memoryStorage[key];
+      },
 
-            /**
-             * Remove everything from the memory storage mechanism.
-             */
-            clearAll: function () {
-                var keys = [];
-                for (var key in memoryStorage) {
-                    keys.push(key);
-                }
+      /**
+       * Return all the keys currently registered.
+       *
+       * @returns {Array} An array of all registered keys.
+       */
+      'keys': function () {
+        var keys = [];
+        /*eslint-disable guard-for-in*/
+        for (var key in memoryStorage) {
+          keys.push(key);
+        }
+        /*eslint-enable guard-for-in*/
+        return keys;
+      },
 
-                for (var i = 0; i < keys.length; i++) {
-                    delete memoryStorage[keys[i]];
-                }
-            },
+      /**
+       * Remove everything from the memory storage mechanism.
+       *
+       * @returns {void}
+       */
+      'clearAll': function () {
+        var keys = [];
+        /*eslint-disable guard-for-in*/
+        for (var key in memoryStorage) {
+          keys.push(key);
+        }
+        /*eslint-enable guard-for-in*/
 
-            /**
-             * Return the size of the current memory storage.
-             *
-             * @returns {number}
-             */
-            length: function () {
-                return this.keys().length;
-            }
-        };
-    });
+        for (var i = 0; i < keys.length; i++) {
+          delete memoryStorage[keys[i]];
+        }
+      },
+
+      /**
+       * Return the size of the current memory storage.
+       *
+       * @returns {number} The number of keys in storage.
+       */
+      'length': function () {
+        return this.keys().length;
+      }
+    };
+  });
 
 /**
  * This file provides an implementation of the storage API, backed by cookies.
@@ -431,85 +434,93 @@ angular.module('openstack').factory('$$memoryStorage',
  * grant access to all values stored this way.
  */
 angular.module('openstack').factory('$$cookieStorage',
-    function ($cookies) {
-        'use strict';
+  function ($cookies) {
+    'use strict';
 
-        return {
-            /**
-             * Is this storage type supported?
-             *
-             * @returns {boolean}
-             */
-            isSupported: function () {
-                return true;
-            },
+    return {
 
-            /**
-             * Set a value to the provided key in memory storage. If the
-             * value already exists it will be overwritten.
-             *
-             * @param key The key to store the value at.
-             * @param value The value to store.
-             * @return The stored value.
-             */
-            set: function (key, value) {
-                $cookies.put(key, value);
-                return value;
-            },
+      /**
+       * Is this storage type supported?
+       *
+       * @returns {boolean} True if it is supported, otherwise false.
+       */
+      'isSupported': function () {
+        return true;
+      },
 
-            /**
-             * Retrieve a value from this storage provider.
-             *
-             * @param key The key to retrieve.
-             * @return The value, or null if it is not set.
-             */
-            get: function (key) {
-                return $cookies.get(key) || null;
-            },
+      /**
+       * Set a value to the provided key in memory storage. If the
+       * value already exists it will be overwritten.
+       *
+       * @param {String} key The key to store the value at.
+       * @param {*} value The value to store.
+       * @return {*} The stored value.
+       */
+      'set': function (key, value) {
+        $cookies.put(key, value);
+        return value;
+      },
 
-            /**
-             * Remove a specific value from the storage provider.
-             *
-             * @param key The key to remove.
-             */
-            remove: function (key) {
-                $cookies.remove(key);
-            },
+      /**
+       * Retrieve a value from this storage provider.
+       *
+       * @param {String} key The key to retrieve.
+       * @return {*|null} The value, or null if it is not set.
+       */
+      'get': function (key) {
+        return $cookies.get(key) || null;
+      },
 
-            /**
-             * Return all the keys currently registered.
-             *
-             * @returns {Array}
-             */
-            keys: function () {
-                var all = $cookies.getAll();
-                var keys = [];
-                for (var key in all) {
-                    keys.push(key);
-                }
-                return keys;
-            },
+      /**
+       * Remove a specific value from the storage provider.
+       *
+       * @param {String} key The key to remove.
+       * @returns {void}
+       */
+      'remove': function (key) {
+        $cookies.remove(key);
+      },
 
-            /**
-             * Remove everything from the memory storage mechanism.
-             */
-            clearAll: function () {
-                var all = $cookies.getAll();
-                for (var key in all) {
-                    $cookies.remove(key);
-                }
-            },
+      /**
+       * Return all the keys currently registered.
+       *
+       * @returns {Array} An array of all registered keys.
+       */
+      'keys': function () {
+        var all = $cookies.getAll();
+        var keys = [];
+        /*eslint-disable guard-for-in*/
+        for (var key in all) {
+          keys.push(key);
+        }
+        /*eslint-enable guard-for-in*/
+        return keys;
+      },
 
-            /**
-             * Return the size of the current memory storage.
-             *
-             * @returns {number}
-             */
-            length: function () {
-                return this.keys().length;
-            }
-        };
-    });
+      /**
+       * Remove everything from the memory storage mechanism.
+       *
+       * @returns {void}
+       */
+      'clearAll': function () {
+        var all = $cookies.getAll();
+        /*eslint-disable guard-for-in*/
+        for (var key in all) {
+          $cookies.remove(key);
+        }
+        /*eslint-enable guard-for-in*/
+      },
+
+      /**
+       * Return the size of the current memory storage.
+       *
+       * @returns {number} The number of keys in storage.
+       */
+      'length': function () {
+        return this.keys().length;
+      }
+    };
+  });
 
 /**
  * A convenience injector that automatically selects the most secure, and most
@@ -517,20 +528,19 @@ angular.module('openstack').factory('$$cookieStorage',
  * not include sessionStorage, which must be used independently.
  */
 angular.module('openstack').factory('$$persistentStorage',
-    function ($log, $$cookieStorage, $$memoryStorage, $$localStorage) {
-        'use strict';
+  function ($log, $$cookieStorage, $$memoryStorage, $$localStorage) {
+    'use strict';
 
-        // Check for local storage.
-        if ($$localStorage.isSupported()) {
-            return $$localStorage;
-        }
+    // Check for local storage.
+    if ($$localStorage.isSupported()) {
+      return $$localStorage;
+    }
 
-        // Check for cookie storage.
-        if ($$cookieStorage.isSupported()) {
-            return $$cookieStorage;
-        }
+    // Check for cookie storage.
+    if ($$cookieStorage.isSupported()) {
+      return $$cookieStorage;
+    }
 
-        $log.warn('Warning: No persistent storage mechanism supported, all' +
-        ' storage will be transient.');
-        return $$memoryStorage;
-    });
+    $log.warn('Warning: No persistent storage mechanism supported, all storage will be transient.');
+    return $$memoryStorage;
+  });

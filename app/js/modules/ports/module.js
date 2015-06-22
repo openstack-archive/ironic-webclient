@@ -18,44 +18,46 @@
  * Node handling for the Ironic UI.
  */
 angular.module('ironic.ports', ['ui.router', 'ui.bootstrap'])
-    .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
-        'use strict';
+  .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
+    'use strict';
 
-        $stateProvider
-            .state('ironic.ports', {
-                url: '/ports',
-                views: {
-                    'main': {
-                        templateUrl: 'view/ports/index.html',
-                        controller: 'PortListController'
-                    }
-                }
-            })
-            .state('ironic.ports.detail', {
-                url: '/:uuid',
-                resolve: {
-                    port: function (IronicPort, $stateParams) {
-                        return IronicPort.read({
-                            uuid: $stateParams.uuid
-                        }).$promise;
-                    }
-                },
-                views: {
-                    'main@ironic': {
-                        templateUrl: 'view/ports/detail.html',
-                        controller: 'PortDetailController'
-                    }
-                }
-            });
-    })
-    .controller('PortListController', function ($scope, IronicPort) {
-        'use strict';
+    $stateProvider
+      .state('ironic.ports', {
+        'url': '/ports',
+        'views': {
+          'main': {
+            'templateUrl': 'view/ports/index.html',
+            'controller': 'PortListController as ctrl'
+          }
+        }
+      })
+      .state('ironic.ports.detail', {
+        'url': '/:uuid',
+        'resolve': {
+          'port': function (IronicPort, $stateParams) {
+            return IronicPort.read({
+              'uuid': $stateParams.uuid
+            }).$promise;
+          }
+        },
+        'views': {
+          'main@ironic': {
+            'templateUrl': 'view/ports/detail.html',
+            'controller': 'PortDetailController as ctrl'
+          }
+        }
+      });
+  })
+  .controller('PortListController', function ($scope, IronicPort) {
+    'use strict';
+    var vm = this;
 
-        $scope.ports = IronicPort.query({});
-    })
-    .controller('PortDetailController', function ($scope, port) {
-        'use strict';
+    vm.ports = IronicPort.query({});
+  })
+  .controller('PortDetailController', function ($scope, port) {
+    'use strict';
+    var vm = this;
 
-        $scope.port = port;
-    });
+    vm.port = port;
+  });
 

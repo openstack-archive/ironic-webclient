@@ -13,20 +13,20 @@
                     <th>Description</th>
                 </tr>
                 </thead>
-                <tbody ng-if="chassis.$resolved && chassis.length > 0">
-                <tr ng-repeat="chassi in chassis">
+                <tbody ng-if="ctrl.chassis.$resolved && ctrl.chassis.length > 0">
+                <tr ng-repeat="chassi in ctrl.chassis">
                     <td>{{chassi.uuid}}</td>
                     <td>{{chassi.description}}</td>
                 </tr>
                 </tbody>
-                <tbody ng-if="chassis.$resolved && chassis.length == 0">
+                <tbody ng-if="ctrl.chassis.$resolved && ctrl.chassis.length == 0">
                 <tr>
                     <td colspan="2" class="text-center text-muted">
                         <small><em>No chassis were found.</em></small>
                     </td>
                 </tr>
                 </tbody>
-                <tbody ng-if="!chassis.$resolved">
+                <tbody ng-if="!ctrl.chassis.$resolved">
                 <tr>
                     <td colspan="2" class="text-center text-muted">
                         <i class="fa fa-refresh fa-spin"></i>
