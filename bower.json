@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "homepage": "https://github.com/krotscheck/ironic-webclient",
   "description": "A webclient for OpenStack Ironic.",
-  "license": "Apache2.0",
+  "license": "Apache-2.0",
   "dependencies": {
     "angular": "1.4.0-rc.2",
     "bootstrap": "~3.3",

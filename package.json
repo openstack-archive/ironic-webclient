@@ -10,7 +10,7 @@
     "lint": "eslint ./"
   },
   "author": "Michael Krotscheck",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "devDependencies": {
     "bower": "^1.3.12",
     "eslint": "0.23.0",
