@@ -4,9 +4,9 @@
   "description": "An onboarding course for OpenStack Contributors.",
   "main": "index.html",
   "scripts": {
-    "update_dependencies": "./node_modules/.bin/gulp update_dependencies",
-    "serve": "./node_modules/.bin/gulp serve:raw",
-    "package": "./node_modules/.bin/gulp package",
+    "postinstall": "gulp update_dependencies",
+    "serve": "gulp serve:raw",
+    "package": "gulp package",
     "lint": "eslint ./"
   },
   "author": "Michael Krotscheck",
