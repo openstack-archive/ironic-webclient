@@ -19,6 +19,9 @@
     'dist': './www'
   };
 
+  // Contents of the "main" field in our dependencies' bower.json files.
+  var bowerFiles = mainBowerFiles();
+
   /**
    * Clean the output directory.
    *
@@ -76,13 +79,11 @@
    */
   gulp.task('update_dependencies', ['bower'], function () {
 
-    var files = mainBowerFiles();
-
-    var resolveJs = gulp.src(files)
+    var resolveJs = gulp.src(bowerFiles)
       .pipe(filter('*.js'))
       .pipe(gulp.dest(dir.app + '/js/lib'));
 
-    var resolveCSS = gulp.src(files)
+    var resolveCSS = gulp.src(bowerFiles)
       .pipe(filter('*.css'))
       .pipe(gulp.dest(dir.app + '/css'));
 
@@ -123,8 +124,7 @@
    * @return {*} A gulp stream that performs this action.
    */
   gulp.task('package:fonts', ['iconfont'], function () {
-    var files = mainBowerFiles();
-    return gulp.src(files)
+    return gulp.src(bowerFiles)
       .pipe(filter(['*.eot', '*.svg', '*.ttf', '*.woff', '*.woff2']))
       .pipe(gulp.dest(dir.dist + '/fonts'));
   });
