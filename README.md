@@ -43,7 +43,7 @@ performance of this application.
     npm run update_dependencies
     
     // Will package the site.
-    npm run package
+    npm pack
     
     // Will spin up a local server and host the raw, unpackaged application.
     npm run serve
