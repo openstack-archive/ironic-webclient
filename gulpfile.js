@@ -16,7 +16,7 @@
 
   var dir = {
     'app': './app',
-    'dist': './dist'
+    'dist': './www'
   };
 
   /**
