@@ -1,7 +1,7 @@
 {
   "name": "ironic-webclient",
   "version": "1.0.0",
-  "description": "An onboarding course for OpenStack Contributors.",
+  "description": "A webclient for OpenStack Ironic.",
   "main": "index.html",
   "scripts": {
     "postinstall": "gulp update_dependencies",
