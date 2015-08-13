@@ -14,7 +14,7 @@
                 </tr>
                 </thead>
                 <tbody ng-if="ctrl.drivers.$resolved && ctrl.drivers.length > 0">
-                <tr ng-repeat="driver in drivers">
+                <tr ng-repeat="driver in ctrl.drivers">
                     <td>{{driver.name}}</td>
                     <td>{{driver.hosts.join(', ') || 'No Hosts Found'}}</td>
                 </tr>
