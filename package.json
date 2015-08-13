@@ -5,7 +5,7 @@
   "main": "www/index.html",
   "scripts": {
     "postinstall": "gulp update_dependencies",
-    "start": "gulp serve:raw",
+    "start": "gulp serve",
     "prepublish": "gulp package",
     "lint": "eslint ./",
     "test": "karma start ./karma.conf.js"

@@ -30,7 +30,6 @@
       dir.dist,
       'app/css/*.css',
       '!app/css/main.css',
-      'app/fonts/*.{eot,svg,ttf,woff,woff2}',
       'app/js/lib/*.js'
     ]).pipe(vinylPaths(del));
   });
@@ -65,9 +64,9 @@
         };
         gulp.src(dir.app + '/fonts/ironic/ironic-font.css')
           .pipe(consolidate('lodash', options))
-          .pipe(gulp.dest('./app/css/'));
+          .pipe(gulp.dest(dir.dist + '/css/'));
       })
-      .pipe(gulp.dest(dir.app + '/fonts'));
+      .pipe(gulp.dest(dir.dist + '/fonts'));
   });
 
   /**
@@ -75,7 +74,7 @@
    *
    * @return {*} A gulp stream that performs this action.
    */
-  gulp.task('update_dependencies', ['bower', 'iconfont'], function () {
+  gulp.task('update_dependencies', ['bower'], function () {
 
     var files = mainBowerFiles();
 
@@ -87,37 +86,24 @@
       .pipe(filter('*.css'))
       .pipe(gulp.dest(dir.app + '/css'));
 
-    var resolveFonts = gulp.src(files)
-      .pipe(filter(['*.eot', '*.svg', '*.ttf', '*.woff', '*.woff2']))
-      .pipe(gulp.dest(dir.app + '/fonts'));
-
     return streamqueue({'objectMode': true},
-      resolveJs, resolveCSS, resolveFonts);
-  });
-
-  /**
-   * Start a local server and serve the raw application code. This is
-   * equivalent to opening index.html in a browser.
-   *
-   * @return {*} A gulp stream that performs this action.
-   */
-  gulp.task('serve:raw', function () {
-    return gulp.src(dir.app)
-      .pipe(webserver({
-        'livereload': true,
-        'open': true
-      }));
+      resolveJs, resolveCSS);
   });
 
   /**
    * Start a local server and serve the packaged application code.
+   * This also watches the source tree and will update the application
+   * whenever changes are detected.
    *
    * @return {*} A gulp stream that performs this action.
    */
-  gulp.task('serve:dist', ['package'], function () {
+  gulp.task('serve', ['package'], function () {
+
+    // Watch changes to the fonts directory.
+    gulp.watch([dir.app + '/fonts/**/*.*'], ['iconfont']);
 
     gulp.watch(
-      [dir.app + '/**/*.+(eot|svg|ttf|woff|woff2|html)'],
+      [dir.app + '/**/*.+(html)'],
       ['package:static']);
     gulp.watch(
       [dir.app + '/**/*.+(js|css)', dir.app + '/index.html'],
@@ -128,6 +114,19 @@
         'livereload': true,
         'open': true
       }));
+  });
+
+  /**
+   * Copy all the fonts into the dist directory, and generate any custom
+   * fonts necessary for the application.
+   *
+   * @return {*} A gulp stream that performs this action.
+   */
+  gulp.task('package:fonts', ['iconfont'], function () {
+    var files = mainBowerFiles();
+    return gulp.src(files)
+      .pipe(filter(['*.eot', '*.svg', '*.ttf', '*.woff', '*.woff2']))
+      .pipe(gulp.dest(dir.dist + '/fonts'));
   });
 
   /**
@@ -152,7 +151,7 @@
    */
   gulp.task('package:static', function () {
     return gulp.src([
-      dir.app + '/**/*.+(eot|svg|ttf|woff|woff2|html|ico)',
+      dir.app + '/**/*.+(html|ico)',
       '!' + dir.app + '/index.html'
     ]).pipe(gulp.dest(dir.dist));
   });
@@ -160,7 +159,7 @@
   /**
    * Package the app
    */
-  gulp.task('package', ['package:static', 'package:app']);
+  gulp.task('package', ['package:static', 'package:app', 'package:fonts']);
 
   /**
    * Deploy the site to gh-pages.
