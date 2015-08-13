@@ -20,7 +20,7 @@
  * This module defines dependencies and root routes, but no actual
  * functionality.
  */
-angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.chassis',
+angular.module('ironic', ['ui.router', 'ui.bootstrap',
   'ironic.drivers', 'ironic.nodes', 'ironic.ports',
   'ironic.util', 'ironic.api'])
   .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {

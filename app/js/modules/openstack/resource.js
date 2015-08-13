@@ -110,7 +110,7 @@ angular.module('openstack').provider('$$resourceFactory',
        * configuration scope.
        *
        * @param {String} serviceName The name of the service. e.g. 'ironic'.
-       * @param {String} resourceName The name of the root resource. e.g. 'chassis'
+       * @param {String} resourceName The name of the root resource. e.g. 'node'
        * @returns {*} The constructed service.
        */
       function getService (serviceName, resourceName) {
