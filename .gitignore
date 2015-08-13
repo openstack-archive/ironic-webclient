@@ -3,8 +3,10 @@
 bower_components/
 node_modules/
 npm-debug.log
-dist/
+www/
 .publish/
+*.tar.gz
+*.tgz
 
 # Autoresovled CSS Files.
 app/css/*.css

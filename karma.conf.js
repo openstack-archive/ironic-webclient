@@ -36,13 +36,12 @@
       ],
 
       'files': [
-        // Library files, with some ordering,
-        'app/js/lib/angular.js',
-        'app/js/lib/*.js',
+        // Library files
+        'www/js/lib.js',
 
         // Application files
-        'app/js/**/module.js',
-        'app/js/**/*.js',
+        'www/js/**/module.js',
+        'www/js/**/*.js',
 
         // Tests
         'test/js/**/*.js'

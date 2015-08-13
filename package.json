@@ -2,7 +2,7 @@
   "name": "ironic-webclient",
   "version": "1.0.0",
   "description": "A webclient for OpenStack Ironic.",
-  "main": "index.html",
+  "main": "www/index.html",
   "scripts": {
     "postinstall": "gulp update_dependencies",
     "start": "gulp serve:raw",
@@ -10,6 +10,9 @@
     "lint": "eslint ./",
     "test": "karma start ./karma.conf.js"
   },
+  "files": [
+    "www"
+  ],
   "author": "Michael Krotscheck",
   "license": "Apache-2.0",
   "devDependencies": {
