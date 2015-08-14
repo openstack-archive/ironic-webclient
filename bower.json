@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "angular": "1.4.0-rc.2",
-    "bootstrap": "3.3",
+    "bootstrap-sass": "3.3.5",
     "angular-ui-bootstrap-bower": "0.13",
     "angular-ui-router": "0.2.14",
     "fontawesome": "4.3.0",
@@ -15,15 +15,15 @@
   },
   "devDependencies": {},
   "overrides": {
-    "bootstrap": {
+    "bootstrap-sass": {
       "dependencies": false,
       "main": [
-        "dist/css/bootstrap.css",
-        "dist/fonts/glyphicons-halflings-regular.eot",
-        "dist/fonts/glyphicons-halflings-regular.svg",
-        "dist/fonts/glyphicons-halflings-regular.ttf",
-        "dist/fonts/glyphicons-halflings-regular.woff",
-        "dist/fonts/glyphicons-halflings-regular.woff2"
+        "assets/stylesheets/_bootstrap.scss",
+        "assets/fonts/bootstrap/glyphicons-halflings-regular.eot",
+        "assets/fonts/bootstrap/glyphicons-halflings-regular.svg",
+        "assets/fonts/bootstrap/glyphicons-halflings-regular.ttf",
+        "assets/fonts/bootstrap/glyphicons-halflings-regular.woff",
+        "assets/fonts/bootstrap/glyphicons-halflings-regular.woff2"
       ]
     }
   }
