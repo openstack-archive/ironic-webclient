@@ -1,7 +1,6 @@
 {
   "name": "openstack-ironic-webclient",
   "version": "1.0.0",
-  "homepage": "https://github.com/krotscheck/ironic-webclient",
   "description": "A webclient for OpenStack Ironic.",
   "license": "Apache-2.0",
   "dependencies": {
