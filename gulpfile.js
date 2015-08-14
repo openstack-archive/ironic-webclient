@@ -2,7 +2,6 @@
   'use strict';
 
   var gulp = require('gulp');
-  var bower = require('gulp-bower');
   var sass = require('gulp-sass');
   var mainBowerFiles = require('main-bower-files');
   var filter = require('gulp-filter');
@@ -33,16 +32,6 @@
   });
 
   /**
-   * Resolve all of our runtime libraries from bower.
-   *
-   * @return {*} A gulp stream that performs this action.
-   */
-  gulp.task('bower', function () {
-    return bower()
-      .pipe(gulp.dest('bower_components/'));
-  });
-
-  /**
    * Build our font from the icon svg.
    *
    * @return {*} A gulp stream that performs this action.
@@ -66,13 +55,6 @@
       })
       .pipe(gulp.dest(dir.dist + '/fonts'));
   });
-
-  /**
-   * Resolve all bower dependencies and add them to our app directory.
-   *
-   * @return {*} A gulp stream that performs this action.
-   */
-  gulp.task('update_dependencies', ['bower']);
 
   /**
    * Start a local server and serve the packaged application code.
