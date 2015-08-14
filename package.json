@@ -4,7 +4,7 @@
   "description": "A webclient for OpenStack Ironic.",
   "main": "www/index.html",
   "scripts": {
-    "postinstall": "gulp update_dependencies",
+    "postinstall": "bower install",
     "start": "gulp serve",
     "prepublish": "gulp package",
     "lint": "eslint ./",
