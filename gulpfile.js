@@ -8,7 +8,6 @@
   var webserver = require('gulp-webserver');
   var useref = require('gulp-useref');
   var del = require('del');
-  var ghPages = require('gulp-gh-pages');
   var iconfont = require('gulp-iconfont');
   var consolidate = require('gulp-consolidate');
   var vinylPaths = require('vinyl-paths');
@@ -156,14 +155,4 @@
    */
   gulp.task('package', ['package:static', 'package:app', 'package:fonts',
     'package:styles', 'package:libs']);
-
-  /**
-   * Deploy the site to gh-pages.
-   *
-   * @return {*} A gulp stream that performs this action.
-   */
-  gulp.task('deploy', ['package'], function () {
-    return gulp.src('./dist/**/*')
-      .pipe(ghPages());
-  });
 })();
