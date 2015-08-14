@@ -3,10 +3,10 @@
 
   var gulp = require('gulp');
   var bower = require('gulp-bower');
+  var sass = require('gulp-sass');
   var mainBowerFiles = require('main-bower-files');
   var filter = require('gulp-filter');
   var webserver = require('gulp-webserver');
-  var streamqueue = require('streamqueue');
   var useref = require('gulp-useref');
   var del = require('del');
   var ghPages = require('gulp-gh-pages');
@@ -31,8 +31,6 @@
   gulp.task('clean', function () {
     return gulp.src([
       dir.dist,
-      'app/css/*.css',
-      '!app/css/main.css',
       'app/js/lib/*.js'
     ]).pipe(vinylPaths(del));
   });
@@ -79,16 +77,9 @@
    */
   gulp.task('update_dependencies', ['bower'], function () {
 
-    var resolveJs = gulp.src(bowerFiles)
+    return gulp.src(bowerFiles)
       .pipe(filter('*.js'))
       .pipe(gulp.dest(dir.app + '/js/lib'));
-
-    var resolveCSS = gulp.src(bowerFiles)
-      .pipe(filter('*.css'))
-      .pipe(gulp.dest(dir.app + '/css'));
-
-    return streamqueue({'objectMode': true},
-      resolveJs, resolveCSS);
   });
 
   /**
@@ -103,11 +94,14 @@
     // Watch changes to the fonts directory.
     gulp.watch([dir.app + '/fonts/**/*.*'], ['iconfont']);
 
+    // Watch changes to the css directory.
+    gulp.watch([dir.app + '/css/*.scss'], ['package:styles']);
+
     gulp.watch(
       [dir.app + '/**/*.+(html)'],
       ['package:static']);
     gulp.watch(
-      [dir.app + '/**/*.+(js|css)', dir.app + '/index.html'],
+      [dir.app + '/**/*.+(js)', dir.app + '/index.html'],
       ['package:app']);
 
     return gulp.src(dir.dist)
@@ -127,6 +121,18 @@
     return gulp.src(bowerFiles)
       .pipe(filter(['*.eot', '*.svg', '*.ttf', '*.woff', '*.woff2']))
       .pipe(gulp.dest(dir.dist + '/fonts'));
+  });
+
+  /**
+   * Compile all styling files for the project. We're using SCSS includes here,
+   * to explicitly choose which bits we need included.
+   *
+   * @return {*} A gulp stream that performs this action.
+   */
+  gulp.task('package:styles', function () {
+    return gulp.src([dir.app + '/css/*.scss'])
+      .pipe(sass())
+      .pipe(gulp.dest(dir.dist + '/css'));
   });
 
   /**
@@ -159,7 +165,8 @@
   /**
    * Package the app
    */
-  gulp.task('package', ['package:static', 'package:app', 'package:fonts']);
+  gulp.task('package', ['package:static', 'package:app', 'package:fonts',
+    'package:styles']);
 
   /**
    * Deploy the site to gh-pages.
