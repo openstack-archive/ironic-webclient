@@ -26,10 +26,7 @@
    * @return {*} A gulp stream that performs this action.
    */
   gulp.task('clean', function () {
-    return gulp.src([
-      dir.dist,
-      'app/js/lib/*.js'
-    ]).pipe(vinylPaths(del));
+    return gulp.src(dir.dist).pipe(vinylPaths(del));
   });
 
   /**
@@ -72,14 +69,7 @@
    *
    * @return {*} A gulp stream that performs this action.
    */
-  gulp.task('update_dependencies', ['bower'], function () {
-
-    var files = mainBowerFiles();
-
-    return gulp.src(files)
-      .pipe(filter('*.js'))
-      .pipe(gulp.dest(dir.app + '/js/lib'));
-  });
+  gulp.task('update_dependencies', ['bower']);
 
   /**
    * Start a local server and serve the packaged application code.
@@ -95,6 +85,9 @@
 
     // Watch changes to the css directory.
     gulp.watch([dir.app + '/css/*.scss'], ['package:styles']);
+
+    // Watch changes to the bower.json file.
+    gulp.watch(['./bower.json'], ['package:libs']);
 
     gulp.watch(
       [dir.app + '/**/*.+(html)'],
@@ -136,6 +129,19 @@
   });
 
   /**
+   * Copy all external javascript files, as independent documents (since
+   * they may carry their own license) into the output directory.
+   *
+   * @return {*} A gulp stream that performs this action.
+   */
+  gulp.task('package:libs', function () {
+    var files = mainBowerFiles();
+    return gulp.src(files)
+      .pipe(filter('*.js'))
+      .pipe(gulp.dest(dir.dist + '/js/lib'));
+  });
+
+  /**
    * Build a concatenated application.
    *
    * @return {*} A gulp stream that performs this action.
@@ -166,7 +172,7 @@
    * Package the app
    */
   gulp.task('package', ['package:static', 'package:app', 'package:fonts',
-    'package:styles']);
+    'package:styles', 'package:libs']);
 
   /**
    * Deploy the site to gh-pages.

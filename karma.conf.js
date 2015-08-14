@@ -36,8 +36,9 @@
       ],
 
       'files': [
-        // Library files
-        'www/js/lib.js',
+        // Library files, with some ordering,
+        'www/js/lib/angular.js',
+        'www/js/lib/*.js',
 
         // Application files
         'www/js/**/module.js',
