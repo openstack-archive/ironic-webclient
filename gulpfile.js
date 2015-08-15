@@ -116,6 +116,10 @@
    * @return {*} A gulp stream that performs this action.
    */
   gulp.task('package:libs', function () {
+    // NOTE: This is the extension point for package maintainers. If, rather
+    // than using bower, you would like to link in dependencies from a different
+    // source (ex. debian package), this is the method that would need to be
+    // extended to look for those.
     var files = mainBowerFiles();
     return gulp.src(files)
       .pipe(filter('*.js'))
