@@ -14,7 +14,8 @@
 
   var dir = {
     'app': './app',
-    'dist': './www'
+    'dist': './www',
+    'cover': './cover'
   };
 
   /**
@@ -24,7 +25,10 @@
    * @return {*} A gulp stream that performs this action.
    */
   gulp.task('clean', function () {
-    return gulp.src(dir.dist).pipe(vinylPaths(del));
+    return gulp.src([
+      dir.dist,
+      dir.cover
+    ]).pipe(vinylPaths(del));
   });
 
   /**

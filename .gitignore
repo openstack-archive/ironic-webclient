@@ -2,6 +2,7 @@
 .idea
 bower_components/
 node_modules/
+cover/
 npm-debug.log
 www/
 .publish/

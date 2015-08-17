@@ -28,25 +28,39 @@
 
       'browsers': ['PhantomJS', 'Chrome', 'Firefox'],
 
+      'reporters': ['progress', 'coverage'],
+
       'plugins': [
         'karma-jasmine',
+        'karma-coverage',
         'karma-phantomjs-launcher',
         'karma-chrome-launcher',
         'karma-firefox-launcher'
       ],
 
+      'preprocessors': {
+        'www/js/{!lib/**/*.js,*.js}': ['coverage']
+      },
+
       'files': [
-        // Library files, with some ordering,
+        // Library files, with some ordering.
         'www/js/lib/angular.js',
         'www/js/lib/*.js',
 
         // Application files
-        'www/js/**/module.js',
         'www/js/**/*.js',
 
         // Tests
         'test/js/**/*.js'
       ],
+
+      'coverageReporter': {
+        type: 'html',
+        dir: 'cover',
+        instrumenterOptions: {
+          istanbul: {noCompact: true}
+        }
+      },
 
       'exclude': [],
 
