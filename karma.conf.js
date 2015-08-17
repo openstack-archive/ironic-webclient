@@ -28,11 +28,12 @@
 
       'browsers': ['PhantomJS', 'Chrome', 'Firefox'],
 
-      'reporters': ['progress', 'coverage'],
+      'reporters': ['progress', 'coverage', 'threshold'],
 
       'plugins': [
         'karma-jasmine',
         'karma-coverage',
+        'karma-threshold-reporter',
         'karma-phantomjs-launcher',
         'karma-chrome-launcher',
         'karma-firefox-launcher'
@@ -60,6 +61,14 @@
         instrumenterOptions: {
           istanbul: {noCompact: true}
         }
+      },
+
+      // Coverage threshold values.
+      thresholdReporter: {
+        statements: 10, // target 100
+        branches: 0, // target 100
+        functions: 0, // target 100
+        lines: 10 // target 100
       },
 
       'exclude': [],
