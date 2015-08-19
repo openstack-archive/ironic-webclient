@@ -72,9 +72,6 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.chassis',
           }
         }
       });
-
-    // Attach common request headers out of courtesy to the API
-    $httpProvider.defaults.headers.common['X-Client'] = 'ironic-webclient';
   })
   .run(function ($rootScope, $state) {
     'use strict';
