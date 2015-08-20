@@ -15,3 +15,6 @@ app/css/*.css
 
 # JS Libs, autoresolved.
 app/js/lib
+
+# Operating system specific files
+.DS_Store # OSX Folder Caches
