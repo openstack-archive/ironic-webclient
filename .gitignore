@@ -9,12 +9,5 @@ www/
 *.tar.gz
 *.tgz
 
-# Autoresovled CSS Files.
-app/css/*.css
-!app/css/main.css
-
-# JS Libs, autoresolved.
-app/js/lib
-
 # Operating system specific files
 .DS_Store # OSX Folder Caches
