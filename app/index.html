@@ -5,58 +5,84 @@
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
 
+    <!-- Angular v1.4.0 -->
     <script type="application/javascript"
             src="js/lib/angular.js"></script>
+    <!-- State-based routing for AngularJS v0.2.14 -->
     <script type="application/javascript"
             src="js/lib/angular-ui-router.js"></script>
+    <!-- provides interaction support with RESTful services -->
     <script type="application/javascript"
             src="js/lib/angular-resource.js"></script>
+    <!-- provides a convenient wrapper for reading and writing browser cookies -->
     <script type="application/javascript"
             src="js/lib/angular-cookies.js"></script>
+    <!-- Native AngularJS directives for Bootstrap -->
     <script type="application/javascript"
             src="js/lib/ui-bootstrap-tpls.js"></script>
 
     <!-- build:js js/openstack.js -->
+    <!-- OpenStack specific configuration discovery -->
     <script type="application/javascript"
             src="js/modules/openstack/module.js"></script>
+    <!-- static constant that contains error code constants -->
     <script type="application/javascript"
             src="js/modules/openstack/error_code.js"></script>
+    <!-- centralized location where different services' service abstractions may live -->
     <script type="application/javascript"
             src="js/modules/openstack/resource.js"></script>
+    <!-- default configuration structure -->
     <script type="application/javascript"
             src="js/modules/openstack/configuration.js"></script>
+    <!-- provides four storage abstraction providers with the same interface -->
     <script type="application/javascript"
             src="js/modules/openstack/storage.js"></script>
     <!-- endbuild -->
+
     <!-- build:js js/ironic.js -->
+    <!-- defines dependencies and root routes but no actual functionality -->
     <script type="application/javascript"
             src="js/modules/ironic/module.js"></script>
+    <!-- Controller for our application header -->
     <script type="application/javascript"
             src="js/modules/ironic/controller/application_controller.js"></script>
+    <!-- management of all the cloud configuration entries -->
     <script type="application/javascript"
             src="js/modules/ironic/controller/configuration_controller.js"></script>
     <!-- endbuild -->
+
     <!-- build:js js/ironic_ui_ports.js -->
+    <!-- Port handling for the Ironic UI -->
     <script type="application/javascript"
             src="js/modules/ports/module.js"></script>
     <!-- endbuild -->
+
     <!-- build:js js/ironic_ui_drivers.js -->
+    <!-- Driver handling for the Ironic UI -->
     <script type="application/javascript"
             src="js/modules/drivers/module.js"></script>
     <!-- endbuild -->
+
     <!-- build:js js/ironic_ui_nodes.js -->
+    <!-- Node handling for the Ironic UI -->
     <script type="application/javascript"
             src="js/modules/nodes/module.js"></script>
     <!-- endbuild -->
+
     <!-- build:js js/ironic_util.js -->
+    <!-- UI Utilities used by the ironic client -->
     <script type="application/javascript"
             src="js/modules/util/module.js"></script>
+    <!-- listens for events dispatched as a user navigates through the application -->
     <script type="application/javascript"
             src="js/modules/util/directive/active_path.js"></script>
     <!-- endbuild -->
+
     <!-- build:js js/ironic_api.js -->
+    <!-- A module of resources that talk with the ironic API -->
     <script type="application/javascript"
             src="js/modules/api/module.js"></script>
+    <!-- Form validator that will perform an asynchronous check to see if Ironic is available at the provided url -->
     <script type="application/javascript"
             src="js/modules/api/validator.js"></script>
     <!-- endbuild -->
