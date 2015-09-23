@@ -8,7 +8,8 @@
     "start": "gulp serve",
     "prepublish": "gulp package",
     "lint": "eslint ./",
-    "test": "karma start ./karma.conf.js"
+    "test": "karma start ./karma.conf.js",
+    "clean": "gulp clean"
   },
   "files": [
     "www"
