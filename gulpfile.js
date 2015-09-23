@@ -15,17 +15,21 @@
   var dir = {
     'app': './app',
     'dist': './www',
-    'cover': './cover'
+    'cover': './cover',
+    'bower': './bower_components',
+    'npm': './node_modules'
   };
 
   /**
-   * Clean the output directory.
+   * Cleans all imported, and generated, files from the project.
    *
    * @param {Function} cb callback.
    * @return {*} A gulp stream that performs this action.
    */
   gulp.task('clean', function () {
     return gulp.src([
+      dir.npm,
+      dir.bower,
       dir.dist,
       dir.cover
     ]).pipe(vinylPaths(del));
