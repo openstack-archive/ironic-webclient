@@ -20,6 +20,8 @@
  * loaded API is expected to register a factory with the cache, which will
  * be later queried to build instances of resources for different cloud
  * configuration parameters.
+ *
+ * @deprecated
  */
 angular.module('openstack').provider('$$resourceFactory',
   function () {
