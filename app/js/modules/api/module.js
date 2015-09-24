@@ -17,93 +17,15 @@
 /**
  * A module of resources that talk with the ironic API.
  */
-angular.module('ironic.api', ['openstack'])
-  .config(function ($$configurationProvider, $windowProvider) {
+angular.module('ironic.api', ['openstack', 'ngResource'])
+  .config(function($$configurationProvider, $windowProvider) {
     'use strict';
 
     // Build a default ironic location from the $window provider
     var location = $windowProvider.$get().location;
     var apiRoot = location.protocol + '//' + location.hostname + ':6385';
+
+    // This line registers ironic's default API root, as detected via the current hostname, with
+    // the $$configurationProvider's default API detection mechanism.
     $$configurationProvider.$registerDefault('ironic', apiRoot);
-  })
-  .config(function($$resourceFactoryProvider) {
-
-    $$resourceFactoryProvider
-      .$addServiceFactory('ironic', function ($resource) {
-        return function (baseUri, resourceName) {
-          var resourceUrl = new URL(baseUri + '/' + resourceName +
-            '/:uuid');
-
-          // normalize the path
-          resourceUrl.pathname =
-            resourceUrl.pathname.replace('//', '/');
-
-          return $resource(resourceUrl.toString(),
-            {'uuid': '@uuid'}, {
-              'query': {
-                'method': 'GET',
-                'isArray': true,
-                'transformResponse': function (data) {
-                  var parsed = angular.fromJson(data);
-                  return parsed[resourceName];
-                }
-              },
-              'create': {
-                'method': 'POST'
-              },
-              'read': {
-                'method': 'GET'
-              },
-              'update': {
-                'method': 'PUT'
-              },
-              'delete': {
-                'method': 'DELETE'
-              }
-            });
-        };
-      });
-  })
-  .config(function ($provide) {
-    'use strict';
-
-    function buildResource (resourceName) {
-
-      return function ($$configuration, $$resourceFactory) {
-
-        function getResource () {
-          var serviceName = 'ironic';
-          return $$resourceFactory.build(serviceName, resourceName);
-        }
-
-        return {
-          'query': function () {
-            var r = getResource(resourceName);
-            return r.query.apply(r, arguments);
-          },
-          'create': function () {
-            var r = getResource(resourceName);
-            return r.create.apply(r, arguments);
-          },
-          'read': function () {
-            var r = getResource(resourceName);
-            return r.read.apply(r, arguments);
-          },
-          'update': function () {
-            var r = getResource(resourceName);
-            return r.update.apply(r, arguments);
-          },
-          'delete': function () {
-            var r = getResource(resourceName);
-            return r.delete.apply(r, arguments);
-          }
-        };
-      };
-    }
-
-    $provide.service('IronicChassis', buildResource('chassis'));
-    $provide.service('IronicDriver', buildResource('drivers'));
-    $provide.service('IronicNode', buildResource('nodes'));
-    $provide.service('IronicPort', buildResource('ports'));
-  }
-);
+  });
