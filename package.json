@@ -26,6 +26,7 @@
     "eslint-config-openstack": "1.2.2",
     "eslint-plugin-angular": "0.4.0",
     "gulp": "3.9.0",
+    "gulp-concat": "2.6.0",
     "gulp-consolidate": "0.1.2",
     "gulp-filter": "3.0.0",
     "gulp-iconfont": "4.0.0",
@@ -43,6 +44,7 @@
     "karma-threshold-reporter": "0.1.15",
     "lodash": "3.10.1",
     "main-bower-files": "2.9.0",
+    "merge-stream": "1.0.0",
     "phantomjs": "1.9.18",
     "vinyl-paths": "1.0.0"
   }
