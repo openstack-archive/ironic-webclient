@@ -3,14 +3,18 @@
 
   var gulp = require('gulp');
   var sass = require('gulp-sass');
+  var concat = require('gulp-concat');
   var mainBowerFiles = require('main-bower-files');
   var filter = require('gulp-filter');
   var webserver = require('gulp-webserver');
   var useref = require('gulp-useref');
   var del = require('del');
+  var fs = require('fs');
+  var path = require('path');
   var iconfont = require('gulp-iconfont');
   var consolidate = require('gulp-consolidate');
   var vinylPaths = require('vinyl-paths');
+  var merge = require('merge-stream');
 
   var dir = {
     'app': './app',
@@ -82,7 +86,7 @@
       [dir.app + '/**/*.+(html)'],
       ['package:static']);
     gulp.watch(
-      [dir.app + '/**/*.+(js)', dir.app + '/index.html'],
+      [dir.app + '/**/*.+(js)'],
       ['package:app']);
 
     return gulp.src(dir.dist)
@@ -135,18 +139,37 @@
   });
 
   /**
-   * Build a concatenated application.
+   * Iterate through the modules directory and build a concatenated js file for each directory.
    *
    * @return {*} A gulp stream that performs this action.
    */
   gulp.task('package:app', function () {
-    var assets = useref.assets();
+    var streams = [];
+    var modulePath = path.join(dir.app, 'js', 'modules');
 
-    return gulp.src(dir.app + '/index.html')
-      .pipe(assets)
-      .pipe(assets.restore())
-      .pipe(useref())
-      .pipe(gulp.dest(dir.dist));
+    /*eslint-disable no-sync */
+    fs.readdirSync(modulePath)
+      .filter(function(file) {
+        // Only pull directories
+        return fs.statSync(path.join(modulePath, file)).isDirectory();
+      }).forEach(function(libName) {
+        // Build a file glob pattern.
+        var libPath = path.join(modulePath, libName);
+        var files = [
+          path.join(libPath, 'module.js'),
+          path.join(libPath, '**/*.js')
+        ];
+
+        // Create a concat stream for this library.
+        var stream = gulp.src(files)
+          .pipe(concat(libName + '.js'))
+          .pipe(gulp.dest(path.join(dir.dist, 'js')));
+        streams.push(stream);
+      });
+    /*eslint-enable no-sync */
+
+    // Merge all the streams and return.
+    return merge.apply(merge, streams);
   });
 
   /**
@@ -156,8 +179,7 @@
    */
   gulp.task('package:static', function () {
     return gulp.src([
-      dir.app + '/**/*.+(html|ico)',
-      '!' + dir.app + '/index.html'
+      dir.app + '/**/*.+(html|ico)'
     ]).pipe(gulp.dest(dir.dist));
   });
 
