@@ -18,18 +18,17 @@
  * Controller for our application header.
  */
 angular.module('ironic').controller('ApplicationController',
-  function ($scope, $state, configuration, selectedConfiguration, $window,
-            $$configuration) {
+  function ($scope, $state, configurations, currentConfiguration, $$selectedConfiguration) {
     'use strict';
     var vm = this;
 
-    vm.configuration = configuration;
-    vm.selectedConfiguration = selectedConfiguration;
+    vm.configurations = configurations;
+    vm.currentConfiguration = currentConfiguration;
 
     vm.switchCloud = function (cloudConfig) {
-      if (cloudConfig !== selectedConfiguration) {
-        $$configuration.setSelected(cloudConfig.id);
-        $window.location.reload();
-      }
+      $$selectedConfiguration.set(cloudConfig).$promise.then(
+        function() {
+          $state.reload();
+        });
     };
   });

@@ -18,8 +18,15 @@
  * A module of resources that talk with the ironic API.
  */
 angular.module('ironic.api', ['openstack'])
-  .config(function ($$resourceFactoryProvider) {
+  .config(function ($$configurationProvider, $windowProvider) {
     'use strict';
+
+    // Build a default ironic location from the $window provider
+    var location = $windowProvider.$get().location;
+    var apiRoot = location.protocol + '//' + location.hostname + ':6385';
+    $$configurationProvider.$registerDefault('ironic', apiRoot);
+  })
+  .config(function($$resourceFactoryProvider) {
 
     $$resourceFactoryProvider
       .$addServiceFactory('ironic', function ($resource) {

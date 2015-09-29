@@ -23,11 +23,16 @@
 angular.module('ironic', ['ui.router', 'ui.bootstrap',
   'ironic.drivers', 'ironic.nodes', 'ironic.ports',
   'ironic.util', 'ironic.api'])
-  .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
+  .config(function($urlRouterProvider, $httpProvider, $stateProvider, $$configurationProvider) {
     'use strict';
 
     // Default UI route
     $urlRouterProvider.otherwise('/ironic');
+
+    // Enable all of our configuration detection methods
+    $$configurationProvider.$enableDefault(true);
+    $$configurationProvider.$enableConfigLoad(true);
+    $$configurationProvider.$enableLocalStorage(true);
 
     // Ironic's root state, used to resolve global resources before
     // the application fully initializes.
@@ -41,38 +46,28 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap',
           }
         },
         'resolve': {
-          'selectedConfiguration': function($$configuration, $q) {
+          'configurations': function($$configuration) {
+            return $$configuration.query({}).$promise;
+          },
+          'currentConfiguration': function($$selectedConfiguration, $q) {
             var deferred = $q.defer();
-            $$configuration.resolveSelected().then(
-              function(selectedConfig) {
-                if (!selectedConfig) {
-                  deferred.reject('no_config');
-                } else {
-                  $deferred.resolve(selectedConfig);
-                }
+
+            var resource = $$selectedConfiguration.get();
+            resource.$promise.then(
+              function() {
+                deferred.resolve(resource);
+              },
+              function() {
+                deferred.reject('no_config');
               });
             return deferred.promise;
-          },
-          'configuration': function ($$configuration) {
-            return $$configuration.resolveAll();
           }
         }
       })
       .state('config', {
         'url': '/config',
         'templateUrl': 'view/ironic/config.html',
-        'controller': 'ConfigurationController as ctrl',
-        'resolve': {
-          'localConfig': function ($$configuration) {
-            return $$configuration.resolveLocal();
-          },
-          'autoConfig': function ($$configuration) {
-            return $$configuration.resolveAutodetection();
-          },
-          'fileConfig': function ($$configuration) {
-            return $$configuration.resolveConfigured();
-          }
-        }
+        'controller': 'ConfigurationController as ctrl'
       });
   })
   .run(function ($rootScope, $state) {
