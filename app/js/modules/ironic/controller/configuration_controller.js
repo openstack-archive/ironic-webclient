@@ -18,22 +18,33 @@
  * This controller allows the management of all the cloud configuration entries.
  */
 angular.module('ironic').controller('ConfigurationController',
-  function($state, $location, $$configuration, localConfig, autoConfig,
-           fileConfig, $modal) {
+  function($state, $location, $$configuration, $$selectedConfiguration, $modal) {
     'use strict';
     var vm = this;
 
-    vm.hasConfig =
-      localConfig.length + autoConfig.length + fileConfig.length > 0;
-
-    vm.localConfig = localConfig;
-    vm.autoConfig = autoConfig;
-    vm.fileConfig = fileConfig;
+    vm.configurations = [];
 
     vm.location = {
       'host': $location.host(),
       'protocol': $location.protocol(),
       'port': $location.port()
+    };
+
+    function reloadConfigurations () {
+      vm.configurations = $$configuration.query({});
+    }
+
+    /**
+     * Select a single configuration for the current application runtime.
+     *
+     * @param configuration The configuration to select.
+     */
+    vm.select = function(configuration) {
+      $$selectedConfiguration.set(configuration).$promise.then(
+        function() {
+          $state.go('ironic');
+        }
+      );
     };
 
     /**
@@ -46,17 +57,19 @@ angular.module('ironic').controller('ConfigurationController',
         'controller': 'ConfigurationAddController as ctrl',
         'backdrop': 'static',
         'resolve': {
-          'configuration': $$configuration.resolveAll
+          'configuration': function() {
+            return $$configuration.query({}).$promise;
+          }
         }
-      }).result.then(function(newConfig) {
-        $$configuration.add(newConfig);
-      });
+      }).result.then(
+        function(newConfig) {
+          $$configuration.create(newConfig).$promise.then(reloadConfigurations);
+        });
     };
 
     vm.remove = function(config) {
-      $$configuration.remove(config);
-      $$configuration.resolveLocal().then(function(configs) {
-        vm.localConfig = configs;
-      });
+      config.$remove().$promise.then(reloadConfigurations);
     };
+
+    reloadConfigurations();
   });

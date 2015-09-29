@@ -66,7 +66,7 @@ angular.module('openstack').provider('$$resourceFactory',
      * @returns {{build: Function}} The constructed service.
      */
     this.$get = function resourceFactoryProvider ($$configuration, $log,
-                                                  $injector) {
+                                                  $injector, $$selectedConfiguration) {
 
       /**
        * Get the cache of services available for a specific API root.
@@ -116,7 +116,9 @@ angular.module('openstack').provider('$$resourceFactory',
        * @returns {*} The constructed service.
        */
       function getService (serviceName, resourceName) {
-        var baseUri = $$configuration.getApiRoot(serviceName);
+
+        var config = $$selectedConfiguration.get();
+        var baseUri = config[serviceName].apiRoot;
         var cache = getServiceCache(baseUri);
 
         if (!cache.hasOwnProperty(resourceName)) {

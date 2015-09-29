@@ -1,117 +1,100 @@
 <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand"
-               href="#/ironic"
-               active-path="^\/ironic$">
-                Ironic
-            </a>
-        </div>
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand"
+         href="#/ironic"
+         active-path="^\/ironic$">
+        Ironic
+      </a>
     </div>
+  </div>
 </nav>
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12">
-            <h3>Manage Clouds</h3>
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>Manage Clouds</h3>
 
-            <p>Below you see a collection of all the Ironic clouds available
-                to you. You may add additional ones here, or remove ones that
-                you've previously added.</p>
-        </div>
+      <p>Below you see a collection of all the Ironic clouds available
+        to you. You may add additional ones here, or remove ones that
+        you've previously added.</p>
     </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <table class="table table-condensed table-striped">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>API Endpoint</th>
-                    <th>Source</th>
-                    <th class="text-right">
-                        <button class="btn btn-default btn-sm"
-                                ng-click="ctrl.add()">
-                            <i class="fa fa-plus"></i>
-                        </button>
-                    </th>
-                </tr>
-                </thead>
-                <tbody ng-if="!ctrl.hasConfig">
-                <tr>
-                    <td colspan="4" class="text-center text-muted">
-                        <em>
-                            <small>We were unable to detect a valid ironic service. Would you like
-                            to <a href="" ng-click="ctrl.add()">add one</a>?</small>
-                        </em>
-                    </td>
-                </tr>
-                </tbody>
-                <tbody ng-if="ctrl.hasConfig">
-                <tr ng-repeat="config in ctrl.localConfig">
-                    <td>
-                        <a href="" ng-click="ctrl.select(config)">
-                            {{config.name}}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{config.ironic.api}}" target="_blank">
-                            {{config.ironic.api}}
-                        </a>
-                    </td>
-                    <td>
-                        <small class="text-info">Local</small>
-                        <i class="fa fa-question-circle"
-                           tooltip="These clouds were added by you, and are stored in your browser."></i>
-                    </td>
-                    <td>
-                        <button type="button" class="close"
-                                ng-click="ctrl.remove(config)">
-                            &times;</button>
-                    </td>
-                </tr>
-                <tr ng-repeat="config in ctrl.autoConfig">
-                    <td>
-                        <a href="" ng-click="ctrl.select(config)">
-                            {{config.name}}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{config.ironic.api}}" target="_blank">
-                            {{config.ironic.api}}
-                        </a>
-                    </td>
-                    <td>
-                        <small class="text-warning">Autodetected</small>
-                        <i class="fa fa-question-circle"
-                           tooltip="This API was automatically detected."></i>
-                    </td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr ng-repeat="config in ctrl.fileConfig">
-                    <td>
-                        <a href="" ng-click="ctrl.select(config)">
-                            {{config.name}}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{config.ironic.api}}" target="_blank">
-                            {{config.ironic.api}}
-                        </a>
-                    </td>
-                    <td>
-                        <small class="text-success">Provided</small>
-                        <i class="fa fa-question-circle"
-                           tooltip="The administrator for this application has preconfigured these clouds."></i>
-                    </td>
-                    <td>&nbsp;</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <table class="table table-condensed table-striped">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>API Endpoint</th>
+          <th>Source</th>
+          <th class="text-right">
+            <button class="btn btn-default btn-sm"
+                    ng-click="ctrl.add()">
+              <i class="fa fa-plus"></i>
+            </button>
+          </th>
+        </tr>
+        </thead>
+        <tbody ng-if="ctrl.configurations.$resolved && ctrl.configurations.length == 0">
+        <tr>
+          <td colspan="4" class="text-center text-muted">
+            <em>
+              <small>We were unable to detect a valid ironic service. Would you like
+                to <a href="" ng-click="ctrl.add()">add one</a>?
+              </small>
+            </em>
+          </td>
+        </tr>
+        </tbody>
+        <tbody>
+        <tr ng-repeat="config in ctrl.configurations">
+          <td>
+            <a href="" ng-click="ctrl.select(config)">
+              {{config.name}}
+            </a>
+          </td>
+          <td>
+            <a href="{{config.ironic.apiRoot}}" target="_blank">
+              {{config.ironic.apiRoot}}
+            </a>
+          </td>
+          <td ng-switch="config.source">
+            <div ng-switch-when="local">
+              <small class="text-info">Local</small>
+              <i class="fa fa-question-circle"
+                 tooltip="This configuration was added by you, and is stored in your browser."></i>
+            </div>
+            <div ng-switch-when="host">
+              <small class="text-success">Host</small>
+              <i class="fa fa-question-circle"
+                 tooltip="This configuration was loaded from the server."></i>
+            </div>
+            <div ng-switch-when="static">
+              <small class="text-success">Static</small>
+              <i class="fa fa-question-circle"
+                 tooltip="This configuratoin was set by your application administrator."></i>
+            </div>
+            <div ng-switch-when="default">
+              <small class="text-success">Default</small>
+              <i class="fa fa-question-circle"
+                 tooltip="This configuration was automatically detected."></i>
+            </div>
+          </td>
+          <td>
+            <button type="button" class="close"
+                    ng-if="config.source === 'local'"
+                    ng-click="ctrl.remove(config)">
+              &times;</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container-fluid">
-    </div>
+  <div class="container-fluid">
+  </div>
 </nav>
