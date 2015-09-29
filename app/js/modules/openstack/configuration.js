@@ -20,7 +20,7 @@
  * after this file is loaded.
  */
 angular.module('openstack').factory('$$defaultConfiguration',
-  function () {
+  function() {
     'use strict';
 
     return {
@@ -50,7 +50,7 @@ angular.module('openstack').factory('$$defaultConfiguration',
  * }]
  */
 angular.module('openstack').service('$$configuration',
-  function ($q, $http, $log, $location, $$persistentStorage, $modal) {
+  function($q, $http, $log, $location, $$persistentStorage, $modal) {
     'use strict';
 
     /**
@@ -125,10 +125,10 @@ angular.module('openstack').service('$$configuration',
         $log.info('Attempting to load parameters from ./config.json');
         deferFile = $q.defer();
         $http.get('./config.json').then(
-          function (response) {
+          function(response) {
             deferFile.resolve(response);
           },
-          function () {
+          function() {
             $log.warn('Cannot load ./config.json, using defaults.');
             deferFile.resolve([]);
           }
@@ -159,9 +159,9 @@ angular.module('openstack').service('$$configuration',
         $log.info('Configuring local API endpoint.');
         deferAuto = $q.defer();
         var ironicApi =
-          $location.protocol() + '://' + $location.host() + ':6385/';
+              $location.protocol() + '://' + $location.host() + ':6385/';
 
-        $http.get(ironicApi, {'timeout': 1000}).then(function (response) {
+        $http.get(ironicApi, {'timeout': 1000}).then(function(response) {
           var name = response.data.name || 'Local';
           var config = [
             {
@@ -173,7 +173,7 @@ angular.module('openstack').service('$$configuration',
             }
           ];
           deferAuto.resolve(config);
-        }, function () {
+        }, function() {
           deferAuto.resolve([]);
         });
       }
@@ -193,7 +193,7 @@ angular.module('openstack').service('$$configuration',
         'config': resolveConfigurationFile(),
         'default': resolveAutodetect(),
         'local': resolveLocalStorage()
-      }).then(function (results) {
+      }).then(function(results) {
         var fileConfigs = results.config;
         var defaultConfigs = results.default;
         var localConfigs = results.local;
@@ -214,7 +214,7 @@ angular.module('openstack').service('$$configuration',
         localConfigs.forEach(addConfig);
 
         deferAll.resolve(config);
-      }, function () {
+      }, function() {
         deferAll.resolve([]);
       });
 
@@ -235,13 +235,13 @@ angular.module('openstack').service('$$configuration',
         'resolve': {
           'configuration': resolveAllConfigurations
         }
-      }).result.then(function (newConfig) {
-          localConfig.push(newConfig);
-          saveLocal();
-          deferred.resolve(newConfig);
-        }, function () {
-          deferred.reject();
-        });
+      }).result.then(function(newConfig) {
+        localConfig.push(newConfig);
+        saveLocal();
+        deferred.resolve(newConfig);
+      }, function() {
+        deferred.reject();
+      });
 
       return deferred.promise;
     }
@@ -257,12 +257,12 @@ angular.module('openstack').service('$$configuration',
 
       function requireAddLocal () {
         addLocal().then(
-          function () {
-            resolveAllConfigurations().then(function (configs) {
+          function() {
+            resolveAllConfigurations().then(function(configs) {
               deferred.resolve(configs);
             });
           },
-          function () {
+          function() {
             // Force them to do this until we have a valid
             // configuration.
             requireAddLocal();
@@ -270,7 +270,7 @@ angular.module('openstack').service('$$configuration',
         );
       }
 
-      resolveAllConfigurations().then(function (configs) {
+      resolveAllConfigurations().then(function(configs) {
         if (configs.length === 0) {
           requireAddLocal();
         } else {
@@ -292,12 +292,12 @@ angular.module('openstack').service('$$configuration',
       var selectedId = $$persistentStorage.get(selectedStorageKey);
 
       requireAtLeastOneConfiguration().then(
-        function (configs) {
+        function(configs) {
           // Pick the configuration from the loaded configs. Note
           // that if the selectedId is null, this will never
           // match.
           selectedConfig = configs[0];
-          configs.forEach(function (config) {
+          configs.forEach(function(config) {
             if (config.id === selectedId) {
               $log.debug('Selecting config: ' + selectedId);
               selectedConfig = config;
@@ -331,7 +331,7 @@ angular.module('openstack').service('$$configuration',
        * @param {String} service The name of the service.
        * @returns {String} The Base API for the configured service.
        */
-      'getApiBase': function (service) {
+      'getApiBase': function(service) {
         if (!selectedConfig || !selectedConfig.hasOwnProperty(service)) {
           return '/';
         }
@@ -345,7 +345,7 @@ angular.module('openstack').service('$$configuration',
        *
        * @returns {promise} A promise that resolves all available configuration objects as an array.
        */
-      'resolveAll': function () {
+      'resolveAll': function() {
         return resolveAllConfigurations();
       },
 
@@ -354,7 +354,7 @@ angular.module('openstack').service('$$configuration',
        *
        * @return {promise} The content of any configuration file loaded.
        */
-      'resolveConfigured': function () {
+      'resolveConfigured': function() {
         return resolveConfigurationFile();
       },
 
@@ -363,7 +363,7 @@ angular.module('openstack').service('$$configuration',
        *
        * @return {promise} A configuration constructed from autodetected API's.
        */
-      'resolveAutodetection': function () {
+      'resolveAutodetection': function() {
         return resolveAutodetect();
       },
 
@@ -372,7 +372,7 @@ angular.module('openstack').service('$$configuration',
        *
        * @return {promise} A configuration configured by the user.
        */
-      'resolveLocal': function () {
+      'resolveLocal': function() {
         return resolveLocalStorage();
       },
 
@@ -383,7 +383,7 @@ angular.module('openstack').service('$$configuration',
        *
        * @returns {promise} The user-selected configuration.
        */
-      'resolveSelected': function () {
+      'resolveSelected': function() {
         return resolveSelectedConfiguration();
       },
 
@@ -394,7 +394,7 @@ angular.module('openstack').service('$$configuration',
        * @param {String} selectedId Set the current selected configuration name.
        * @return {void}
        */
-      'setSelected': function (selectedId) {
+      'setSelected': function(selectedId) {
         $$persistentStorage.set(selectedStorageKey, selectedId);
       },
 
@@ -403,7 +403,7 @@ angular.module('openstack').service('$$configuration',
        *
        * @returns {Object} The added configuration.
        */
-      'add': function () {
+      'add': function() {
         return addLocal();
       },
 
@@ -413,7 +413,7 @@ angular.module('openstack').service('$$configuration',
        * @param {Object} config The configuration to remove.
        * @returns {Object} The removed configuration.
        */
-      'remove': function (config) {
+      'remove': function(config) {
         return removeLocal(config);
       }
     };
@@ -423,8 +423,8 @@ angular.module('openstack').service('$$configuration',
  * This controller allows the creation of a new configuration.
  */
 angular.module('openstack').controller('ConfigurationAddController',
-  function ($scope, $state, $location, $$defaultConfiguration,
-            $$configuration, $modalInstance, configuration) {
+  function($scope, $state, $location, $$defaultConfiguration,
+           $$configuration, $modalInstance, configuration) {
     'use strict';
     var vm = this;
 
@@ -437,12 +437,12 @@ angular.module('openstack').controller('ConfigurationAddController',
       'port': $location.port()
     };
 
-    vm.save = function () {
+    vm.save = function() {
       vm.newConfiguration.id = vm.newConfiguration.name;
       $modalInstance.close(vm.newConfiguration);
     };
 
-    vm.close = function () {
+    vm.close = function() {
       $modalInstance.dismiss();
     };
   });
