@@ -36,6 +36,16 @@
                     </th>
                 </tr>
                 </thead>
+                <tbody ng-if="!ctrl.hasConfig">
+                <tr>
+                    <td colspan="4" class="text-center text-muted">
+                        <em>
+                            <small>We were unable to detect a valid ironic service. Would you like
+                            to <a href="" ng-click="ctrl.add()">add one</a>?</small>
+                        </em>
+                    </td>
+                </tr>
+                </tbody>
                 <tbody ng-if="ctrl.hasConfig">
                 <tr ng-repeat="config in ctrl.localConfig">
                     <td>
