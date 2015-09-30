@@ -18,9 +18,9 @@
  * This controller allows the management of all the cloud configuration entries.
  */
 angular.module('ironic').controller('ConfigurationController',
-  function ($state, $location, defaultConfiguration,
-            $$configuration, localConfig, autoConfig,
-            fileConfig) {
+  function($state, $location, defaultConfiguration,
+           $$configuration, localConfig, autoConfig,
+           fileConfig, $modal) {
     'use strict';
     var vm = this;
 
@@ -37,19 +37,26 @@ angular.module('ironic').controller('ConfigurationController',
       'port': $location.port()
     };
 
-    vm.add = function () {
-      $$configuration.add().then(
-        function () {
-          $$configuration.resolveLocal().then(function (configs) {
-            vm.localConfig = configs;
-          });
+    /**
+     * Displays the local configuration add modal.
+     */
+    vm.add = function() {
+      //  var deferred = $q.defer();
+      $modal.open({
+        'templateUrl': 'view/ironic/config_add.html',
+        'controller': 'ConfigurationAddController as ctrl',
+        'backdrop': 'static',
+        'resolve': {
+          'configuration': $$configuration.resolveAll
         }
-      );
+      }).result.then(function(newConfig) {
+        $$configuration.add(newConfig);
+      });
     };
 
-    vm.remove = function (config) {
+    vm.remove = function(config) {
       $$configuration.remove(config);
-      $$configuration.resolveLocal().then(function (configs) {
+      $$configuration.resolveLocal().then(function(configs) {
         vm.localConfig = configs;
       });
     };
