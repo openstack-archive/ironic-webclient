@@ -18,13 +18,17 @@
  * This controller allows the creation of a new configuration.
  */
 angular.module('ironic').controller('ConfigurationAddController',
-  function($scope, $state, $location, $$defaultConfiguration,
-           $$configuration, $modalInstance, configuration) {
+  function($scope, $state, $location, $$configuration, $modalInstance, configuration) {
     'use strict';
     var vm = this;
 
     vm.configuration = configuration;
-    vm.newConfiguration = angular.copy($$defaultConfiguration);
+    vm.newConfiguration = {
+      'name': '',
+      'ironic': {
+        'apiBase': ''
+      }
+    };
 
     vm.location = {
       'host': $location.host(),
