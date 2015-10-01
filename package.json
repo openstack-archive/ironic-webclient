@@ -41,6 +41,7 @@
     "karma-threshold-reporter": "0.1.15",
     "lodash": "3.10.1",
     "main-bower-files": "2.9.0",
+    "phantomjs": "1.9.18",
     "vinyl-paths": "1.0.0"
   }
 }
