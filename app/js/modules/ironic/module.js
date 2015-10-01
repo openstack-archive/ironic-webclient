@@ -63,9 +63,6 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap',
         'templateUrl': 'view/ironic/config.html',
         'controller': 'ConfigurationController as ctrl',
         'resolve': {
-          'defaultConfiguration': function ($$defaultConfiguration) {
-            return $$defaultConfiguration;
-          },
           'localConfig': function ($$configuration) {
             return $$configuration.resolveLocal();
           },

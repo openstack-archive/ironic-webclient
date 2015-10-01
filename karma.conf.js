@@ -26,7 +26,7 @@
 
       'frameworks': ['jasmine'],
 
-      'browsers': ['PhantomJS', 'Chrome', 'Firefox'],
+      'browsers': ['PhantomJS'],
 
       'reporters': ['progress', 'coverage', 'threshold'],
 
