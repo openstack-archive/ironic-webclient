@@ -18,7 +18,7 @@
   "author": "OpenStack <openstack-dev@lists.openstack.org>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "bower": "1.4.1",
+    "bower": "1.5.2",
     "del": "1.2.1",
     "eslint": "1.2.0",
     "eslint-config-openstack": "1.2.2",
