@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A webclient for OpenStack Ironic.",
   "main": "www/index.html",
+  "repository": "https://git.openstack.org/openstack/ironic-webclient",
   "scripts": {
     "postinstall": "bower install",
     "start": "gulp serve",
