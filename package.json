@@ -9,6 +9,7 @@
     "start": "gulp serve",
     "prepublish": "gulp package",
     "lint": "eslint ./",
+    "pretest": "gulp package",
     "test": "karma start ./karma.conf.js",
     "clean": "gulp clean"
   },
