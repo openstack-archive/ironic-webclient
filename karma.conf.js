@@ -46,6 +46,7 @@
       'files': [
         // Library files, with some ordering.
         'www/js/lib/angular.js',
+        'node_modules/angular-mocks/angular-mocks.js',
         'www/js/lib/*.js',
 
         // Application files
@@ -65,10 +66,10 @@
 
       // Coverage threshold values.
       thresholdReporter: {
-        statements: 10, // target 100
-        branches: 0, // target 100
-        functions: 0, // target 100
-        lines: 10 // target 100
+        statements: 43, // target 100
+        branches: 54, // target 100
+        functions: 27, // target 100
+        lines: 43 // target 100
       },
 
       'exclude': [],

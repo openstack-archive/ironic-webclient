@@ -19,6 +19,7 @@
   "author": "OpenStack <openstack-dev@lists.openstack.org>",
   "license": "Apache-2.0",
   "devDependencies": {
+    "angular-mocks": "1.4.6",
     "bower": "1.5.2",
     "del": "1.2.1",
     "eslint": "1.2.0",
