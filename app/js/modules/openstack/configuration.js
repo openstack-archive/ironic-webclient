@@ -15,23 +15,6 @@
  */
 
 /**
- * A default configuration structure. This may be overridden by applications by
- * injecting their own 'defaultConfiguration' constant into the application
- * after this file is loaded.
- */
-angular.module('openstack').factory('$$defaultConfiguration',
-  function () {
-    'use strict';
-
-    return {
-      'name': '',
-      'ironic': {
-        'api': ''
-      }
-    };
-  });
-
-/**
  * This resource attempts to automatically detect your cloud's configuration
  * by searching for it in common locations. First we check config.json, living
  * on the server adjacent to index.html. Secondly, we construct a default
@@ -265,11 +248,11 @@ angular.module('openstack').service('$$configuration',
        * @param {String} service The name of the service.
        * @returns {String} The Base API for the configured service.
        */
-      'getApiBase': function (service) {
+      'getApiRoot': function (service) {
         if (!selectedConfig || !selectedConfig.hasOwnProperty(service)) {
           return '/';
         }
-        return selectedConfig[service].api;
+        return selectedConfig[service].apiRoot;
       },
 
       /**
