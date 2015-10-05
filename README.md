@@ -34,7 +34,8 @@ performance of this application.
 1. Check out the code.
 2. Run `npm install`
     1. Realize that you don't have node installed. Install node, and npm.
-       Then try again.
+    2. If using a Debian/Ubuntu system, also install node.js and nodejs-legacy.
+    3. Then try again.
 3. Run `npm start`
 
 ## Other options
