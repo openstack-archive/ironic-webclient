@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-xs-12">
+        <h1>Nodes</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table table-condensed table-striped">
+            <thead>
+            <tr>
+                <th>Power</th>
+                <th>UUID</th>
+                <th>Instance</th>
+                <th>Provision State</th>
+                <th>Maintenance</th>
+            </tr>
+            </thead>
+            <tbody ng-if="ctrl.nodes.$resolved && ctrl.nodes.length > 0">
+            <tr ng-repeat="node in ctrl.nodes">
+                <td>{{node.power_state}}</td>
+                <td>
+                    <a href="#/ironic/nodes/{{node.uuid}}">
+                        {{node.uuid}}
+                    </a>
+                </td>
+                <td>{{node.instance_uuid || 'None'}}</td>
+                <td>{{node.provision_state}}</td>
+                <td>{{node.maintenance}}</td>
+            </tr>
+            </tbody>
+            <tbody ng-if="ctrl.nodes.$resolved && ctrl.nodes.length == 0">
+            <tr>
+                <td colspan="2" class="text-center text-muted">
+                    <small><em>No nodes were found.</em></small>
+                </td>
+            </tr>
+            </tbody>
+            <tbody ng-if="!ctrl.nodes.$resolved">
+            <tr>
+                <td colspan="2" class="text-center text-muted">
+                    <i class="fa fa-refresh fa-spin"></i>
+                    Loading nodes...
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
