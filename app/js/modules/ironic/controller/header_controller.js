@@ -17,7 +17,7 @@
 /**
  * Controller for our application header.
  */
-angular.module('ironic').controller('ApplicationController',
+angular.module('ironic').controller('HeaderController',
   function ($scope, $state, configurations, currentConfiguration, $$selectedConfiguration) {
     'use strict';
     var vm = this;

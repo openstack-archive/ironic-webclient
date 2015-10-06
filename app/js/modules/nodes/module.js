@@ -22,16 +22,16 @@ angular.module('ironic.nodes', ['ui.router', 'ui.bootstrap'])
     'use strict';
 
     $stateProvider
-      .state('ironic.nodes', {
+      .state('root.ironic.nodes', {
         'url': '/nodes',
         'views': {
-          'main': {
+          'main@root': {
             'templateUrl': 'view/nodes/index.html',
             'controller': 'NodeListController as ctrl'
           }
         }
       })
-      .state('ironic.nodes.detail', {
+      .state('root.ironic.nodes.detail', {
         'url': '/:uuid',
         'resolve': {
           'node': function (IronicNode, $stateParams) {
@@ -41,7 +41,7 @@ angular.module('ironic.nodes', ['ui.router', 'ui.bootstrap'])
           }
         },
         'views': {
-          'main@ironic': {
+          'main@root': {
             'templateUrl': 'view/nodes/detail.html',
             'controller': 'NodeDetailController as ctrl'
           }

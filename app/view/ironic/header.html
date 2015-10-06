@@ -1,49 +1,40 @@
-<div class="container-fluid">
-    <div class="navbar-header">
-        <a class="navbar-brand"
-           href="#/ironic"
-           active-path="^\/ironic$">
-            Ironic
-        </a>
-    </div>
-    <ul class="nav navbar-nav">
-        <li active-path="^\/ironic/drivers.*">
-            <a href="#/ironic/drivers">Drivers</a>
-        </li>
-        <li active-path="^\/ironic/nodes.*">
-            <a href="#/ironic/nodes">Nodes</a>
-        </li>
-        <li active-path="^\/ironic/ports.*">
-            <a href="#/ironic/ports">Ports</a>
-        </li>
-    </ul>
+<ul class="nav navbar-nav">
+  <li active-path="^\/ironic/drivers.*">
+    <a href="#/ironic/drivers">Drivers</a>
+  </li>
+  <li active-path="^\/ironic/nodes.*">
+    <a href="#/ironic/nodes">Nodes</a>
+  </li>
+  <li active-path="^\/ironic/ports.*">
+    <a href="#/ironic/ports">Ports</a>
+  </li>
+</ul>
 
-    <ul class="nav navbar-nav navbar-right">
-        <li dropdown is-open="status.isopen">
-            <a href="#"
-               dropdown-toggle
-               data-toggle="dropdown">
-                <i class="fa fa-cloud"></i>&nbsp;
-                {{appCtrl.currentConfiguration.name}}
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li class="dropdown-header">Switch to...</li>
-                <li ng-repeat="cloud in appCtrl.configurations">
-                    <a href="#"
-                       ng-click="appCtrl.switchCloud(cloud)">
-                        <i class="fa fa-cloud"></i>&nbsp;
-                        {{cloud.name}}
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="#/config" class="text-muted">
-                        <i class="fa fa-gear"></i>
-                        Manage
-                    </a>
-                </li>
-            </ul>
-        </li>
+<ul class="nav navbar-nav navbar-right">
+  <li dropdown is-open="status.isopen">
+    <a href="#"
+       dropdown-toggle
+       data-toggle="dropdown">
+      <i class="fa fa-cloud"></i>&nbsp;
+      {{headerCtrl.currentConfiguration.name}}
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li class="dropdown-header">Switch to...</li>
+      <li ng-repeat="cloud in headerCtrl.configurations">
+        <a href="#"
+           ng-click="headerCtrl.switchCloud(cloud)">
+          <i class="fa fa-cloud"></i>&nbsp;
+          {{cloud.name}}
+        </a>
+      </li>
+      <li class="divider"></li>
+      <li>
+        <a href="#/config" class="text-muted">
+          <i class="fa fa-gear"></i>
+          Manage
+        </a>
+      </li>
     </ul>
-</div>
+  </li>
+</ul>
