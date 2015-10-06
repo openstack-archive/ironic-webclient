@@ -22,16 +22,16 @@ angular.module('ironic.ports', ['ui.router', 'ui.bootstrap'])
     'use strict';
 
     $stateProvider
-      .state('ironic.ports', {
+      .state('root.ironic.ports', {
         'url': '/ports',
         'views': {
-          'main': {
+          'main@root': {
             'templateUrl': 'view/ports/index.html',
             'controller': 'PortListController as ctrl'
           }
         }
       })
-      .state('ironic.ports.detail', {
+      .state('root.ironic.ports.detail', {
         'url': '/:uuid',
         'resolve': {
           'port': function (IronicPort, $stateParams) {
@@ -41,7 +41,7 @@ angular.module('ironic.ports', ['ui.router', 'ui.bootstrap'])
           }
         },
         'views': {
-          'main@ironic': {
+          'main@root': {
             'templateUrl': 'view/ports/detail.html',
             'controller': 'PortDetailController as ctrl'
           }

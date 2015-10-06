@@ -37,12 +37,20 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap',
     // Ironic's root state, used to resolve global resources before
     // the application fully initializes.
     $stateProvider
-      .state('ironic', {
+      .state('root', {
+        'abstract': true,
+        'url': '',
+        'templateUrl': 'view/ironic/index.html'
+      })
+      .state('root.ironic', {
         'url': '/ironic',
         'views': {
-          '@': {
-            'controller': 'ApplicationController as appCtrl',
-            'templateUrl': 'view/ironic/index.html'
+          'header': {
+            'templateUrl': 'view/ironic/header.html',
+            'controller': 'HeaderController as headerCtrl'
+          },
+          'main': {
+            'templateUrl': 'view/ironic/main.html'
           }
         },
         'resolve': {
@@ -64,21 +72,25 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap',
           }
         }
       })
-      .state('config', {
+      .state('root.config', {
         'url': '/config',
-        'templateUrl': 'view/ironic/config.html',
-        'controller': 'ConfigurationController as ctrl'
+        'views': {
+          'main': {
+            'templateUrl': 'view/ironic/config.html',
+            'controller': 'ConfigurationController as ctrl'
+          }
+        }
       });
   })
-  .run(function ($rootScope, $state) {
+  .run(function($rootScope, $state) {
     'use strict';
 
     var listener = $rootScope.$on('$stateChangeError',
       function (evt, toState, toParams, fromState, fromParams, reason) {
         if (reason === 'no_config') {
-          $state.go('config');
+          $state.go('root.config');
         } else {
-          $state.go('ironic');
+          $state.go('root.ironic');
         }
       });
     $rootScope.$on('$destroy', listener);

@@ -1,18 +1,18 @@
-
-<nav class="navbar navbar-default navbar-fixed-top"
-     ng-include src="'view/ironic/header.html'">
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand"
+         href="#/ironic"
+         active-path="^\/ironic$">
+        Ironic
+      </a>
+    </div>
+    <div ui-view="header"></div>
+  </div>
 </nav>
 
-<div class="container-fluid" ui-view="main">
-    <div class="row">
-        <div class="col-xs-12">
-            Welcome to the UI.
-        </div>
-    </div>
-</div>
-
+<div class="container-fluid" ui-view="main"></div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container-fluid">
-    </div>
+  <div class="container-fluid" ui-view="footer"></div>
 </nav>
