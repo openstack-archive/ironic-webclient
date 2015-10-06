@@ -18,23 +18,18 @@
  * Node handling for the Ironic UI.
  */
 angular.module('ironic.nodes', ['ui.router', 'ui.bootstrap'])
-  .config(function ($urlRouterProvider, $httpProvider, $stateProvider) {
+  .config(function($urlRouterProvider, $httpProvider, $stateProvider) {
     'use strict';
 
     $stateProvider
       .state('root.ironic.nodes', {
-        'url': '/nodes',
-        'views': {
-          'main@root': {
-            'templateUrl': 'view/nodes/index.html',
-            'controller': 'NodeListController as ctrl'
-          }
-        }
+        'abstract': true,
+        'url': '/nodes'
       })
       .state('root.ironic.nodes.detail', {
         'url': '/:uuid',
         'resolve': {
-          'node': function (IronicNode, $stateParams) {
+          'node': function(IronicNode, $stateParams) {
             return IronicNode.read({
               'uuid': $stateParams.uuid
             }).$promise;
@@ -48,12 +43,7 @@ angular.module('ironic.nodes', ['ui.router', 'ui.bootstrap'])
         }
       });
   })
-  .controller('NodeListController', function ($scope, IronicNode) {
-    'use strict';
-    var vm = this;
-    vm.nodes = IronicNode.query({});
-  })
-  .controller('NodeDetailController', function ($scope, node) {
+  .controller('NodeDetailController', function($scope, node) {
     'use strict';
     var vm = this;
     vm.node = node;

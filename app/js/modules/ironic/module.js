@@ -50,7 +50,8 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap',
             'controller': 'HeaderController as headerCtrl'
           },
           'main': {
-            'templateUrl': 'view/ironic/main.html'
+            'templateUrl': 'view/ironic/node_list.html',
+            'controller': 'NodeListController as nodeListCtrl'
           }
         },
         'resolve': {
