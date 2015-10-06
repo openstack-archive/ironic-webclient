@@ -22,10 +22,10 @@ angular.module('ironic.drivers', ['ui.router', 'ui.bootstrap'])
     'use strict';
 
     $stateProvider
-      .state('ironic.drivers', {
+      .state('root.ironic.drivers', {
         'url': '/drivers',
         'views': {
-          'main': {
+          'main@root': {
             'templateUrl': 'view/drivers/index.html',
             'controller': 'DriverListController as ctrl'
           }
