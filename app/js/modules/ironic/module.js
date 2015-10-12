@@ -41,14 +41,19 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap',
           }
         },
         'resolve': {
-          'selectedConfiguration': function ($$configuration) {
-            return $$configuration.resolveSelected();
+          'selectedConfiguration': function($$configuration, $q) {
+            var deferred = $q.defer();
+            $$configuration.resolveSelected().then(
+              function(selectedConfig) {
+                if (!selectedConfig) {
+                  deferred.reject('no_config');
+                } else {
+                  $deferred.resolve(selectedConfig);
+                }
+              });
+            return deferred.promise;
           },
-          // Warning! This hack is in place to ensure that the
-          // selectedConfiguration - which asserts that at least one
-          // configuration exists, executes before the below
-          // configuration.
-          'configuration': function (selectedConfiguration, $$configuration) {
+          'configuration': function ($$configuration) {
             return $$configuration.resolveAll();
           }
         }
@@ -77,8 +82,12 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap',
     'use strict';
 
     var listener = $rootScope.$on('$stateChangeError',
-      function () {
-        $state.go('ironic');
+      function (evt, toState, toParams, fromState, fromParams, reason) {
+        if (reason === 'no_config') {
+          $state.go('config');
+        } else {
+          $state.go('ironic');
+        }
       });
     $rootScope.$on('$destroy', listener);
   });

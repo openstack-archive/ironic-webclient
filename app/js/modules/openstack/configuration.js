@@ -50,7 +50,7 @@ angular.module('openstack').factory('$$defaultConfiguration',
  * }]
  */
 angular.module('openstack').service('$$configuration',
-  function ($q, $http, $log, $location, $$persistentStorage, $modal) {
+  function ($q, $http, $log, $location, $$persistentStorage) {
     'use strict';
 
     /**
@@ -222,66 +222,6 @@ angular.module('openstack').service('$$configuration',
     }
 
     /**
-     * Displays the local configuration add modal.
-     *
-     * @return {promise} A resolution promise.
-     */
-    function addLocal () {
-      var deferred = $q.defer();
-      $modal.open({
-        'templateUrl': 'view/openstack/config_add.html',
-        'controller': 'ConfigurationAddController as ctrl',
-        'backdrop': 'static',
-        'resolve': {
-          'configuration': resolveAllConfigurations
-        }
-      }).result.then(function (newConfig) {
-          localConfig.push(newConfig);
-          saveLocal();
-          deferred.resolve(newConfig);
-        }, function () {
-          deferred.reject();
-        });
-
-      return deferred.promise;
-    }
-
-    /**
-     * This method throws the user into an infinite loop, requiring them to
-     * install a configuration.
-     *
-     * @return {promise} A resolution promise.
-     */
-    function requireAtLeastOneConfiguration () {
-      var deferred = $q.defer();
-
-      function requireAddLocal () {
-        addLocal().then(
-          function () {
-            resolveAllConfigurations().then(function (configs) {
-              deferred.resolve(configs);
-            });
-          },
-          function () {
-            // Force them to do this until we have a valid
-            // configuration.
-            requireAddLocal();
-          }
-        );
-      }
-
-      resolveAllConfigurations().then(function (configs) {
-        if (configs.length === 0) {
-          requireAddLocal();
-        } else {
-          deferred.resolve(configs);
-        }
-      });
-
-      return deferred.promise;
-    }
-
-    /**
      * Resolve the current selected configuration.
      *
      * @return {promise} A resolution promise.
@@ -291,31 +231,25 @@ angular.module('openstack').service('$$configuration',
 
       var selectedId = $$persistentStorage.get(selectedStorageKey);
 
-      requireAtLeastOneConfiguration().then(
-        function (configs) {
-          // Pick the configuration from the loaded configs. Note
-          // that if the selectedId is null, this will never
-          // match.
-          selectedConfig = configs[0];
-          configs.forEach(function (config) {
-            if (config.id === selectedId) {
-              $log.debug('Selecting config: ' + selectedId);
-              selectedConfig = config;
-            }
-          });
-
-          // If the selected config does not match the selected
-          // id, then it's likely that the config disappeared.
-          // Reset the selectedId to match the chosen one.
-          if (selectedId !== selectedConfig.id) {
-            selectedId = selectedConfig.id;
-            $$persistentStorage.set(selectedStorageKey,
-              selectedId);
-            $log.debug('AutoSelecting cloud: ' + selectedId);
+      resolveAllConfigurations().then(function(configs) {
+        // Pick the configuration from the loaded configs. Note
+        // that if the selectedId is null, this will never
+        // match.
+        var selectedConfig;
+        configs.forEach(function(config) {
+          if (config.id === selectedId) {
+            $log.debug('Selecting config: ' + selectedId);
+            selectedConfig = config;
           }
-          deferSelected.resolve(selectedConfig);
+        });
+
+        // If the selectedConfig is null, chances are it was removed at runtime. Clear the
+        // selectedId, if it exists.
+        if (!selectedConfig) {
+          $$persistentStorage.remove(selectedStorageKey);
         }
-      );
+        deferSelected.resolve(selectedConfig);
+      });
 
       return deferSelected.promise;
     }
@@ -403,8 +337,10 @@ angular.module('openstack').service('$$configuration',
        *
        * @returns {Object} The added configuration.
        */
-      'add': function () {
-        return addLocal();
+      'add': function (newConfig) {
+        localConfig.push(newConfig);
+        saveLocal();
+        return newConfig;
       },
 
       /**
@@ -416,33 +352,5 @@ angular.module('openstack').service('$$configuration',
       'remove': function (config) {
         return removeLocal(config);
       }
-    };
-  });
-
-/**
- * This controller allows the creation of a new configuration.
- */
-angular.module('openstack').controller('ConfigurationAddController',
-  function ($scope, $state, $location, $$defaultConfiguration,
-            $$configuration, $modalInstance, configuration) {
-    'use strict';
-    var vm = this;
-
-    vm.configuration = configuration;
-    vm.newConfiguration = angular.copy($$defaultConfiguration);
-
-    vm.location = {
-      'host': $location.host(),
-      'protocol': $location.protocol(),
-      'port': $location.port()
-    };
-
-    vm.save = function () {
-      vm.newConfiguration.id = vm.newConfiguration.name;
-      $modalInstance.close(vm.newConfiguration);
-    };
-
-    vm.close = function () {
-      $modalInstance.dismiss();
     };
   });
