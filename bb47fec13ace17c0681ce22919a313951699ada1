@@ -1,0 +1,9 @@
+Verified+2: Jenkins
+Code-Review+1: Julia Kreger <juliaashleykreger@gmail.com>
+Code-Review+2: Beth Elwell <e.r.elwell@gmail.com>
+Workflow+1: Beth Elwell <e.r.elwell@gmail.com>
+Submitted-by: Jenkins
+Submitted-at: Mon, 12 Oct 2015 16:43:18 +0000
+Reviewed-on: https://review.openstack.org/229568
+Project: openstack/ironic-webclient
+Branch: refs/heads/master
