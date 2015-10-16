@@ -18,8 +18,7 @@
  * This controller allows the management of all the cloud configuration entries.
  */
 angular.module('ironic').controller('ConfigurationController',
-  function($state, $location, defaultConfiguration,
-           $$configuration, localConfig, autoConfig,
+  function($state, $location, $$configuration, localConfig, autoConfig,
            fileConfig, $modal) {
     'use strict';
     var vm = this;

@@ -116,7 +116,7 @@ angular.module('openstack').provider('$$resourceFactory',
        * @returns {*} The constructed service.
        */
       function getService (serviceName, resourceName) {
-        var baseUri = $$configuration.getApiBase(serviceName);
+        var baseUri = $$configuration.getApiRoot(serviceName);
         var cache = getServiceCache(baseUri);
 
         if (!cache.hasOwnProperty(resourceName)) {

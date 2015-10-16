@@ -41,11 +41,12 @@ describe('Unit: Ironic-webclient Add-Configuration Controller',
           expect(controller.configuration).toBe(mockInjectionProperties.configuration);
         });
 
-      it('sets the newConfiguration property to a clone of the $$defaultConfiguration',
-        inject(function($$defaultConfiguration) {
+      it('sets the newConfiguration property to a valid cloud configuration with an ironic apiBase',
+        function() {
           var controller = $controller('ConfigurationAddController', mockInjectionProperties);
-          expect(controller.newConfiguration).toEqual($$defaultConfiguration);
-        }));
+          expect(controller.newConfiguration.ironic).toEqual({'apiRoot': ''});
+          expect(controller.newConfiguration.name).toBeDefined();
+        });
 
       it('sets the $scope.location to a hash of the current URL',
         inject(function($location) {
@@ -90,7 +91,7 @@ describe('Unit: Ironic-webclient Add-Configuration Controller',
             id: 'Test Name',
             name: 'Test Name',
             ironic: {
-              api: ''
+              apiRoot: ''
             }
           });
         });
