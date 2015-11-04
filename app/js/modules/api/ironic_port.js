@@ -21,7 +21,8 @@
  * `remove`.
  */
 angular.module('ironic.api').factory('IronicPort',
-  function($log, $$selectedConfiguration, $$resourceCache, $resource, $$dummyResource) {
+  function($log, $$selectedConfiguration, $$resourceCache, $resource, $$dummyResource,
+           ironicApiInterceptor) {
 
     /**
      * This method extracts the current active API root URI from $$configuration, ensures that
@@ -50,22 +51,23 @@ angular.module('ironic.api').factory('IronicPort',
           'query': {
             'method': 'GET',
             'isArray': true,
-            'transformResponse': function(data) {
-              var parsed = angular.fromJson(data);
-              return parsed.ports;
-            }
+            'transformResponse': ironicApiInterceptor.response('ports')
           },
           'create': {
-            'method': 'POST'
+            'method': 'POST',
+            'transformResponse': ironicApiInterceptor.response()
           },
           'read': {
-            'method': 'GET'
+            'method': 'GET',
+            'transformResponse': ironicApiInterceptor.response()
           },
           'update': {
-            'method': 'PUT'
+            'method': 'PUT',
+            'transformResponse': ironicApiInterceptor.response()
           },
           'remove': {
-            'method': 'DELETE'
+            'method': 'DELETE',
+            'transformResponse': ironicApiInterceptor.response()
           }
         });
 
