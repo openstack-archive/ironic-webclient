@@ -21,7 +21,8 @@
  * `remove`.
  */
 angular.module('ironic.api').factory('IronicDriver',
-  function($log, $$selectedConfiguration, $$resourceCache, $resource, $$dummyResource) {
+  function($log, $$selectedConfiguration, $$resourceCache, $resource, $$dummyResource,
+           ironicResponseTransformer) {
 
     /**
      * This method extracts the current active API root URI from $$configuration, ensures that
@@ -50,22 +51,23 @@ angular.module('ironic.api').factory('IronicDriver',
           'query': {
             'method': 'GET',
             'isArray': true,
-            'transformResponse': function(data) {
-              var parsed = angular.fromJson(data);
-              return parsed.drivers;
-            }
+            'transformResponse': ironicResponseTransformer.transformListResponse('drivers')
           },
           'create': {
-            'method': 'POST'
+            'method': 'POST',
+            'transformResponse': ironicResponseTransformer.transformObjectResponse
           },
           'read': {
-            'method': 'GET'
+            'method': 'GET',
+            'transformResponse': ironicResponseTransformer.transformObjectResponse
           },
           'update': {
-            'method': 'PUT'
+            'method': 'PUT',
+            'transformResponse': ironicResponseTransformer.transformObjectResponse
           },
           'remove': {
-            'method': 'DELETE'
+            'method': 'DELETE',
+            'transformResponse': ironicResponseTransformer.transformObjectResponse
           }
         });
 
