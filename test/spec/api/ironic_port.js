@@ -132,4 +132,86 @@ describe('Unit: OpenStack Ironic Port Resource',
         expect(removeResult.$resolved).toBeTruthy();
         expect(removeResult.$promise.$$state.status).toBe(2);
       }));
+
+    it('should correctly parse query error responses',
+      inject(function(IronicPort, $$selectedConfiguration) {
+        $$selectedConfiguration.set('test_config_1');
+        $rootScope.$apply();
+
+        // Try a request
+        $httpBackend.expectGET('http://ironic.example.com:1000/ports')
+          .respond(400, {
+            'error_message': angular.toJson({
+              'debuginfo': null,
+              'faultcode': 'Client',
+              'faultstring': 'Test fault string'
+            })
+          });
+
+        // Issue a request and attach a listener for the error response.
+        var result = IronicPort.query({});
+        result.$promise.then(function() {
+          expect(true).toBeFalsy(); // This must fail, we're checking for an error.
+        }, function(error) {
+          expect(error.data.error_message.faultcode).toBe('Client');
+        });
+
+        // Check and resolve the promise.
+        expect(result.$promise).toBeDefined();
+        expect(result.$resolved).toBeFalsy();
+        $httpBackend.flush();
+        expect(result.$resolved).toBeTruthy();
+        expect(result.$promise.$$state.status).toBe(2);
+      }));
+
+    it('should correctly parse CRUD regular responses',
+      inject(function(IronicPort, $$selectedConfiguration) {
+        $$selectedConfiguration.set('test_config_1');
+        $rootScope.$apply();
+
+        // Try a request
+        $httpBackend.expectGET('http://ironic.example.com:1000/ports/1')
+          .respond(200, {uuid: 1});
+
+        // Issue a request and attach a listener for the error response.
+        var result = IronicPort.read({uuid: 1});
+        // Check and resolve the promise.
+        expect(result.$promise).toBeDefined();
+        expect(result.$resolved).toBeFalsy();
+        $httpBackend.flush();
+        expect(result.$resolved).toBeTruthy();
+        expect(result.$promise.$$state.status).toBe(1);
+        expect(result.uuid).toBe(1);
+      }));
+
+    it('should correctly parse CRUD error responses',
+      inject(function(IronicPort, $$selectedConfiguration) {
+        $$selectedConfiguration.set('test_config_1');
+        $rootScope.$apply();
+
+        // Try a request
+        $httpBackend.expectGET('http://ironic.example.com:1000/ports/1')
+          .respond(400, {
+            'error_message': angular.toJson({
+              'debuginfo': null,
+              'faultcode': 'Client',
+              'faultstring': 'Test fault string'
+            })
+          });
+
+        // Issue a request and attach a listener for the error response.
+        var result = IronicPort.read({uuid: 1});
+        result.$promise.then(function() {
+          expect(true).toBeFalsy(); // This must fail, we're checking for an error.
+        }, function(error) {
+          expect(error.data.error_message.faultcode).toBe('Client');
+        });
+
+        // Check and resolve the promise.
+        expect(result.$promise).toBeDefined();
+        expect(result.$resolved).toBeFalsy();
+        $httpBackend.flush();
+        expect(result.$resolved).toBeTruthy();
+        expect(result.$promise.$$state.status).toBe(2);
+      }));
   });
