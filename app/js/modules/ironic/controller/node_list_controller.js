@@ -18,9 +18,30 @@
  * Node handling for the Ironic UI.
  */
 angular.module('ironic')
-  .controller('NodeListController', function($scope, IronicNode) {
+  .controller('NodeListController', function($scope, IronicNode, $modal) {
     'use strict';
     var vm = this;
-    vm.nodes = IronicNode.query({});
-  });
 
+    // Load the node list.
+    function loadNodes () {
+      vm.nodes = IronicNode.query({});
+    }
+
+    vm.enroll = function() {
+      $modal.open({
+        'templateUrl': 'view/ironic/enroll/index.html',
+        'controller': 'EnrollModalController as ctrl',
+        'backdrop': 'static',
+        'resolve': {
+          'drivers': function(IronicDriver) {
+            return IronicDriver.query({}).$promise;
+          }
+        }
+      }).result.then(
+        function(newNode) {
+          loadNodes();
+        });
+    };
+
+    loadNodes();
+  });
