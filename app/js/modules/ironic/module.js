@@ -21,8 +21,7 @@
  * functionality.
  */
 angular.module('ironic', ['ui.router', 'ui.bootstrap',
-  'ironic.drivers', 'ironic.nodes', 'ironic.ports',
-  'ironic.util', 'ironic.api'])
+  'ironic.drivers', 'ironic.nodes', 'ironic.util', 'ironic.api'])
   .config(function($urlRouterProvider, $httpProvider, $stateProvider, $$configurationProvider) {
     'use strict';
 
