@@ -30,6 +30,11 @@ angular.module('ironic').controller('ConfigurationController',
       'port': $location.port()
     };
 
+    /**
+     * Reload all configurations in this controller.
+     *
+     * @returns {void}
+     */
     function reloadConfigurations () {
       vm.configurations = $$configuration.query({});
     }
@@ -37,7 +42,8 @@ angular.module('ironic').controller('ConfigurationController',
     /**
      * Select a single configuration for the current application runtime.
      *
-     * @param configuration The configuration to select.
+     * @param {{}} configuration The configuration to select.
+     * @returns {void}
      */
     vm.select = function(configuration) {
       $$selectedConfiguration.set(configuration).$promise.then(
@@ -49,6 +55,8 @@ angular.module('ironic').controller('ConfigurationController',
 
     /**
      * Displays the local configuration add modal.
+     *
+     * @returns {void}
      */
     vm.add = function() {
       //  var deferred = $q.defer();
@@ -67,6 +75,11 @@ angular.module('ironic').controller('ConfigurationController',
         });
     };
 
+    /**
+     * Remove a configuration.
+     * @param {{}} config The configuration to remove.
+     * @returns {void}
+     */
     vm.remove = function(config) {
       config.$remove().$promise.then(reloadConfigurations);
     };

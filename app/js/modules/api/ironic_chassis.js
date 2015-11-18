@@ -23,9 +23,13 @@
 angular.module('ironic.api').factory('IronicChassis',
   function($log, $$selectedConfiguration, $$resourceCache, $resource, $$dummyResource,
            ironicApiInterceptor) {
+    'use strict';
+
     /**
      * This method extracts the current active API root URI from $$configuration, ensures that
      * the appropriate Ironic resources exists in the $$resourceCache, and returns it.
+     *
+     * @returns {{}} The created, and cached, IronicPort resource.
      */
     function getResource () {
       // Pull the current configuration.

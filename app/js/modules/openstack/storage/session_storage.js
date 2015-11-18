@@ -84,9 +84,9 @@ angular.module('openstack').factory('$$sessionStorage',
           if (result) {
             return result;
           }
-          return; // undefined
+        } else {
+          $log.warn('$$sessionStorage not supported');
         }
-        $log.warn('$$sessionStorage not supported');
       },
 
       /**

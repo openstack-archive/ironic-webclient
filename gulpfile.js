@@ -7,7 +7,6 @@
   var mainBowerFiles = require('main-bower-files');
   var filter = require('gulp-filter');
   var webserver = require('gulp-webserver');
-  var useref = require('gulp-useref');
   var del = require('del');
   var fs = require('fs');
   var path = require('path');
