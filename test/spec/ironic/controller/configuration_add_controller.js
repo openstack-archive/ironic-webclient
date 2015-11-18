@@ -6,7 +6,6 @@ describe('Unit: Ironic-webclient Add-Configuration Controller',
     'use strict';
 
     var $controller;
-    var $scope = {};
     var mockInjectionProperties = {
       $scope: {},
       $modalInstance: {

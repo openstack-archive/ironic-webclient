@@ -21,6 +21,7 @@
  */
 angular.module('openstack.mock.$$configuration', ['openstack'])
   .config(function($$configurationProvider) {
+    'use strict';
 
     $$configurationProvider.$addConfig({
       id: 'test_config_1',

@@ -99,7 +99,8 @@ angular.module('openstack').provider('$$configuration',
      * hardcoded configuration. For a user-provided configuration, we recommend you use
      * $$configuration.create({}); instead.
      *
-     * @param configuration The configuration to add.
+     * @param {*} configuration The configuration to add.
+     * @returns {void}
      */
     this.$addConfig = function(configuration) {
       configuration = angular.copy(configuration);
@@ -117,8 +118,9 @@ angular.module('openstack').provider('$$configuration',
      * Register a service's default API URL. This allows peer libraries, such as glance-apilib
      * or ironic-apilib, to set a 'default' location for their API.
      *
-     * @param serviceName The name of the service to register. Example: 'ironic'.
-     * @param serviceUrl The root url of the API.
+     * @param {String} serviceName The name of the service to register. Example: 'ironic'.
+     * @param {String} serviceUrl The root url of the API.
+     * @returns {void}
      */
     this.$registerDefault = function(serviceName, serviceUrl) {
       defaultConfig[serviceName] = {
@@ -141,6 +143,7 @@ angular.module('openstack').provider('$$configuration',
      * creation of default configurations.
      *
      * @param {Boolean} enable Whether to enable the default configuration mechanism.
+     * @returns {void}
      */
     this.$enableDefault = function(enable) {
       enable = !!enable;
@@ -163,6 +166,7 @@ angular.module('openstack').provider('$$configuration',
      * cloud with a static config.json file.
      *
      * @param {Boolean} enable Whether to enable configuration loading.
+     * @returns {void}
      */
     this.$enableConfigLoad = function(enable) {
       enable = !!enable;
@@ -184,6 +188,7 @@ angular.module('openstack').provider('$$configuration',
      * is shared between applications on the same domain.
      *
      * @param {Boolean} enable Whether to enable localStorage configurations.
+     * @returns {void}
      */
     this.$enableLocalStorage = function(enable) {
       enable = !!enable;
@@ -202,8 +207,8 @@ angular.module('openstack').provider('$$configuration',
     /**
      * Create a shallow copy of an object without persisting private methods.
      *
-     * @param src The source object.
-     * @returns {*|{}}
+     * @param {*} src The source object.
+     * @returns {*|{}} A copy of the object.
      */
     function cleanCopy (src) {
       var dst = {};
@@ -217,15 +222,13 @@ angular.module('openstack').provider('$$configuration',
       return dst;
     }
 
-    /**
-     * Return the $$configuration service.
-     */
     this.$get = function($q, $$persistentStorage, $log, $http) {
 
       /**
        * Store a list of data in local persistent storage.
        *
-       * @param list An array of config objects.
+       * @param {*} list An array of config objects.
+       * @returns {void}
        */
       function saveLocal (list) {
         $$persistentStorage.set(storageKey, list);
@@ -236,7 +239,7 @@ angular.module('openstack').provider('$$configuration',
       /**
        * Retrieve all configurations from the browser local storage, if enabled.
        *
-       * @returns {promise}
+       * @returns {promise} A resolving promise for local configuration objects.
        */
       function resolveLocal () {
         if (!deferLocal) {
@@ -257,7 +260,7 @@ angular.module('openstack').provider('$$configuration',
       /**
        * Retrieve all configurations from our various storage mechanisms.
        *
-       * @returns {promise}
+       * @returns {promise} A resolving promise for all configuration objects.
        */
       function resolveAll () {
         // Only trigger this if the promise has been cleared.
@@ -293,7 +296,7 @@ angular.module('openstack').provider('$$configuration',
       /**
        * Resolve configuration files from the ./config.json file.
        *
-       * @returns {promise}
+       * @returns {promise} A resolving promise for configFile configuration objects.
        */
       function resolveConfig () {
         if (!deferConfig) {
@@ -331,7 +334,7 @@ angular.module('openstack').provider('$$configuration',
       /**
        * Resolve the default configuration.
        *
-       * @returns {promise}
+       * @returns {promise} A resolving promise for default API calls.
        */
       function resolveDefault () {
         if (!deferDefault) {
@@ -349,7 +352,7 @@ angular.module('openstack').provider('$$configuration',
       /**
        * Resolve a list of configurations added to the services at config time.
        *
-       * @returns {promise}
+       * @returns {promise} A resolving promise of static configuration objects.
        */
       function resolveStatic () {
         if (!deferStatic) {
@@ -362,7 +365,8 @@ angular.module('openstack').provider('$$configuration',
       /**
        * Create a new local configuration. This requires that localStorage is enabled.
        *
-       * @param newConfig The configuration to create.
+       * @param {{}} newConfig The configuration to create.
+       * @returns {{}} A resource for this new configuration object.
        */
       function createConfig (newConfig) {
         // Create a result object
@@ -412,7 +416,8 @@ angular.module('openstack').provider('$$configuration',
       /**
        * Update a new locally stored configuration.
        *
-       * @param config The configuration object to update.
+       * @param {{}} config The configuration object to update.
+       * @returns {{}} The updated configuration.
        */
       function updateConfig (config) {
         var deferred = $q.defer();
@@ -451,7 +456,8 @@ angular.module('openstack').provider('$$configuration',
       /**
        * Retrieve a configuration by ID.
        *
-       * @param config The configuration object to decorate with the result.
+       * @param {{}} config The configuration object to resolve.
+       * @returns {{}} The configuration resource.
        */
       function readConfig (config) {
         var deferred = $q.defer();
@@ -485,7 +491,8 @@ angular.module('openstack').provider('$$configuration',
       /**
        * Remove a locally stored configuration from the cache.
        *
-       * @param config The configuration object to remove.
+       * @param {{}} config The configuration object to remove.
+       * @returns {{}} The configuration object, with appropriate promises.
        */
       function removeConfig (config) {
         var deferred = $q.defer();
@@ -525,10 +532,10 @@ angular.module('openstack').provider('$$configuration',
        * This method decorates a raw resource with manipulation methods like $delete, $update,
        * etc. These convenience methods permit individual instance manipulation.
        *
-       * @param instance The instance to decorate.
-       * @param promise The promise to apply.
+       * @param {{}} instance The instance to decorate.
+       * @param {Promise} promise The promise to apply.
        *
-       * @return {{}} A clone of the instance, with $ methods added.
+       * @returns {{}} A clone of the instance, with $ methods added.
        */
       function resourceify (instance, promise) {
         instance.$promise = promise;
@@ -592,6 +599,7 @@ angular.module('openstack').provider('$$configuration',
          * Create a new configuration.
          *
          * @param {{}} configuration The configuration to add.
+         * @returns {{}} A resource for this new configuration object.
          */
         'create': function(configuration) {
           return createConfig(configuration);
@@ -600,7 +608,8 @@ angular.module('openstack').provider('$$configuration',
         /**
          * Retrieve a specific configuration by ID.
          *
-         * @param id
+         * @param {String} id The configuration ID/Name to load.
+         * @returns {{}} The configuration resource.
          */
         'read': function(id) {
           return readConfig({'id': id});
@@ -610,7 +619,8 @@ angular.module('openstack').provider('$$configuration',
          * Update a configuration in the loaded cache. This will error if the user attempts to
          * update a configuration from a static provider - say the config file.
          *
-         * @param configuration
+         * @param {{}} configuration The configuration object to update.
+         * @returns {{}} The updated configuration.
          */
         'update': function(configuration) {
           return updateConfig(configuration);
@@ -619,7 +629,8 @@ angular.module('openstack').provider('$$configuration',
         /**
          * Remove a particular configuration from the configuration list.
          *
-         * @param id The ID to remove.
+         * @param {String} id The ID to remove.
+         * @returns {{}} The configuration object, with appropriate promises.
          */
         'remove': function(id) {
           return removeConfig({'id': id});
