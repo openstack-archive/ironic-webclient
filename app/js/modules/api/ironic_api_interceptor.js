@@ -20,14 +20,15 @@
  */
 angular.module('ironic.api').service('ironicApiInterceptor',
   function($q, $http) {
+    'use strict';
 
     /**
      * Ironic's error message is a doubly-encoded JSON string. This checks the body for that
      * field and runs a second decoder.
      *
-     * @param responseBody The decoded JSON response body.
-     * @param headers Headers getter.
-     * @param status The HTTP Status of the response.
+     * @param {*} responseBody The decoded JSON response body.
+     * @param {Function} headers Headers getter.
+     * @param {int} status The HTTP Status of the response.
      * @returns {*} The decoded response body.
      */
     function parseErrorResponse (responseBody, headers, status) {
@@ -42,7 +43,7 @@ angular.module('ironic.api').service('ironicApiInterceptor',
      * of the returned body rather than the whole response. This method returns a transformation
      * function that applies this change.
      *
-     * @param propertyName The property name to reduce to.
+     * @param {String} propertyName The property name to reduce to.
      * @returns {Function} A function that reduces the response appropriately.
      */
     function parseChildProperty (propertyName) {
@@ -50,7 +51,7 @@ angular.module('ironic.api').service('ironicApiInterceptor',
        * Response transformer for a specific ironic list response. If the property is not found
        * (As with error responses), simply returns the original object.
        *
-       * @param responseBody The body received from the server.
+       * @param {*} responseBody The body received from the server.
        * @returns {Array} List of results.
        */
       return function(responseBody) {
@@ -66,7 +67,7 @@ angular.module('ironic.api').service('ironicApiInterceptor',
        * Transform the result of an object query from the Ironic API, accommodating for error
        * and list responses.
        *
-       * @param childPropertyName (optional) The name of the child property to reduce to.
+       * @param {String} childPropertyName (optional) The name of the child property to reduce to.
        * @returns {Array} An array of transformations.
        */
       'response': function(childPropertyName) {

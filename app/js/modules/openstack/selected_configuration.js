@@ -53,7 +53,7 @@ angular.module('openstack').service('$$selectedConfiguration',
        * LocalStorage if the selected configuration is valid and available in the
        * $$configuration list.
        *
-       * @param configurationId The configuration to activate.
+       * @param {String} configurationId The configuration to activate.
        * @returns {*} The active configuration.
        */
       'set': function(configurationId) {

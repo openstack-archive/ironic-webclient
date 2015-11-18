@@ -84,9 +84,9 @@ angular.module('openstack').factory('$$localStorage',
           if (result) {
             return result;
           }
-          return; // undefined
+        } else {
+          $log.warn('$$localStorage not supported');
         }
-        $log.warn('$$localStorage not supported');
       },
 
       /**

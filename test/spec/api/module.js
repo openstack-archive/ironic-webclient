@@ -20,7 +20,7 @@ describe('Unit: Ironic.API Module',
     });
 
     it('should automatically register a root API endpoint with $$configuration',
-      inject(function($$configuration, $location) {
+      inject(function($$configuration) {
         var config = $$configuration.read('default');
         $rootScope.$apply();
 

@@ -73,7 +73,7 @@ describe('Unit: Disabled OpenStack $$localStorage', function() {
 
   beforeEach(function() {
     angular.mock.module('openstack', function($provide) {
-      $provide.value('$window', {localStorage: undefined});
+      $provide.value('$window', {localStorage: null});
     });
   });
 

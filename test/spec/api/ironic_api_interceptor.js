@@ -44,6 +44,11 @@ describe('Unit: OpenStack Ironic API Transformation Methods',
 
     /**
      * Run all changes through the filter chain.
+     *
+     * @param {String} resourceName The name of the resource to resolve.
+     * @param {*} body The response data body to modify.
+     * @param {int} status The HTTP status code to return.
+     * @return {*} The modified body.
      */
     function applyResponseTransformationChain (resourceName, body, status) {
       status = status || 200;

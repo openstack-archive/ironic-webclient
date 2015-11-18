@@ -221,12 +221,7 @@ describe('Unit: OpenStack $$configuration, default management',
     'use strict';
 
     var $httpBackend, $rootScope, $$configProvider;
-    var testConfig1 = {
-      'id': 'testConfig1',
-      'ironic': {
-        'apiRoot': 'http://example.com:6385'
-      }
-    };
+
     // Load the openstack module.
     beforeEach(module('openstack'));
     beforeEach(module(function($$configurationProvider) {

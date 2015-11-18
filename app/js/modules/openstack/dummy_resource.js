@@ -26,7 +26,7 @@ angular.module('openstack').factory('$$dummyResource',
     /**
      * Apply common resource-like behavior, and instantly reject the promise.
      *
-     * @param resource An object to decorate.
+     * @param {*} resource An object to decorate.
      * @returns {*} The decorated instance.
      */
     function resourceify (resource) {
