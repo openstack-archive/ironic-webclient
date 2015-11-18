@@ -52,8 +52,11 @@
         // Application files
         'www/js/**/*.js',
 
+        // Mocks
+        'test/mock/**/*.js',
+
         // Tests
-        'test/js/**/*.js'
+        'test/spec/**/*.js'
       ],
 
       'coverageReporter': {
