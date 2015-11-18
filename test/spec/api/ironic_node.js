@@ -5,19 +5,18 @@ describe('Unit: OpenStack Ironic Node Resource',
   function() {
     'use strict';
 
-    var $rootScope, $httpBackend, $$configuration, $configProvider;
+    var $rootScope, $httpBackend;
+
+    // Load common configuration mocks.
+    beforeEach(module('openstack.mock.$$configuration'));
 
     // We are testing the ironic.api module.
     beforeEach(module('ironic.api'));
-    beforeEach(module(function($$configurationProvider) {
-      $configProvider = $$configurationProvider;
-    }));
 
     beforeEach(inject(function($injector) {
       // Set up the mock http service
       $rootScope = $injector.get('$rootScope');
       $httpBackend = $injector.get('$httpBackend');
-      $$configuration = $injector.get('$$configuration');
     }));
 
     afterEach(inject(function($$persistentStorage) {
@@ -40,23 +39,10 @@ describe('Unit: OpenStack Ironic Node Resource',
 
     it('should switch API requests if the configuration changes.',
       inject(function(IronicNode, $$selectedConfiguration) {
-        var testConfig1 = {
-          id: 'test1',
-          ironic: {'apiRoot': 'http://ironic.example.com:1000'}
-        };
-        var testConfig2 = {
-          id: 'test2',
-          ironic: {'apiRoot': 'http://ironic.example.com:2000'}
-        };
-
-        // Add some configurations.
-        $configProvider.$addConfig(testConfig1);
-        $configProvider.$addConfig(testConfig2);
-
         // Select #1
-        var config1 = $$selectedConfiguration.set('test1');
+        var config1 = $$selectedConfiguration.set('test_config_1');
         $rootScope.$apply();
-        expect(config1.ironic.apiRoot).toBe(testConfig1.ironic.apiRoot);
+        expect(config1.ironic.apiRoot).toBe('http://ironic.example.com:1000');
 
         // Try a request
         $httpBackend.expectGET('http://ironic.example.com:1000/nodes')
@@ -70,9 +56,9 @@ describe('Unit: OpenStack Ironic Node Resource',
         expect(result1.$promise.$$state.status).toBe(1);
 
         // Switch configs.
-        var config2 = $$selectedConfiguration.set('test2');
+        var config2 = $$selectedConfiguration.set('test_config_2');
         $rootScope.$apply();
-        expect(config2.ironic.apiRoot).toBe(testConfig2.ironic.apiRoot);
+        expect(config2.ironic.apiRoot).toBe('http://ironic.example.com:2000');
 
         // Try a request
         $httpBackend.expect('GET', 'http://ironic.example.com:2000/nodes')
@@ -86,9 +72,9 @@ describe('Unit: OpenStack Ironic Node Resource',
         expect(result2.$promise.$$state.status).toBe(1);
 
         // Switch it back.
-        var config3 = $$selectedConfiguration.set('test1');
+        var config3 = $$selectedConfiguration.set('test_config_1');
         $rootScope.$apply();
-        expect(config3.ironic.apiRoot).toBe(testConfig1.ironic.apiRoot);
+        expect(config3.ironic.apiRoot).toBe('http://ironic.example.com:1000');
 
         // Try a request
         $httpBackend.expect('GET', 'http://ironic.example.com:1000/nodes')
