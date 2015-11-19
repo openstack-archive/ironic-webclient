@@ -1,0 +1,55 @@
+<div class="modal-header">
+  <button type="button"
+          class="close"
+          ng-click="ctrl.close()">&times;</button>
+  <h3 class="panel-title">Enroll Node</h3>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-xs-12">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label for="driver" class="col-xs-3 control-label">Node Driver</label>
+
+          <div class="col-sm-9">
+            <select id="driver"
+                    class="form-control"
+                    ng-options="driver as driver.name for driver in ctrl.drivers"
+                    ng-model="ctrl.selectedDriver"
+                    ng-change="ctrl.loadDriverProperties(ctrl.selectedDriver.name)">
+              <option value="" disabled selected>Choose a Driver</option>
+            </select>
+          </div>
+        </div>
+      </form>
+      <hr ng-if="ctrl.driverProperties.$resolved"/>
+      <form class="form-horizontal" name="configForm" id="configForm">
+        <p class="text-center"
+           ng-if="ctrl.driverProperties && !ctrl.driverProperties.$resolved">
+          <small><em><i class="fa fa-spin fa-refresh"></i></em></small>
+        </p>
+        <div class="form-group" ng-repeat="(name, desc) in ctrl.driverProperties">
+          <label for="{{name}}" class="col-xs-3 control-label">{{name}}</label>
+          <div class="col-sm-9">
+            <input type="text"
+                   class="form-control"
+                   id="{{name}}"
+                   name="{{name}}"
+                   ng-model="ctrl.node.driver_info[name]"
+                   placeholder="{{desc}}"/>
+          </div>
+        </div>
+      </form>
+   </div>
+  </div>
+</div>
+<div class="modal-footer ng-scope">
+  <p class="text-danger" ng-if="!!ctrl.error_message">{{ctrl.error_message}}</p>
+  <button type="submit"
+          ng-disabled="!ctrl.driverProperties.$resolved || !configForm.$valid"
+          ng-click="ctrl.enroll()"
+          class="btn btn-primary">
+    Enroll
+  </button>
+  <button class="btn btn-default" ng-click="ctrl.close()">Cancel</button>
+</div>
