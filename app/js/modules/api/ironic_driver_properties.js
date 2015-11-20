@@ -22,7 +22,7 @@
  */
 angular.module('ironic.api').factory('IronicDriverProperties',
   function($log, $$selectedConfiguration, $$resourceCache, $resource, $$dummyResource,
-           ironicApiInterceptor) {
+           ironicApiInterceptor, ironicApiVersion) {
     'use strict';
 
     /**
@@ -53,6 +53,9 @@ angular.module('ironic.api').factory('IronicDriverProperties',
         var resource = $resource(driverUrl, {'driver_name': 'driver_name'}, {
           'read': {
             'method': 'GET',
+            'headers': {
+              'X-OpenStack-Ironic-API-Version': ironicApiVersion
+            },
             'transformResponse': ironicApiInterceptor.response()
           }
         });

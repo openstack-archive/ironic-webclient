@@ -22,7 +22,7 @@
  */
 angular.module('ironic.api').factory('IronicChassis',
   function($log, $$selectedConfiguration, $$resourceCache, $resource, $$dummyResource,
-           ironicApiInterceptor) {
+           ironicApiInterceptor, ironicApiVersion) {
     'use strict';
 
     /**
@@ -50,26 +50,42 @@ angular.module('ironic.api').factory('IronicChassis',
 
       if (!$$resourceCache.has(chassisUrl)) {
         $log.debug("Creating new IronicChassis at: " + chassisUrl);
+
         var resource = $resource(chassisUrl, {'uuid': '@uuid'}, {
           'query': {
             'method': 'GET',
             'isArray': true,
+            'headers': {
+              'X-OpenStack-Ironic-API-Version': ironicApiVersion
+            },
             'transformResponse': ironicApiInterceptor.response('chassis')
           },
           'create': {
             'method': 'POST',
+            'headers': {
+              'X-OpenStack-Ironic-API-Version': ironicApiVersion
+            },
             'transformResponse': ironicApiInterceptor.response()
           },
           'read': {
             'method': 'GET',
+            'headers': {
+              'X-OpenStack-Ironic-API-Version': ironicApiVersion
+            },
             'transformResponse': ironicApiInterceptor.response()
           },
           'update': {
             'method': 'PUT',
+            'headers': {
+              'X-OpenStack-Ironic-API-Version': ironicApiVersion
+            },
             'transformResponse': ironicApiInterceptor.response()
           },
           'remove': {
             'method': 'DELETE',
+            'headers': {
+              'X-OpenStack-Ironic-API-Version': ironicApiVersion
+            },
             'transformResponse': ironicApiInterceptor.response()
           }
         });

@@ -22,7 +22,7 @@
  */
 angular.module('ironic.api').factory('IronicPort',
   function($log, $$selectedConfiguration, $$resourceCache, $resource, $$dummyResource,
-           ironicApiInterceptor) {
+           ironicApiInterceptor, ironicApiVersion) {
     'use strict';
 
     /**
@@ -54,22 +54,37 @@ angular.module('ironic.api').factory('IronicPort',
           'query': {
             'method': 'GET',
             'isArray': true,
+            'headers': {
+              'X-OpenStack-Ironic-API-Version': ironicApiVersion
+            },
             'transformResponse': ironicApiInterceptor.response('ports')
           },
           'create': {
             'method': 'POST',
+            'headers': {
+              'X-OpenStack-Ironic-API-Version': ironicApiVersion
+            },
             'transformResponse': ironicApiInterceptor.response()
           },
           'read': {
             'method': 'GET',
+            'headers': {
+              'X-OpenStack-Ironic-API-Version': ironicApiVersion
+            },
             'transformResponse': ironicApiInterceptor.response()
           },
           'update': {
             'method': 'PUT',
+            'headers': {
+              'X-OpenStack-Ironic-API-Version': ironicApiVersion
+            },
             'transformResponse': ironicApiInterceptor.response()
           },
           'remove': {
             'method': 'DELETE',
+            'headers': {
+              'X-OpenStack-Ironic-API-Version': ironicApiVersion
+            },
             'transformResponse': ironicApiInterceptor.response()
           }
         });
