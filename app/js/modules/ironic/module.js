@@ -20,8 +20,7 @@
  * This module defines dependencies and root routes, but no actual
  * functionality.
  */
-angular.module('ironic', ['ui.router', 'ui.bootstrap',
-  'ironic.nodes', 'ironic.util', 'ironic.api'])
+angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.api'])
   .config(function($urlRouterProvider, $httpProvider, $stateProvider, $$configurationProvider) {
     'use strict';
 
@@ -72,6 +71,26 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap',
           }
         }
       })
+      .state('root.ironic.nodes', {
+        'abstract': true,
+        'url': '/nodes'
+      })
+      .state('root.ironic.nodes.detail', {
+        'url': '/:uuid',
+        'resolve': {
+          'node': function(IronicNode, $stateParams) {
+            return IronicNode.read({
+              'uuid': $stateParams.uuid
+            }).$promise;
+          }
+        },
+        'views': {
+          'main@root': {
+            'templateUrl': 'view/nodes/detail.html',
+            'controller': 'NodeDetailController as ctrl'
+          }
+        }
+      })
       .state('root.config', {
         'url': '/config',
         'views': {
@@ -86,7 +105,7 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap',
     'use strict';
 
     var listener = $rootScope.$on('$stateChangeError',
-      function (evt, toState, toParams, fromState, fromParams, reason) {
+      function(evt, toState, toParams, fromState, fromParams, reason) {
         if (reason === 'no_config') {
           $state.go('root.config');
         } else {
