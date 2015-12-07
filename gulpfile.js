@@ -43,22 +43,24 @@
    *
    * @return {*} A gulp stream that performs this action.
    */
-  gulp.task('iconfont', function () {
-    gulp.src([dir.app + '/fonts/ironic/*.svg'])
+  gulp.task('iconfont', function() {
+    gulp.src([dir.app + '/fonts/openstack/*.svg'])
       .pipe(iconfont({
-        'fontName': 'ironic',
-        'appendCodepoints': true
+        'fontName': 'openstack',
+        'appendCodepoints': true,
+        'appendUnicode': true,
+        'formats': ['ttf', 'eot', 'woff', 'woff2', 'svg']
       }))
-      .on('codepoints', function (codepoints) {
+      .on('glyphs', function(glyphs) {
         var options = {
-          'glyphs': codepoints,
-          'fontName': 'ironic',
+          'glyphs': glyphs,
+          'fontName': 'openstack',
           'fontPath': '../fonts/',
-          'className': 'if'
+          'className': 'of'
         };
-        gulp.src(dir.app + '/fonts/ironic/ironic-font.css')
+        return gulp.src(dir.app + '/fonts/openstack/openstack-font.css')
           .pipe(consolidate('lodash', options))
-          .pipe(gulp.dest(dir.dist + '/css/'));
+          .pipe(gulp.dest(dir.dist + '/css'));
       })
       .pipe(gulp.dest(dir.dist + '/fonts'));
   });

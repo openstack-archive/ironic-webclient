@@ -17,6 +17,7 @@
                      line-height: 1;
                      -webkit-font-smoothing: antialiased;
                      -moz-osx-font-smoothing: grayscale;
+                     vertical-align: -15%
                  }
 
 .<%= className %>-lg {
@@ -33,5 +34,5 @@
                      text-align: center;
                  }
 
-<% _.each(glyphs, function(glyph) { %>.<%= className %>-<%= glyph.name %>:before { content: "\<%= glyph.codepoint.toString(16).toUpperCase() %>" }
+<% _.each(glyphs, function(glyph) { %>.<%= className %>-<%= glyph.name %>:before { content: "\<%= glyph.unicode[0].charCodeAt(0).toString(16).toUpperCase() %>" }
 <% }); %>
