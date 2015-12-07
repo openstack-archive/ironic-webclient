@@ -5,7 +5,7 @@
   "main": "www/index.html",
   "repository": "https://git.openstack.org/openstack/ironic-webclient",
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "bower install --config.interactive=false",
     "start": "gulp serve",
     "prepublish": "gulp package",
     "lint": "eslint ./",
