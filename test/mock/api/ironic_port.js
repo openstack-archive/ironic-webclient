@@ -15,43 +15,30 @@
  */
 
 /**
- * This module provides some basic IronicNode API responses.
+ * This module provides some basic IronicPort API responses.
  *
- * Usage: beforeEach(module('ironic.mock.IronicNode'));
+ * Usage: beforeEach(module('ironic.mock.IronicPort'));
  */
-angular.module('ironic.api.mock.IronicNode',
+angular.module('ironic.api.mock.IronicPort',
   ['ironic.api', 'openstack.mock.$$selectedConfiguration'])
   .run(function($httpBackend) {
     'use strict';
 
     $httpBackend
-      .whenGET('http://ironic.example.com:1000/nodes')
+      .whenGET('http://ironic.example.com:1000/ports?node=test_node_1')
       .respond(200, {
-        'nodes': [
-          {'uuid': 'test_node_1'},
-          {'uuid': 'test_node_2'},
-          {'uuid': 'test_node_3'}
-        ]
+        'ports': []
       });
 
     $httpBackend
-      .whenGET('http://ironic.example.com:1000/nodes/test_node_1')
+      .whenGET('http://ironic.example.com:1000/ports?node=test_node_2')
       .respond(200, {
-        "uuid": "test_node_1",
-        "driver": "test_driver_1"
+        'ports': []
       });
 
     $httpBackend
-      .whenGET('http://ironic.example.com:1000/nodes/test_node_2')
+      .whenGET('http://ironic.example.com:1000/ports?node=test_node_3')
       .respond(200, {
-        "uuid": "test_node_2",
-        "driver": "test_driver_1"
-      });
-
-    $httpBackend
-      .whenGET('http://ironic.example.com:1000/nodes/test_node_3')
-      .respond(200, {
-        "uuid": "test_node_3",
-        "driver": "test_driver_2  "
+        'ports': []
       });
   });
