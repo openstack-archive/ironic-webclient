@@ -71,7 +71,7 @@
       thresholdReporter: {
         statements: 92, // target 100
         branches: 96, // target 100
-        functions: 87, // target 100
+        functions: 88, // target 100
         lines: 92 // target 100
       },
 

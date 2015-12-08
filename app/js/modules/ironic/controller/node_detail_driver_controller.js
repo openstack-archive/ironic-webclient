@@ -15,23 +15,31 @@
  */
 
 /**
- * Node handling for the Ironic UI.
+ * Node driver handling for the Ironic UI.
  */
-angular.module('ironic').controller('NodeDetailController',
-  function(nodeUuid, IronicNode) {
+angular.module('ironic').controller('NodeDetailDriverController',
+  function(nodeUuid, IronicNode, IronicDriver) {
     'use strict';
     var vm = this;
 
     // Set up controller parameters
     vm.errorMessage = null;
-    vm.node = null;
+    vm.driver = null;
+
+    // Generic, shared error handler.
+    function errorHandler (error) {
+      // Set the error message and clear the port promise.
+      vm.errorMessage = error.data.error_message;
+      vm.driver = null;
+    }
 
     // Load the node.
-    vm.node = IronicNode.read({
+    IronicNode.read({
       'uuid': nodeUuid
-    }, angular.noop, function(error) {
-      // Set the error message and clear the node promise.
-      vm.errorMessage = error.data.error_message;
-      vm.node = null;
-    });
+    }, function(node) {
+      vm.driver = IronicDriver.read({
+        'uuid': node.driver
+      }, angular.noop, errorHandler);
+    }, errorHandler);
+
   });
