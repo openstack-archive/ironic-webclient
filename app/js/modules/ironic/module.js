@@ -76,20 +76,33 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.ap
         'url': '/nodes'
       })
       .state('root.ironic.nodes.detail', {
+        'abstract': true,
         'url': '/:uuid',
         'resolve': {
-          'node': function(IronicNode, $stateParams) {
-            return IronicNode.read({
-              'uuid': $stateParams.uuid
-            }).$promise;
+          'nodeUuid': function($stateParams) {
+            return $stateParams.uuid;
           }
         },
         'views': {
           'main@root': {
-            'templateUrl': 'view/nodes/detail.html',
-            'controller': 'NodeDetailController as ctrl'
+            'templateUrl': 'view/ironic/detail.html',
+            'controller': 'NodeDetailController as nodeCtrl'
           }
         }
+      })
+      .state('root.ironic.nodes.detail.node', {
+        'url': '/node',
+        'templateUrl': 'view/ironic/detail_node.html'
+      })
+      .state('root.ironic.nodes.detail.ports', {
+        'url': '/ports',
+        'templateUrl': 'view/ironic/detail_ports.html',
+        'controller': 'NodeDetailPortsController as portCtrl'
+      })
+      .state('root.ironic.nodes.detail.driver', {
+        'url': '/driver',
+        'templateUrl': 'view/ironic/detail_driver.html',
+        'controller': 'NodeDetailDriverController as driverCtrl'
       })
       .state('root.config', {
         'url': '/config',

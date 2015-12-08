@@ -15,23 +15,23 @@
  */
 
 /**
- * Node handling for the Ironic UI.
+ * Node port handling for the Ironic UI.
  */
-angular.module('ironic').controller('NodeDetailController',
-  function(nodeUuid, IronicNode) {
+angular.module('ironic').controller('NodeDetailPortsController',
+  function(nodeUuid, IronicPort) {
     'use strict';
     var vm = this;
 
     // Set up controller parameters
     vm.errorMessage = null;
-    vm.node = null;
+    vm.ports = null;
 
     // Load the node.
-    vm.node = IronicNode.read({
-      'uuid': nodeUuid
+    vm.ports = IronicPort.query({
+      'node': nodeUuid
     }, angular.noop, function(error) {
       // Set the error message and clear the node promise.
       vm.errorMessage = error.data.error_message;
-      vm.node = null;
+      vm.ports = null;
     });
   });
