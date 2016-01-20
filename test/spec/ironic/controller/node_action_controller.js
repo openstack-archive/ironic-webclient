@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 Hewlett-Packard Development Company, L.P.
+ * Copyright (c) 2016 Hewlett Packard Enterprise Development Company, L.P.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -21,7 +21,7 @@ describe('Unit: Ironic-webclient NodeActionController',
   function() {
     'use strict';
 
-    var $controller, $httpBackend;
+    var $controller, $httpBackend, $rootScope;
     var mockInjectionProperties = {
       $scope: {}
     };
@@ -35,6 +35,7 @@ describe('Unit: Ironic-webclient NodeActionController',
     beforeEach(inject(function(_$controller_, $injector) {
       $httpBackend = $injector.get('$httpBackend');
       $controller = _$controller_;
+      $rootScope = $injector.get('$rootScope');
     }));
 
     afterEach(inject(function($$persistentStorage) {
@@ -83,6 +84,60 @@ describe('Unit: Ironic-webclient NodeActionController',
           expect(controller.node).toBeDefined();
           expect(controller.node).toEqual(mockNode);
         });
+
+      it('should work with a promise',
+        inject(function($q) {
+          var controller = $controller('NodeActionController', mockInjectionProperties);
+          controller.init($q.resolve({'provision_state': 'enroll'}));
+          $rootScope.$apply();
+
+          expect(controller.actions).toBeDefined();
+          expect(controller.actions.length).toBe(1);
+        }));
+
+      it('should work with a resolved resource',
+        inject(function($q) {
+          var deferred = $q.defer();
+          var testNode = {'provision_state': 'enroll'};
+          testNode.$promise = deferred.promise;
+          deferred.resolve(testNode);
+
+          var controller = $controller('NodeActionController', mockInjectionProperties);
+          controller.init(testNode);
+          $rootScope.$apply();
+
+          expect(controller.actions).toBeDefined();
+          expect(controller.actions.length).toBe(1);
+        }));
+
+      it('should work with an unresolved resource',
+        inject(function($q) {
+          var testNode = {'provision_state': 'enroll'};
+          var deferred = $q.defer();
+          testNode.$promise = deferred.promise;
+
+          var controller = $controller('NodeActionController', mockInjectionProperties);
+          controller.init(testNode);
+          $rootScope.$apply();
+
+          expect(controller.actions).toBeDefined();
+          expect(controller.actions.length).toBe(0);
+
+          deferred.resolve(testNode);
+          $rootScope.$apply();
+
+          expect(controller.actions).toBeDefined();
+          expect(controller.actions.length).toBe(1);
+        }));
+
+      describe('Controller Initialization', function() {
+        it('should populate the actions property with a blank list',
+          function() {
+            var controller = $controller('NodeActionController', mockInjectionProperties);
+            expect(controller.actions).toBeDefined();
+            expect(controller.actions.length).toBe(0);
+          });
+      });
     });
 
     describe('remove', function() {
@@ -113,4 +168,50 @@ describe('Unit: Ironic-webclient NodeActionController',
         }));
     });
 
+    describe('performAction()', function() {
+
+      it('should open a modal',
+        inject(function($q, $modal) {
+          var spy = spyOn($modal, 'open').and.callThrough();
+          $httpBackend.expectGET('view/ironic/action/unknown.html').respond(200, '');
+
+          var testNode = {'provision_state': 'enroll'};
+          var controller = $controller('NodeActionController', mockInjectionProperties);
+
+          controller.init(testNode);
+          controller.performAction('manage');
+
+          expect(spy.calls.count()).toBe(1);
+          var lastArgs = spy.calls.mostRecent().args[0];
+          expect(lastArgs.controller).toBe('UnknownActionModalController as ctrl');
+          $httpBackend.flush();
+        }));
+
+      it('should open an unsupported modal for unknown actions',
+        inject(function($q, $modal) {
+          var unknownActions = [
+            'foo', 'bar',
+
+            // The following are not yet implemented.
+            'manage', 'rebuild', 'delete', 'deploy', 'fail', 'abort', 'clean', 'inspect', 'provide'
+          ];
+
+          var spy = spyOn($modal, 'open').and.callThrough();
+          $httpBackend.expectGET('view/ironic/action/unknown.html').respond(200, '');
+
+          angular.forEach(unknownActions, function(actionName) {
+            var testNode = {'provision_state': 'enroll'};
+
+            var controller = $controller('NodeActionController', mockInjectionProperties);
+            controller.init(testNode);
+            controller.performAction(actionName);
+
+            expect(spy.calls.count()).toBe(1);
+            var lastArgs = spy.calls.mostRecent().args[0];
+            expect(lastArgs.controller).toBe('UnknownActionModalController as ctrl');
+            spy.calls.reset();
+          });
+          $httpBackend.flush();
+        }));
+    });
   });
