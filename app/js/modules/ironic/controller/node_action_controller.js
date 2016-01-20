@@ -18,7 +18,7 @@
  * Controller which handles manipulation of individual nodes.
  */
 angular.module('ironic').controller('NodeActionController',
-  function($modal, $q) {
+  function($modal, $q, IronicNodeTransition) {
     'use strict';
 
     var vm = this;
@@ -28,6 +28,13 @@ angular.module('ironic').controller('NodeActionController',
     vm.node = null;
 
     /**
+     * List of valid actions for this node.
+     *
+     * @type {Array}
+     */
+    vm.actions = [];
+
+    /**
      * Initialize this controller with a specific node.
      *
      * @param {IronicNode} node The node to initialize this controller with.
@@ -35,6 +42,18 @@ angular.module('ironic').controller('NodeActionController',
      */
     vm.init = function(node) {
       vm.node = node;
+
+      var promise = $q.resolve(vm.node.$promise || vm.node);
+
+      // Assume this is a resource.
+      promise.then(function(resolvedNode) {
+        IronicNodeTransition.query({
+          from_state: resolvedNode.provision_state,
+          actor: 'user'
+        }, function(results) {
+          vm.actions = results;
+        });
+      });
     };
 
     /**
@@ -59,5 +78,42 @@ angular.module('ironic').controller('NodeActionController',
           }
         }
       }).result;
+    };
+
+    /**
+     * Attempt to perform the given action on the provided node.
+     *
+     * @param {IronicNode} node The node to perform the action on.
+     * @param {String} actionName The name of the action.
+     * @returns {void}
+     */
+    vm.performAction = function(actionName) {
+      var modalParams = {
+        'templateUrl': 'view/ironic/action/unknown.html',
+        'controller': 'UnknownActionModalController as ctrl',
+        'resolve': {
+          'actionName': function() {
+            return actionName;
+          },
+          'nodes': function() {
+            return [vm.node];
+          }
+        }
+      };
+
+      switch (actionName) {
+        case 'manage':
+        case 'rebuild':
+        case 'delete':
+        case 'deploy':
+        case 'fail':
+        case 'abort':
+        case 'clean':
+        case 'inspect':
+        case 'provide':
+        // None of these actions are implemented yet; they are left here as a checklist.
+      }
+
+      $modal.open(modalParams);
     };
   });

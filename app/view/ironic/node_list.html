@@ -18,6 +18,7 @@
         <th>Provision State</th>
         <th>Maintenance</th>
         <th>&nbsp;</th>
+        <th>&nbsp;</th>
       </tr>
       </thead>
       <tbody ng-if="nodeListCtrl.nodes.$resolved && nodeListCtrl.nodes.length > 0">
@@ -38,6 +39,15 @@
                   ng-click="nodeCtrl.remove().then(nodeListCtrl.loadNodes)">
             <span>&times;</span>
           </button>
+        </td>
+        <td dropdown>
+          <div class="btn-group pull-right" role="group">
+            <button type="button" class="btn btn-default"
+                    ng-repeat="action in nodeCtrl.actions"
+                    ng-click="nodeCtrl.performAction(node, action.event)">
+              {{action.event}}
+            </button>
+          </div>
         </td>
       </tr>
       </tbody>
