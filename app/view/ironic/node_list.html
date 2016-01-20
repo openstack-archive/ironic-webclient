@@ -34,10 +34,17 @@
         <td>{{nodeCtrl.node.provision_state}}</td>
         <td>{{nodeCtrl.node.maintenance}}</td>
         <td>
-          <button type="button" class="close"
-                  ng-click="nodeCtrl.remove().then(nodeListCtrl.loadNodes)">
-            <span>&times;</span>
-          </button>
+          <div class="btn-group btn-group-sm pull-right" role="group">
+            <button type="button" class="btn btn-default"
+                    ng-repeat="action in nodeCtrl.actions"
+                    ng-click="nodeCtrl.performAction(action.event)">
+              {{action.event}}
+            </button>
+            <button type="button" class="btn btn-danger"
+                    ng-click="nodeCtrl.remove().then(nodeListCtrl.loadNodes)">
+              &times;
+            </button>
+          </div>
         </td>
       </tr>
       </tbody>
