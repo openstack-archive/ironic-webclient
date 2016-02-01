@@ -12,24 +12,24 @@
         <table class="table table-condensed table-striped">
             <thead>
             <tr>
-                <th>State</th>
+                <th>Power State</th>
                 <th>UUID</th>
                 <th>Instance</th>
-                <th>Power State</th>
+                <th>Provision State</th>
                 <th>Maintenance</th>
             </tr>
             </thead>
             <tbody ng-if="nodeListCtrl.nodes.$resolved && nodeListCtrl.nodes.length > 0">
             <tr ng-repeat="node in nodeListCtrl.nodes">
-                <td>{{node.provision_state}}</td>
-                <td>
-                    <a href="#/ironic/nodes/{{node.uuid}}/node">
-                        {{node.uuid}}
-                    </a>
-                </td>
-                <td>{{node.instance_uuid || 'None'}}</td>
-                <td>{{node.power_state}}</td>
-                <td>{{node.maintenance}}</td>
+              <td>{{node.power_state}}</td>
+              <td>
+                  <a href="#/ironic/nodes/{{node.uuid}}/node">
+                      {{node.uuid}}
+                  </a>
+              </td>
+              <td>{{node.instance_uuid || 'None'}}</td>
+              <td>{{node.provision_state}}</td>
+              <td>{{node.maintenance}}</td>
             </tr>
             </tbody>
             <tbody ng-if="nodeListCtrl.nodes.$resolved && nodeListCtrl.nodes.length == 0">
