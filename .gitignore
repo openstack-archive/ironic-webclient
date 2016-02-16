@@ -8,6 +8,7 @@ www/
 .publish/
 *.tar.gz
 *.tgz
+dist
 
 # Operating system specific files
 .DS_Store # OSX Folder Caches
