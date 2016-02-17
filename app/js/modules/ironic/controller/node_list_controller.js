@@ -27,7 +27,7 @@ angular.module('ironic')
     vm.nodes = null;
 
     // Load the node list.
-    function loadNodes () {
+    vm.loadNodes = function() {
       vm.errorMessage = null;
       vm.nodes = IronicNode.query({}, function() {
         // Do nothing on success.
@@ -35,15 +35,15 @@ angular.module('ironic')
         vm.errorMessage = error.data.error_message;
         vm.nodes = null;
       });
-    }
+    };
 
     vm.enroll = function() {
       $modal.open({
         'templateUrl': 'view/ironic/enroll/index.html',
         'controller': 'EnrollModalController as ctrl',
         'backdrop': 'static'
-      }).result.then(loadNodes);
+      }).result.then(vm.loadNodes);
     };
 
-    loadNodes();
+    vm.loadNodes();
   });
