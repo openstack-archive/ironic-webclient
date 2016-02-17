@@ -19,10 +19,10 @@
  * available at the provided url. It will expose a variable on the control to
  * which it is applied, with an array of detected API versions.
  */
-/*eslint-disable angular/ng_no_services */
+/*eslint-disable angular/no-services */
 angular.module('ironic.api').directive('ironicApiUrl',
   function ($q, $http) {
-/*eslint-enable angular/ng_no_services */
+/*eslint-enable angular/no-services */
     'use strict';
 
     return {
