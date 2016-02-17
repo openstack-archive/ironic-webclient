@@ -12,3 +12,8 @@ globals:
 env:
   browser: true
   jasmine: true
+
+rules:
+  angular/no-private-call: 0
+  angular/no-services: 0
+  angular/no-service-method: 0
