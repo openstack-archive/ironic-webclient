@@ -43,6 +43,7 @@ angular.module('ironic').controller('EnrollModalController',
       vm.driverProperties = null;
       vm.errorMessage = null;
       vm.node = {
+        name: vm.node ? vm.node.name : '', // Preserve previously entered names.
         driver: driverName,
         driver_info: {}
       };

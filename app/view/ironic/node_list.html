@@ -13,7 +13,7 @@
       <thead>
       <tr>
         <th>Power State</th>
-        <th>UUID</th>
+        <th>Name (UUID)</th>
         <th>Instance</th>
         <th>Provision State</th>
         <th>Maintenance</th>
@@ -27,7 +27,7 @@
         <td>{{nodeCtrl.node.power_state}}</td>
         <td>
           <a href="#/ironic/nodes/{{nodeCtrl.node.uuid}}/node">
-            {{nodeCtrl.node.uuid}}
+            {{nodeCtrl.node.name || nodeCtrl.node.uuid}}
           </a>
         </td>
         <td>{{nodeCtrl.node.instance_uuid || 'None'}}</td>
