@@ -9,6 +9,15 @@
     <div class="col-xs-12">
       <form class="form-horizontal">
         <div class="form-group">
+          <label for="name" class="col-xs-3 control-label">Node Name</label>
+
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="ctrl.node.name"
+                   id="name" name="name"
+                   placeholder="A descriptive node name (optional)"/>
+          </div>
+        </div>
+        <div class="form-group">
           <label for="driver" class="col-xs-3 control-label">Node Driver</label>
 
           <div class="col-sm-9">
@@ -40,7 +49,7 @@
           </div>
         </div>
       </form>
-   </div>
+    </div>
   </div>
 </div>
 <div class="modal-footer ng-scope">

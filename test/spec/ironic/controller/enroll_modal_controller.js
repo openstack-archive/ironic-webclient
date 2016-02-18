@@ -122,12 +122,32 @@ describe('Unit: Ironic-webclient enroll-node modal controller',
           $httpBackend.flush();
           var firstNode = controller.node;
           expect(firstNode.driver).toBe('test_driver_1');
+          expect(firstNode.name).toBe('');
 
           controller.loadDriverProperties('test_driver_2');
           $httpBackend.flush();
           var secondNode = controller.node;
           expect(secondNode.driver).toBe('test_driver_2');
+          expect(secondNode.name).toBe('');
           expect(firstNode).not.toBe(secondNode);
+        });
+
+      it('preserves names between driver loads if one has been entered.',
+        function() {
+          var controller = $controller('EnrollModalController', mockInjectionProperties);
+          expect(controller.node).toBeNull();
+
+          controller.loadDriverProperties('test_driver_1');
+          $httpBackend.flush();
+          var firstNode = controller.node;
+          expect(firstNode.driver).toBe('test_driver_1');
+          controller.node.name = 'test';
+
+          controller.loadDriverProperties('test_driver_2');
+          $httpBackend.flush();
+          var secondNode = controller.node;
+          expect(secondNode.driver).toBe('test_driver_2');
+          expect(firstNode.name).toBe(secondNode.name);
         });
 
       it('should display an error invalid driver is selected.',
