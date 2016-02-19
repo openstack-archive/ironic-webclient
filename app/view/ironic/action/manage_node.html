@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <button type="button"
+          class="close"
+          ng-disabled="ctrl.updating"
+          ng-click="ctrl.close()">&times;</button>
+  <h3 class="panel-title">Manage Nodes</h3>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-xs-12">
+      <p>The following nodes will be managed by ironic.</p>
+      <dl class="dl-horizontal">
+        <dt ng-repeat-start="e in ctrl.nodes"
+            ng-switch="e.state">
+        <div ng-switch-when="updating" class="text-warning">
+          <i class="fa fa-spin fa-refresh"></i> Updating...
+        </div>
+        <div ng-switch-when="complete" class="text-muted">
+          Complete:
+        </div>
+        <div ng-switch-when="error" class="text-danger">
+          <i class="fa fa-exclamation-triangle"></i> Error:
+        </div>
+        <div ng-switch-default>
+          Node:
+        </div>
+        </dt>
+        <dd ng-repeat-end>
+          {{e.node.uuid}}
+          <span ng-if="e.node.name">({{e.node.name}})</span>
+          <span class="text-danger" ng-if="e.error"><br/>
+            {{e.error.faultcode}}: {{e.error.faultstring}}
+          </span>
+        </dd>
+      </dl>
+    </div>
+  </div>
+</div>
+<div class="modal-footer ng-scope">
+  <button class="btn btn-danger" ng-click="ctrl.apply()"
+          ng-disabled="ctrl.updating">Manage
+  </button>
+  <button class="btn btn-default" ng-click="ctrl.close()"
+          ng-disabled="ctrl.updating">Cancel
+  </button>
+</div>
