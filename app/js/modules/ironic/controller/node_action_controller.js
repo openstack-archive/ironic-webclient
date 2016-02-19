@@ -42,9 +42,16 @@ angular.module('ironic').controller('NodeActionController',
      */
     vm.init = function(node) {
       vm.node = node;
+      vm.loadValidActions();
+    };
 
+    /**
+     * Load the valid actions for this node's state.
+     *
+     * @return {void}
+     */
+    vm.loadValidActions = function() {
       var promise = $q.resolve(vm.node.$promise || vm.node);
-
       // Assume this is a resource.
       promise.then(function(resolvedNode) {
         IronicNodeTransition.query({
@@ -89,7 +96,7 @@ angular.module('ironic').controller('NodeActionController',
     vm.performAction = function(actionName) {
       var modalParams = {
         'templateUrl': 'view/ironic/action/unknown.html',
-        'controller': 'UnknownActionModalController as ctrl',
+        'controller': 'ProvisionActionModalController as ctrl',
         'resolve': {
           'actionName': function() {
             return actionName;
@@ -102,6 +109,8 @@ angular.module('ironic').controller('NodeActionController',
 
       switch (actionName) {
         case 'manage':
+          modalParams.templateUrl = 'view/ironic/action/manage_node.html';
+          break;
         case 'rebuild':
         case 'delete':
         case 'deploy':
@@ -113,6 +122,8 @@ angular.module('ironic').controller('NodeActionController',
         // None of these actions are implemented yet; they are left here as a checklist.
       }
 
-      $modal.open(modalParams);
+      $modal.open(modalParams).result.then(function() {
+        vm.node.$get().then(vm.loadValidActions);
+      });
     };
   });

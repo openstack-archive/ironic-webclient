@@ -140,6 +140,25 @@ describe('Unit: Ironic-webclient NodeActionController',
       });
     });
 
+    describe('loadValidActions', function() {
+      it('should refresh the actions on the controller',
+        inject(function() {
+          var testNode = {'provision_state': 'enroll'};
+          var controller = $controller('NodeActionController', mockInjectionProperties);
+
+          controller.init(testNode);
+          $rootScope.$apply();
+          expect(controller.actions[0].event).toBe('manage');
+          controller.node.provision_state = 'manageable';
+          controller.loadValidActions();
+          $rootScope.$apply();
+          expect(controller.actions[0].event).toBe('inspect');
+          expect(controller.actions[1].event).toBe('provide');
+          expect(controller.actions[2].event).toBe('clean');
+        })
+      );
+    });
+
     describe('remove', function() {
       it('should do nothing if no node is found.',
         function() {
@@ -179,11 +198,11 @@ describe('Unit: Ironic-webclient NodeActionController',
           var controller = $controller('NodeActionController', mockInjectionProperties);
 
           controller.init(testNode);
-          controller.performAction('manage');
+          controller.performAction('foo');
 
           expect(spy.calls.count()).toBe(1);
           var lastArgs = spy.calls.mostRecent().args[0];
-          expect(lastArgs.controller).toBe('UnknownActionModalController as ctrl');
+          expect(lastArgs.controller).toBe('ProvisionActionModalController as ctrl');
           $httpBackend.flush();
         }));
 
@@ -193,7 +212,7 @@ describe('Unit: Ironic-webclient NodeActionController',
             'foo', 'bar',
 
             // The following are not yet implemented.
-            'manage', 'rebuild', 'delete', 'deploy', 'fail', 'abort', 'clean', 'inspect', 'provide'
+            'rebuild', 'delete', 'deploy', 'fail', 'abort', 'clean', 'inspect', 'provide'
           ];
 
           var spy = spyOn($modal, 'open').and.callThrough();
@@ -208,10 +227,59 @@ describe('Unit: Ironic-webclient NodeActionController',
 
             expect(spy.calls.count()).toBe(1);
             var lastArgs = spy.calls.mostRecent().args[0];
-            expect(lastArgs.controller).toBe('UnknownActionModalController as ctrl');
+            expect(lastArgs.controller).toBe('ProvisionActionModalController as ctrl');
             spy.calls.reset();
           });
           $httpBackend.flush();
+        }));
+
+      it('should open an appropriate modal for supported actions',
+        inject(function($q, $modal) {
+          var supportedActions = ['manage'];
+
+          var spy = spyOn($modal, 'open').and.callThrough();
+
+          angular.forEach(supportedActions, function(actionName) {
+            var testNode = {'provision_state': 'enroll'};
+            $httpBackend.expectGET('view/ironic/action/' + actionName + '_node.html')
+              .respond(200, '');
+
+            var controller = $controller('NodeActionController', mockInjectionProperties);
+            controller.init(testNode);
+            controller.performAction(actionName);
+
+            expect(spy.calls.count()).toBe(1);
+            var lastArgs = spy.calls.mostRecent().args[0];
+            expect(lastArgs.controller).toBe('ProvisionActionModalController as ctrl');
+            spy.calls.reset();
+          });
+          $httpBackend.flush();
+        }));
+
+      it('should reload every node returned by the modal',
+        inject(function($q, $modal) {
+          var supportedActions = ['manage'];
+
+          var spy = spyOn($modal, 'open').and.callFake(function() {
+            return {result: $q.resolve({})};
+          });
+          var testNode = {
+            'provision_state': 'enroll',
+            $get: function() {
+              return $q.resolve();
+            }
+          };
+
+          angular.forEach(supportedActions, function(actionName) {
+            var controller = $controller('NodeActionController', mockInjectionProperties);
+            var loadValidActionSpy = spyOn(controller, 'loadValidActions').and.callThrough();
+            controller.init(testNode);
+            controller.performAction(actionName);
+
+            expect(spy.calls.count()).toBe(1);
+            expect(loadValidActionSpy.calls.count()).toBe(1);
+            spy.calls.reset();
+          });
         }));
     });
   });
