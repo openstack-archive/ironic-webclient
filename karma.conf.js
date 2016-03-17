@@ -20,19 +20,19 @@
 
     config.set({
 
-      'port': 9876,
+      port: 9876,
 
-      'basePath': './',
+      basePath: './',
 
-      'frameworks': ['jasmine'],
+      frameworks: ['jasmine'],
 
-      'browsers': ['Chrome', 'Firefox'],
+      browsers: ['Chrome', 'Firefox'],
 
-      'reporters': ['progress', 'coverage', 'threshold'],
+      reporters: ['progress', 'coverage', 'threshold'],
 
-      'browserNoActivityTimeout': 30000,
+      browserNoActivityTimeout: 30000,
 
-      'plugins': [
+      plugins: [
         'karma-jasmine',
         'karma-coverage',
         'karma-threshold-reporter',
@@ -40,11 +40,11 @@
         'karma-firefox-launcher'
       ],
 
-      'preprocessors': {
+      preprocessors: {
         'www/js/{!lib/**/*.js,*.js}': ['coverage']
       },
 
-      'files': [
+      files: [
         // Library files, with some ordering.
         'www/js/lib/angular.js',
         'node_modules/angular-mocks/angular-mocks.js',
@@ -60,7 +60,7 @@
         'test/spec/**/*.js'
       ],
 
-      'coverageReporter': {
+      coverageReporter: {
         type: 'html',
         dir: 'cover',
         instrumenterOptions: {
@@ -76,9 +76,9 @@
         lines: 93 // target 100
       },
 
-      'exclude': [],
+      exclude: [],
 
-      'singleRun': true
+      singleRun: true
     });
   };
 })();

@@ -70,7 +70,7 @@ angular.module('ironic.api').service('ironicApiInterceptor',
        * @param {String} childPropertyName (optional) The name of the child property to reduce to.
        * @returns {Array} An array of transformations.
        */
-      'response': function(childPropertyName) {
+      response: function(childPropertyName) {
         var transformers = $http.defaults.transformResponse.concat([]);
         transformers.push(parseErrorResponse);
 

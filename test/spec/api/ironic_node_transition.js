@@ -27,10 +27,10 @@ describe('Unit: OpenStack Ironic Node Resource',
      */
     function assertHasTransition (transitions, from, actor, action, target) {
       expect(transitions).toContain({
-        "from_state": from,
-        "event": action,
-        "target_state": target,
-        "actor": actor
+        from_state: from,
+        event: action,
+        target_state: target,
+        actor: actor
       });
     }
 

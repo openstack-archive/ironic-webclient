@@ -51,9 +51,9 @@ angular.module('ironic')
 
     vm.enroll = function() {
       $modal.open({
-        'templateUrl': 'view/ironic/enroll/index.html',
-        'controller': 'EnrollModalController as ctrl',
-        'backdrop': 'static'
+        templateUrl: 'view/ironic/enroll/index.html',
+        controller: 'EnrollModalController as ctrl',
+        backdrop: 'static'
       }).result.then(vm.loadNodes);
     };
 

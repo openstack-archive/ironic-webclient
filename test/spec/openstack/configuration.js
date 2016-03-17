@@ -7,15 +7,15 @@ describe('Unit: OpenStack $$configuration, basic operation',
 
     var $httpBackend, $rootScope, $$configProvider;
     var testConfig1 = {
-      'id': 'testConfig1',
-      'ironic': {
-        'apiRoot': 'http://example.com:6385'
+      id: 'testConfig1',
+      ironic: {
+        apiRoot: 'http://example.com:6385'
       }
     };
     var testConfig2 = {
-      'id': 'testConfig2',
-      'ironic': {
-        'apiRoot': 'http://ironic.example.com:6385'
+      id: 'testConfig2',
+      ironic: {
+        apiRoot: 'http://ironic.example.com:6385'
       }
     };
     // Load the openstack module.
@@ -168,7 +168,7 @@ describe('Unit: OpenStack $$configuration, basic operation',
         $rootScope.$apply();
         expect(config.id).toEqual(testId);
 
-        var createResult = $$configuration.create({'id': 'pixie'});
+        var createResult = $$configuration.create({id: 'pixie'});
         $rootScope.$apply();
         expect(createResult.$promise.$$state.status).toEqual(2);
 
@@ -354,9 +354,9 @@ describe('Unit: OpenStack $$configuration, configuration loading',
 
     var $httpBackend, $rootScope, $$configProvider;
     var testConfigFile = [{
-      'id': 'configFile',
-      'ironic': {
-        'apiRoot': 'http://example.com:6385'
+      id: 'configFile',
+      ironic: {
+        apiRoot: 'http://example.com:6385'
       }
     }];
     // Load the openstack module.
@@ -577,14 +577,14 @@ describe('Unit: OpenStack $$configuration, local storage',
 
       // Reset the testconfig
       testConfig = [{
-        'id': 'localConfig1',
-        'ironic': {
-          'apiRoot': 'http://example.com:6385'
+        id: 'localConfig1',
+        ironic: {
+          apiRoot: 'http://example.com:6385'
         }
       }, {
-        'id': 'localConfig2',
-        'ironic': {
-          'apiRoot': 'http://ironic.example.com:6385'
+        id: 'localConfig2',
+        ironic: {
+          apiRoot: 'http://ironic.example.com:6385'
         }
       }];
     }));

@@ -32,7 +32,7 @@ angular.module('openstack').factory('$$memoryStorage',
        *
        * @returns {boolean} True if it is supported, otherwise false.
        */
-      'isSupported': function() {
+      isSupported: function() {
         return true;
       },
 
@@ -44,7 +44,7 @@ angular.module('openstack').factory('$$memoryStorage',
        * @param {*} value The value to store.
        * @return {*} The stored value.
        */
-      'set': function(key, value) {
+      set: function(key, value) {
         memoryStorage[key] = value;
 
         return value;
@@ -56,7 +56,7 @@ angular.module('openstack').factory('$$memoryStorage',
        * @param {String} key The key to retrieve.
        * @return {*|undefined} The value, or undefined if it is not set.
        */
-      'get': function(key) {
+      get: function(key) {
         if (memoryStorage.hasOwnProperty(key)) {
           return memoryStorage[key];
         }
@@ -68,7 +68,7 @@ angular.module('openstack').factory('$$memoryStorage',
        * @param {String} key The key to remove.
        * @returns {void}
        */
-      'remove': function(key) {
+      remove: function(key) {
         delete memoryStorage[key];
       },
 
@@ -77,7 +77,7 @@ angular.module('openstack').factory('$$memoryStorage',
        *
        * @returns {Array} An array of all registered keys.
        */
-      'keys': function() {
+      keys: function() {
         var keys = [];
         /*eslint-disable guard-for-in*/
         for (var key in memoryStorage) {
@@ -92,7 +92,7 @@ angular.module('openstack').factory('$$memoryStorage',
        *
        * @returns {void}
        */
-      'clearAll': function() {
+      clearAll: function() {
         var keys = [];
         /*eslint-disable guard-for-in*/
         for (var key in memoryStorage) {
@@ -110,7 +110,7 @@ angular.module('openstack').factory('$$memoryStorage',
        *
        * @returns {number} The number of keys in storage.
        */
-      'length': function() {
+      length: function() {
         return this.keys().length;
       }
     };

@@ -41,8 +41,8 @@ describe('Unit: OpenStack Ironic Version Header',
       inject(function(IronicNode, IronicPort, IronicChassis, IronicDriver,
                       IronicDriverProperties) {
         var expectedHeaders = {
-          "X-OpenStack-Ironic-API-Version": "1.14",
-          "Accept": "application/json, text/plain, */*"
+          'X-OpenStack-Ironic-API-Version': "1.14",
+          Accept: "application/json, text/plain, */*"
         };
 
         // Everything's a 404 response for simplicity's sake. We only care about the header.
@@ -67,11 +67,11 @@ describe('Unit: OpenStack Ironic Version Header',
           expectedHeaders)
           .respond(404, '');
 
-        IronicNode.read({'uuid': 'fake'});
-        IronicPort.read({'uuid': 'fake'});
-        IronicChassis.read({'uuid': 'fake'});
-        IronicDriver.read({'uuid': 'fake'});
-        IronicDriverProperties.read({'driver_name': 'fake'});
+        IronicNode.read({uuid: 'fake'});
+        IronicPort.read({uuid: 'fake'});
+        IronicChassis.read({uuid: 'fake'});
+        IronicDriver.read({uuid: 'fake'});
+        IronicDriverProperties.read({driver_name: 'fake'});
 
         $httpBackend.flush();
 

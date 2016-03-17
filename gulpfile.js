@@ -16,11 +16,11 @@
   var merge = require('merge-stream');
 
   var dir = {
-    'app': './app',
-    'dist': './www',
-    'cover': './cover',
-    'bower': './bower_components',
-    'npm': './node_modules'
+    app: './app',
+    dist: './www',
+    cover: './cover',
+    bower: './bower_components',
+    npm: './node_modules'
   };
 
   /**
@@ -46,17 +46,17 @@
   gulp.task('iconfont', function() {
     gulp.src([dir.app + '/fonts/openstack/*.svg'])
       .pipe(iconfont({
-        'fontName': 'openstack',
-        'appendCodepoints': true,
-        'appendUnicode': true,
-        'formats': ['ttf', 'eot', 'woff', 'woff2', 'svg']
+        fontName: 'openstack',
+        appendCodepoints: true,
+        appendUnicode: true,
+        formats: ['ttf', 'eot', 'woff', 'woff2', 'svg']
       }))
       .on('glyphs', function(glyphs) {
         var options = {
-          'glyphs': glyphs,
-          'fontName': 'openstack',
-          'fontPath': '../fonts/',
-          'className': 'of'
+          glyphs: glyphs,
+          fontName: 'openstack',
+          fontPath: '../fonts/',
+          className: 'of'
         };
         return gulp.src(dir.app + '/fonts/openstack/openstack-font.css')
           .pipe(consolidate('lodash', options))
@@ -92,8 +92,8 @@
 
     return gulp.src(dir.dist)
       .pipe(webserver({
-        'livereload': true,
-        'open': true
+        livereload: true,
+        open: true
       }));
   });
 

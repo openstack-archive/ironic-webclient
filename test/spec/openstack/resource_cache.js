@@ -9,9 +9,9 @@ describe('Unit: OpenStack $$resourceCache',
     beforeEach(module('openstack'));
 
     var testResource1Key = 'http://somedomain.com:6385';
-    var testResource1 = {'name': 1};
+    var testResource1 = {name: 1};
     var testResource2Key = 'http://otherdomain.com:6385';
-    var testResource2 = {'name': 2};
+    var testResource2 = {name: 2};
 
     it('should store and retrieve resources', inject(function($$resourceCache) {
       $$resourceCache.set(testResource1Key, testResource1);

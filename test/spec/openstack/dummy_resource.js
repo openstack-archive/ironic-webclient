@@ -40,7 +40,7 @@ describe('Unit: OpenStack $$dummyResource',
 
     it('should return a failed array from the query method.',
       inject(function($$dummyResource) {
-        var result = $$dummyResource.query({'id': 'meaningless'});
+        var result = $$dummyResource.query({id: 'meaningless'});
         expect(angular.isArray(result)).toBeTruthy();
         expect(result.$promise).toBeDefined();
         expect(result.$resolved).toBeFalsy();
@@ -51,7 +51,7 @@ describe('Unit: OpenStack $$dummyResource',
 
     it('should return a failed object from CRUD methods.',
       inject(function($$dummyResource) {
-        var createResult = $$dummyResource.create({'id': 'meaningless'});
+        var createResult = $$dummyResource.create({id: 'meaningless'});
         expect(angular.isObject(createResult)).toBeTruthy();
         expect(createResult.$promise).toBeDefined();
         expect(createResult.$resolved).toBeFalsy();
@@ -60,7 +60,7 @@ describe('Unit: OpenStack $$dummyResource',
         expect(createResult.$resolved).toBeTruthy();
         expect(createResult.$promise.$$state.status).toBe(2);
 
-        var updateResult = $$dummyResource.update({'id': 'meaningless'});
+        var updateResult = $$dummyResource.update({id: 'meaningless'});
         expect(angular.isObject(updateResult)).toBeTruthy();
         expect(updateResult.$promise).toBeDefined();
         expect(updateResult.$resolved).toBeFalsy();
@@ -69,7 +69,7 @@ describe('Unit: OpenStack $$dummyResource',
         expect(updateResult.$resolved).toBeTruthy();
         expect(updateResult.$promise.$$state.status).toBe(2);
 
-        var readResult = $$dummyResource.read({'id': 'meaningless'});
+        var readResult = $$dummyResource.read({id: 'meaningless'});
         expect(angular.isObject(readResult)).toBeTruthy();
         expect(readResult.$promise).toBeDefined();
         expect(readResult.$resolved).toBeFalsy();
@@ -78,7 +78,7 @@ describe('Unit: OpenStack $$dummyResource',
         expect(readResult.$resolved).toBeTruthy();
         expect(readResult.$promise.$$state.status).toBe(2);
 
-        var removeResult = $$dummyResource.remove({'id': 'meaningless'});
+        var removeResult = $$dummyResource.remove({id: 'meaningless'});
         expect(angular.isObject(removeResult)).toBeTruthy();
         expect(removeResult.$promise).toBeDefined();
         expect(removeResult.$resolved).toBeFalsy();

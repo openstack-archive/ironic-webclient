@@ -88,9 +88,9 @@ angular.module('openstack').provider('$$configuration',
      * @type {{}}
      */
     var defaultConfig = {
-      'id': 'default',
-      'name': 'Default',
-      'source': 'default'
+      id: 'default',
+      name: 'Default',
+      source: 'default'
     };
 
     /**
@@ -124,8 +124,8 @@ angular.module('openstack').provider('$$configuration',
      */
     this.$registerDefault = function(serviceName, serviceUrl) {
       defaultConfig[serviceName] = {
-        'id': serviceName,
-        'apiRoot': serviceUrl
+        id: serviceName,
+        apiRoot: serviceUrl
       };
 
       if (deferDefault) {
@@ -268,10 +268,10 @@ angular.module('openstack').provider('$$configuration',
           deferAll = $q.defer();
 
           $q.all({
-            'local': resolveLocal(),
-            'config': resolveConfig(),
-            'default': resolveDefault(),
-            'static': resolveStatic()
+            local: resolveLocal(),
+            config: resolveConfig(),
+            default: resolveDefault(),
+            static: resolveStatic()
           }).then(function(results) {
             var list = [];
             forEach(results.local, function(config) {
@@ -389,8 +389,8 @@ angular.module('openstack').provider('$$configuration',
 
         // Resolve both all and local.
         $q.all({
-          'all': resolveAll(),
-          'local': resolveLocal()
+          all: resolveAll(),
+          local: resolveLocal()
         }).then(function(results) {
           // Check for duplicate ID's, reject if one exists.
           for (var i = 0; i < results.all.length; i++) {
@@ -569,7 +569,7 @@ angular.module('openstack').provider('$$configuration',
          *
          * @returns {{}} A list of configurations.
          */
-        'query': function() {
+        query: function() {
           // Start with the promise
           var listDeferred = $q.defer();
 
@@ -601,7 +601,7 @@ angular.module('openstack').provider('$$configuration',
          * @param {{}} configuration The configuration to add.
          * @returns {{}} A resource for this new configuration object.
          */
-        'create': function(configuration) {
+        create: function(configuration) {
           return createConfig(configuration);
         },
 
@@ -611,8 +611,8 @@ angular.module('openstack').provider('$$configuration',
          * @param {String} id The configuration ID/Name to load.
          * @returns {{}} The configuration resource.
          */
-        'read': function(id) {
-          return readConfig({'id': id});
+        read: function(id) {
+          return readConfig({id: id});
         },
 
         /**
@@ -622,7 +622,7 @@ angular.module('openstack').provider('$$configuration',
          * @param {{}} configuration The configuration object to update.
          * @returns {{}} The updated configuration.
          */
-        'update': function(configuration) {
+        update: function(configuration) {
           return updateConfig(configuration);
         },
 
@@ -632,8 +632,8 @@ angular.module('openstack').provider('$$configuration',
          * @param {String} id The ID to remove.
          * @returns {{}} The configuration object, with appropriate promises.
          */
-        'remove': function(id) {
-          return removeConfig({'id': id});
+        remove: function(id) {
+          return removeConfig({id: id});
         }
       };
     };

@@ -36,10 +36,10 @@ angular.module('openstack.mock.$$configuration', ['openstack'])
 
     $$configurationProvider.$addConfig({
       id: 'test_config_1',
-      ironic: {'apiRoot': 'http://ironic.example.com:1000'}
+      ironic: {apiRoot: 'http://ironic.example.com:1000'}
     });
     $$configurationProvider.$addConfig({
       id: 'test_config_2',
-      ironic: {'apiRoot': 'http://ironic.example.com:2000'}
+      ironic: {apiRoot: 'http://ironic.example.com:2000'}
     });
   });
