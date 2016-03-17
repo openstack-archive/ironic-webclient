@@ -18,7 +18,7 @@
  * This controller allows the creation of a new configuration.
  */
 angular.module('ironic').controller('ConfigurationAddController',
-  function($scope, $state, $location, $$configuration, $modalInstance, configuration) {
+  function($scope, $state, $location, $$configuration, $uibModalInstance, configuration) {
     'use strict';
     var vm = this;
 
@@ -38,10 +38,10 @@ angular.module('ironic').controller('ConfigurationAddController',
 
     vm.save = function() {
       vm.newConfiguration.id = vm.newConfiguration.name;
-      $modalInstance.close(vm.newConfiguration);
+      $uibModalInstance.close(vm.newConfiguration);
     };
 
     vm.close = function() {
-      $modalInstance.dismiss();
+      $uibModalInstance.dismiss();
     };
   });

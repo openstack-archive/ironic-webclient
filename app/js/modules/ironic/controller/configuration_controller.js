@@ -18,7 +18,7 @@
  * This controller allows the management of all the cloud configuration entries.
  */
 angular.module('ironic').controller('ConfigurationController',
-  function($state, $location, $$configuration, $$selectedConfiguration, $modal) {
+  function($state, $location, $$configuration, $$selectedConfiguration, $uibModal) {
     'use strict';
     var vm = this;
 
@@ -60,7 +60,7 @@ angular.module('ironic').controller('ConfigurationController',
      */
     vm.add = function() {
       //  var deferred = $q.defer();
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'view/ironic/config_add.html',
         controller: 'ConfigurationAddController as ctrl',
         backdrop: 'static',
