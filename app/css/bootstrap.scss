@@ -8,3 +8,14 @@
   right: $grid-gutter-width / 2;
   bottom: $padding-base-horizontal;
 }
+
+// Navbar form that respects the column-grid
+.navbar-form-grid {
+  margin-left: -$navbar-padding-horizontal;
+  margin-right: -$navbar-padding-horizontal;
+  padding: 8px $navbar-padding-horizontal;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  $shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.1);
+  @include box-shadow($shadow);
+}

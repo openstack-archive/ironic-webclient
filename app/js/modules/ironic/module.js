@@ -107,6 +107,9 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.ap
       .state('root.config', {
         url: '/config',
         views: {
+          header: {
+            templateUrl: 'view/ironic/config_header.html'
+          },
           main: {
             templateUrl: 'view/ironic/config.html',
             controller: 'ConfigurationController as ctrl'
