@@ -39,12 +39,10 @@
     "karma-coverage": "0.5.0",
     "karma-firefox-launcher": "0.1.6",
     "karma-jasmine": "0.3.6",
-    "karma-phantomjs-launcher": "0.2.1",
     "karma-threshold-reporter": "0.1.15",
     "lodash": "3.10.1",
     "main-bower-files": "2.9.0",
     "merge-stream": "1.0.0",
-    "phantomjs": "1.9.18",
     "vinyl-paths": "1.0.0"
   }
 }

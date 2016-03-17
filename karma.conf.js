@@ -26,7 +26,7 @@
 
       'frameworks': ['jasmine'],
 
-      'browsers': ['PhantomJS', 'Chrome', 'Firefox'],
+      'browsers': ['Chrome', 'Firefox'],
 
       'reporters': ['progress', 'coverage', 'threshold'],
 
@@ -34,7 +34,6 @@
         'karma-jasmine',
         'karma-coverage',
         'karma-threshold-reporter',
-        'karma-phantomjs-launcher',
         'karma-chrome-launcher',
         'karma-firefox-launcher'
       ],
