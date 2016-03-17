@@ -28,219 +28,219 @@ angular.module('ironic.api').factory('IronicNodeTransition',
     // field, but we'll just use the raw array.
     var transitions = [
       {
-        "from_state": "active",
-        "event": "rebuild",
-        "target_state": "deploying",
-        "actor": "user"
+        from_state: "active",
+        event: "rebuild",
+        target_state: "deploying",
+        actor: "user"
       },
       {
-        "from_state": "active",
-        "event": "delete",
-        "target_state": "deleting",
-        "actor": "user"
+        from_state: "active",
+        event: "delete",
+        target_state: "deleting",
+        actor: "user"
       },
       {
-        "from_state": "available",
-        "event": "manage",
-        "target_state": "manageable",
-        "actor": "user"
+        from_state: "available",
+        event: "manage",
+        target_state: "manageable",
+        actor: "user"
       },
       {
-        "from_state": "available",
-        "event": "deploy",
-        "target_state": "deploying",
-        "actor": "user"
+        from_state: "available",
+        event: "deploy",
+        target_state: "deploying",
+        actor: "user"
       },
       {
-        "from_state": "clean failed",
-        "event": "manage",
-        "target_state": "manageable",
-        "actor": "user"
+        from_state: "clean failed",
+        event: "manage",
+        target_state: "manageable",
+        actor: "user"
       },
       {
-        "from_state": "clean wait",
-        "event": "fail",
-        "target_state": "clean failed",
-        "actor": "conductor"
+        from_state: "clean wait",
+        event: "fail",
+        target_state: "clean failed",
+        actor: "conductor"
       },
       {
-        "from_state": "clean wait",
-        "event": "abort",
-        "target_state": "clean failed",
-        "actor": "conductor"
+        from_state: "clean wait",
+        event: "abort",
+        target_state: "clean failed",
+        actor: "conductor"
       },
       {
-        "from_state": "clean wait",
-        "event": "resume",
-        "target_state": "cleaning",
-        "actor": "conductor"
+        from_state: "clean wait",
+        event: "resume",
+        target_state: "cleaning",
+        actor: "conductor"
       },
       {
-        "from_state": "deleting",
-        "event": "clean",
-        "target_state": "cleaning",
-        "actor": "conductor"
+        from_state: "deleting",
+        event: "clean",
+        target_state: "cleaning",
+        actor: "conductor"
       },
       {
-        "from_state": "deleting",
-        "event": "error",
-        "target_state": "error",
-        "actor": "conductor"
+        from_state: "deleting",
+        event: "error",
+        target_state: "error",
+        actor: "conductor"
       },
       {
-        "from_state": "deploy failed",
-        "event": "rebuild",
-        "target_state": "deploying",
-        "actor": "user"
+        from_state: "deploy failed",
+        event: "rebuild",
+        target_state: "deploying",
+        actor: "user"
       },
       {
-        "from_state": "deploy failed",
-        "event": "delete",
-        "target_state": "deleting",
-        "actor": "user"
+        from_state: "deploy failed",
+        event: "delete",
+        target_state: "deleting",
+        actor: "user"
       },
       {
-        "from_state": "deploy failed",
-        "event": "deploy",
-        "target_state": "deploying",
-        "actor": "user"
+        from_state: "deploy failed",
+        event: "deploy",
+        target_state: "deploying",
+        actor: "user"
       },
       {
-        "from_state": "wait call-back",
-        "event": "delete",
-        "target_state": "deleting",
-        "actor": "conductor"
+        from_state: "wait call-back",
+        event: "delete",
+        target_state: "deleting",
+        actor: "conductor"
       },
       {
-        "from_state": "wait call-back",
-        "event": "resume",
-        "target_state": "deploying",
-        "actor": "conductor"
+        from_state: "wait call-back",
+        event: "resume",
+        target_state: "deploying",
+        actor: "conductor"
       },
       {
-        "from_state": "wait call-back",
-        "event": "fail",
-        "target_state": "deploy failed",
-        "actor": "conductor"
+        from_state: "wait call-back",
+        event: "fail",
+        target_state: "deploy failed",
+        actor: "conductor"
       },
       {
-        "from_state": "error",
-        "event": "rebuild",
-        "target_state": "deploying",
-        "actor": "user"
+        from_state: "error",
+        event: "rebuild",
+        target_state: "deploying",
+        actor: "user"
       },
       {
-        "from_state": "error",
-        "event": "delete",
-        "target_state": "deleting",
-        "actor": "user"
+        from_state: "error",
+        event: "delete",
+        target_state: "deleting",
+        actor: "user"
       },
       {
-        "from_state": "enroll",
-        "event": "manage",
-        "target_state": "verifying",
-        "actor": "user"
+        from_state: "enroll",
+        event: "manage",
+        target_state: "verifying",
+        actor: "user"
       },
       {
-        "from_state": "inspect failed",
-        "event": "inspect",
-        "target_state": "inspecting",
-        "actor": "user"
+        from_state: "inspect failed",
+        event: "inspect",
+        target_state: "inspecting",
+        actor: "user"
       },
       {
-        "from_state": "inspect failed",
-        "event": "manage",
-        "target_state": "manageable",
-        "actor": "user"
+        from_state: "inspect failed",
+        event: "manage",
+        target_state: "manageable",
+        actor: "user"
       },
       {
-        "from_state": "manageable",
-        "event": "inspect",
-        "target_state": "inspecting",
-        "actor": "user"
+        from_state: "manageable",
+        event: "inspect",
+        target_state: "inspecting",
+        actor: "user"
       },
       {
-        "from_state": "manageable",
-        "event": "provide",
-        "target_state": "cleaning",
-        "actor": "user"
+        from_state: "manageable",
+        event: "provide",
+        target_state: "cleaning",
+        actor: "user"
       },
       {
-        "from_state": "manageable",
-        "event": "clean",
-        "target_state": "cleaning",
-        "actor": "user"
+        from_state: "manageable",
+        event: "clean",
+        target_state: "cleaning",
+        actor: "user"
       },
       {
-        "from_state": "verifying",
-        "event": "fail",
-        "target_state": "enroll",
-        "actor": "conductor"
+        from_state: "verifying",
+        event: "fail",
+        target_state: "enroll",
+        actor: "conductor"
       },
       {
-        "from_state": "verifying",
-        "event": "done",
-        "target_state": "manageable",
-        "actor": "conductor"
+        from_state: "verifying",
+        event: "done",
+        target_state: "manageable",
+        actor: "conductor"
       },
       {
-        "from_state": "inspecting",
-        "event": "fail",
-        "target_state": "inspect failed",
-        "actor": "conductor"
+        from_state: "inspecting",
+        event: "fail",
+        target_state: "inspect failed",
+        actor: "conductor"
       },
       {
-        "from_state": "inspecting",
-        "event": "done",
-        "target_state": "manageable",
-        "actor": "conductor"
+        from_state: "inspecting",
+        event: "done",
+        target_state: "manageable",
+        actor: "conductor"
       },
       {
-        "from_state": "cleaning",
-        "event": "manage",
-        "target_state": "manageable",
-        "actor": "conductor"
+        from_state: "cleaning",
+        event: "manage",
+        target_state: "manageable",
+        actor: "conductor"
       },
       {
-        "from_state": "cleaning",
-        "event": "wait",
-        "target_state": "clean wait",
-        "actor": "conductor"
+        from_state: "cleaning",
+        event: "wait",
+        target_state: "clean wait",
+        actor: "conductor"
       },
       {
-        "from_state": "cleaning",
-        "event": "fail",
-        "target_state": "clean failed",
-        "actor": "conductor"
+        from_state: "cleaning",
+        event: "fail",
+        target_state: "clean failed",
+        actor: "conductor"
       },
       {
-        "from_state": "cleaning",
-        "event": "done",
-        "target_state": "available",
-        "actor": "conductor"
+        from_state: "cleaning",
+        event: "done",
+        target_state: "available",
+        actor: "conductor"
       },
       {
-        "from_state": "deploying",
-        "event": "fail",
-        "target_state": "deploy failed",
-        "actor": "conductor"
+        from_state: "deploying",
+        event: "fail",
+        target_state: "deploy failed",
+        actor: "conductor"
       },
       {
-        "from_state": "deploying",
-        "event": "wait",
-        "target_state": "wait call-back",
-        "actor": "conductor"
+        from_state: "deploying",
+        event: "wait",
+        target_state: "wait call-back",
+        actor: "conductor"
       },
       {
-        "from_state": "deploying",
-        "event": "done",
-        "target_state": "active",
-        "actor": "conductor"
+        from_state: "deploying",
+        event: "done",
+        target_state: "active",
+        actor: "conductor"
       }
     ];
 
     return {
-      'query': function(params, successHandler, errorHandler) {
+      query: function(params, successHandler, errorHandler) {
         var deferred = $q.defer();
 
         // Build our result array.

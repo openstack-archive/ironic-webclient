@@ -35,10 +35,10 @@ angular.module('ironic').controller('NodeDetailDriverController',
 
     // Load the node.
     IronicNode.read({
-      'uuid': nodeUuid
+      uuid: nodeUuid
     }, function(node) {
       vm.driver = IronicDriver.read({
-        'uuid': node.driver
+        uuid: node.driver
       }, angular.noop, errorHandler);
     }, errorHandler);
 

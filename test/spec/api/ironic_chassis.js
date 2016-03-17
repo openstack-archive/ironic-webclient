@@ -47,7 +47,7 @@ describe('Unit: OpenStack Ironic Chassis Resource',
 
         // Try a request
         $httpBackend.expectGET('http://ironic.example.com:1000/chassis')
-          .respond(200, {'chassis': [{}]});
+          .respond(200, {chassis: [{}]});
         var result1 = IronicChassis.query({});
         expect(result1.$promise).toBeDefined();
         expect(result1.$resolved).toBeFalsy();
@@ -63,7 +63,7 @@ describe('Unit: OpenStack Ironic Chassis Resource',
 
         // Try a request
         $httpBackend.expect('GET', 'http://ironic.example.com:2000/chassis')
-          .respond(200, {'chassis': [{}, {}]});
+          .respond(200, {chassis: [{}, {}]});
         var result2 = IronicChassis.query({});
         expect(result2.$promise).toBeDefined();
         expect(result2.$resolved).toBeFalsy();
@@ -79,7 +79,7 @@ describe('Unit: OpenStack Ironic Chassis Resource',
 
         // Try a request
         $httpBackend.expect('GET', 'http://ironic.example.com:1000/chassis')
-          .respond(200, {'chassis': [{}]});
+          .respond(200, {chassis: [{}]});
         var result3 = IronicChassis.query({});
         expect(result3.$promise).toBeDefined();
         expect(result3.$resolved).toBeFalsy();
@@ -91,12 +91,12 @@ describe('Unit: OpenStack Ironic Chassis Resource',
 
     it('should return a failed resource if an invalid config has been selected',
       inject(function(IronicChassis) {
-        var queryResult = IronicChassis.query({'id': 'meaningless'});
+        var queryResult = IronicChassis.query({id: 'meaningless'});
         expect(angular.isArray(queryResult)).toBeTruthy();
         expect(queryResult.$promise).toBeDefined();
         expect(queryResult.$resolved).toBeFalsy();
 
-        var createResult = IronicChassis.create({'id': 'meaningless'});
+        var createResult = IronicChassis.create({id: 'meaningless'});
         expect(angular.isObject(createResult)).toBeTruthy();
         expect(createResult.$promise).toBeDefined();
         expect(createResult.$resolved).toBeFalsy();
@@ -105,7 +105,7 @@ describe('Unit: OpenStack Ironic Chassis Resource',
         expect(createResult.$resolved).toBeTruthy();
         expect(createResult.$promise.$$state.status).toBe(2);
 
-        var updateResult = IronicChassis.update({'id': 'meaningless'});
+        var updateResult = IronicChassis.update({id: 'meaningless'});
         expect(angular.isObject(updateResult)).toBeTruthy();
         expect(updateResult.$promise).toBeDefined();
         expect(updateResult.$resolved).toBeFalsy();
@@ -114,7 +114,7 @@ describe('Unit: OpenStack Ironic Chassis Resource',
         expect(updateResult.$resolved).toBeTruthy();
         expect(updateResult.$promise.$$state.status).toBe(2);
 
-        var readResult = IronicChassis.read({'id': 'meaningless'});
+        var readResult = IronicChassis.read({id: 'meaningless'});
         expect(angular.isObject(readResult)).toBeTruthy();
         expect(readResult.$promise).toBeDefined();
         expect(readResult.$resolved).toBeFalsy();
@@ -123,7 +123,7 @@ describe('Unit: OpenStack Ironic Chassis Resource',
         expect(readResult.$resolved).toBeTruthy();
         expect(readResult.$promise.$$state.status).toBe(2);
 
-        var removeResult = IronicChassis.remove({'id': 'meaningless'});
+        var removeResult = IronicChassis.remove({id: 'meaningless'});
         expect(angular.isObject(removeResult)).toBeTruthy();
         expect(removeResult.$promise).toBeDefined();
         expect(removeResult.$resolved).toBeFalsy();
@@ -141,10 +141,10 @@ describe('Unit: OpenStack Ironic Chassis Resource',
         // Try a request
         $httpBackend.expectGET('http://ironic.example.com:1000/chassis')
           .respond(400, {
-            'error_message': angular.toJson({
-              'debuginfo': null,
-              'faultcode': 'Client',
-              'faultstring': 'Test fault string'
+            error_message: angular.toJson({
+              debuginfo: null,
+              faultcode: 'Client',
+              faultstring: 'Test fault string'
             })
           });
 
@@ -192,10 +192,10 @@ describe('Unit: OpenStack Ironic Chassis Resource',
         // Try a request
         $httpBackend.expectGET('http://ironic.example.com:1000/chassis/1')
           .respond(400, {
-            'error_message': angular.toJson({
-              'debuginfo': null,
-              'faultcode': 'Client',
-              'faultstring': 'Test fault string'
+            error_message: angular.toJson({
+              debuginfo: null,
+              faultcode: 'Client',
+              faultstring: 'Test fault string'
             })
           });
 

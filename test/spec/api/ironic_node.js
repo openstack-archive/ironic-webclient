@@ -46,7 +46,7 @@ describe('Unit: OpenStack Ironic Node Resource',
 
         // Try a request
         $httpBackend.expectGET('http://ironic.example.com:1000/nodes')
-          .respond(200, {'nodes': [{}]});
+          .respond(200, {nodes: [{}]});
         var result1 = IronicNode.query({});
         expect(result1.$promise).toBeDefined();
         expect(result1.$resolved).toBeFalsy();
@@ -62,7 +62,7 @@ describe('Unit: OpenStack Ironic Node Resource',
 
         // Try a request
         $httpBackend.expect('GET', 'http://ironic.example.com:2000/nodes')
-          .respond(200, {'nodes': [{}, {}]});
+          .respond(200, {nodes: [{}, {}]});
         var result2 = IronicNode.query({});
         expect(result2.$promise).toBeDefined();
         expect(result2.$resolved).toBeFalsy();
@@ -78,7 +78,7 @@ describe('Unit: OpenStack Ironic Node Resource',
 
         // Try a request
         $httpBackend.expect('GET', 'http://ironic.example.com:1000/nodes')
-          .respond(200, {'nodes': [{}]});
+          .respond(200, {nodes: [{}]});
         var result3 = IronicNode.query({});
         expect(result3.$promise).toBeDefined();
         expect(result3.$resolved).toBeFalsy();
@@ -90,12 +90,12 @@ describe('Unit: OpenStack Ironic Node Resource',
 
     it('should return a failed resource if an invalid config has been selected',
       inject(function(IronicNode) {
-        var queryResult = IronicNode.query({'id': 'meaningless'});
+        var queryResult = IronicNode.query({id: 'meaningless'});
         expect(angular.isArray(queryResult)).toBeTruthy();
         expect(queryResult.$promise).toBeDefined();
         expect(queryResult.$resolved).toBeFalsy();
 
-        var createResult = IronicNode.create({'id': 'meaningless'});
+        var createResult = IronicNode.create({id: 'meaningless'});
         expect(angular.isObject(createResult)).toBeTruthy();
         expect(createResult.$promise).toBeDefined();
         expect(createResult.$resolved).toBeFalsy();
@@ -104,7 +104,7 @@ describe('Unit: OpenStack Ironic Node Resource',
         expect(createResult.$resolved).toBeTruthy();
         expect(createResult.$promise.$$state.status).toBe(2);
 
-        var updateResult = IronicNode.update({'id': 'meaningless'});
+        var updateResult = IronicNode.update({id: 'meaningless'});
         expect(angular.isObject(updateResult)).toBeTruthy();
         expect(updateResult.$promise).toBeDefined();
         expect(updateResult.$resolved).toBeFalsy();
@@ -113,7 +113,7 @@ describe('Unit: OpenStack Ironic Node Resource',
         expect(updateResult.$resolved).toBeTruthy();
         expect(updateResult.$promise.$$state.status).toBe(2);
 
-        var readResult = IronicNode.read({'id': 'meaningless'});
+        var readResult = IronicNode.read({id: 'meaningless'});
         expect(angular.isObject(readResult)).toBeTruthy();
         expect(readResult.$promise).toBeDefined();
         expect(readResult.$resolved).toBeFalsy();
@@ -122,7 +122,7 @@ describe('Unit: OpenStack Ironic Node Resource',
         expect(readResult.$resolved).toBeTruthy();
         expect(readResult.$promise.$$state.status).toBe(2);
 
-        var removeResult = IronicNode.remove({'id': 'meaningless'});
+        var removeResult = IronicNode.remove({id: 'meaningless'});
         expect(angular.isObject(removeResult)).toBeTruthy();
         expect(removeResult.$promise).toBeDefined();
         expect(removeResult.$resolved).toBeFalsy();
@@ -140,10 +140,10 @@ describe('Unit: OpenStack Ironic Node Resource',
         // Try a request
         $httpBackend.expectGET('http://ironic.example.com:1000/nodes')
           .respond(400, {
-            'error_message': angular.toJson({
-              'debuginfo': null,
-              'faultcode': 'Client',
-              'faultstring': 'Test fault string'
+            error_message: angular.toJson({
+              debuginfo: null,
+              faultcode: 'Client',
+              faultstring: 'Test fault string'
             })
           });
 
@@ -191,10 +191,10 @@ describe('Unit: OpenStack Ironic Node Resource',
         // Try a request
         $httpBackend.expectGET('http://ironic.example.com:1000/nodes/1')
           .respond(400, {
-            'error_message': angular.toJson({
-              'debuginfo': null,
-              'faultcode': 'Client',
-              'faultstring': 'Test fault string'
+            error_message: angular.toJson({
+              debuginfo: null,
+              faultcode: 'Client',
+              faultstring: 'Test fault string'
             })
           });
 

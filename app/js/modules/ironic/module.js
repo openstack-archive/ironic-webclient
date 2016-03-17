@@ -36,27 +36,27 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.ap
     // the application fully initializes.
     $stateProvider
       .state('root', {
-        'abstract': true,
-        'url': '',
-        'templateUrl': 'view/ironic/index.html'
+        abstract: true,
+        url: '',
+        templateUrl: 'view/ironic/index.html'
       })
       .state('root.ironic', {
-        'url': '/ironic',
-        'views': {
-          'header': {
-            'templateUrl': 'view/ironic/header.html',
-            'controller': 'HeaderController as headerCtrl'
+        url: '/ironic',
+        views: {
+          header: {
+            templateUrl: 'view/ironic/header.html',
+            controller: 'HeaderController as headerCtrl'
           },
-          'main': {
-            'templateUrl': 'view/ironic/node_list.html',
-            'controller': 'NodeListController as nodeListCtrl'
+          main: {
+            templateUrl: 'view/ironic/node_list.html',
+            controller: 'NodeListController as nodeListCtrl'
           }
         },
-        'resolve': {
-          'configurations': function($$configuration) {
+        resolve: {
+          configurations: function($$configuration) {
             return $$configuration.query({}).$promise;
           },
-          'currentConfiguration': function($$selectedConfiguration, $q) {
+          currentConfiguration: function($$selectedConfiguration, $q) {
             var deferred = $q.defer();
 
             var resource = $$selectedConfiguration.get();
@@ -72,44 +72,44 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.ap
         }
       })
       .state('root.ironic.nodes', {
-        'abstract': true,
-        'url': '/nodes'
+        abstract: true,
+        url: '/nodes'
       })
       .state('root.ironic.nodes.detail', {
-        'abstract': true,
-        'url': '/:uuid',
-        'resolve': {
-          'nodeUuid': function($stateParams) {
+        abstract: true,
+        url: '/:uuid',
+        resolve: {
+          nodeUuid: function($stateParams) {
             return $stateParams.uuid;
           }
         },
-        'views': {
+        views: {
           'main@root': {
-            'templateUrl': 'view/ironic/detail.html',
-            'controller': 'NodeDetailController as nodeCtrl'
+            templateUrl: 'view/ironic/detail.html',
+            controller: 'NodeDetailController as nodeCtrl'
           }
         }
       })
       .state('root.ironic.nodes.detail.node', {
-        'url': '/node',
-        'templateUrl': 'view/ironic/detail_node.html'
+        url: '/node',
+        templateUrl: 'view/ironic/detail_node.html'
       })
       .state('root.ironic.nodes.detail.ports', {
-        'url': '/ports',
-        'templateUrl': 'view/ironic/detail_ports.html',
-        'controller': 'NodeDetailPortsController as portCtrl'
+        url: '/ports',
+        templateUrl: 'view/ironic/detail_ports.html',
+        controller: 'NodeDetailPortsController as portCtrl'
       })
       .state('root.ironic.nodes.detail.driver', {
-        'url': '/driver',
-        'templateUrl': 'view/ironic/detail_driver.html',
-        'controller': 'NodeDetailDriverController as driverCtrl'
+        url: '/driver',
+        templateUrl: 'view/ironic/detail_driver.html',
+        controller: 'NodeDetailDriverController as driverCtrl'
       })
       .state('root.config', {
-        'url': '/config',
-        'views': {
-          'main': {
-            'templateUrl': 'view/ironic/config.html',
-            'controller': 'ConfigurationController as ctrl'
+        url: '/config',
+        views: {
+          main: {
+            templateUrl: 'view/ironic/config.html',
+            controller: 'ConfigurationController as ctrl'
           }
         }
       });

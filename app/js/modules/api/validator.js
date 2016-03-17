@@ -26,8 +26,8 @@ angular.module('ironic.api').directive('ironicApiUrl',
     'use strict';
 
     return {
-      'require': 'ngModel',
-      'link': function (scope, elm, attrs, ctrl) {
+      require: 'ngModel',
+      link: function (scope, elm, attrs, ctrl) {
 
         ctrl.$ironicVersions = [];
 

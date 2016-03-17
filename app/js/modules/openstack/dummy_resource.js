@@ -42,19 +42,19 @@ angular.module('openstack').factory('$$dummyResource',
     }
 
     return {
-      'query': function() {
+      query: function() {
         return resourceify([]);
       },
-      'create': function() {
+      create: function() {
         return resourceify({});
       },
-      'read': function() {
+      read: function() {
         return resourceify({});
       },
-      'update': function() {
+      update: function() {
         return resourceify({});
       },
-      'remove': function() {
+      remove: function() {
         return resourceify({});
       }
     };

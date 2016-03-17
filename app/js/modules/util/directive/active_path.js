@@ -24,7 +24,7 @@ angular.module('ironic.util').directive('activePath',
     'use strict';
 
     return {
-      'link': function ($scope, element, attrs) {
+      link: function ($scope, element, attrs) {
         var activePath = attrs.activePath;
 
         function setActivePath () {
