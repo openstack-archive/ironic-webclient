@@ -24,7 +24,7 @@ describe('Unit: Ironic-webclient enroll-node modal controller',
     var $controller, $httpBackend;
     var mockInjectionProperties = {
       $scope: {},
-      $modalInstance: {
+      $uibModalInstance: {
         close: function() {
         },
         dismiss: function() {
@@ -185,7 +185,7 @@ describe('Unit: Ironic-webclient enroll-node modal controller',
     describe('$scope.close', function() {
       it('calls dismiss when close() is called.',
         function() {
-          var spy = spyOn(mockInjectionProperties.$modalInstance, 'dismiss');
+          var spy = spyOn(mockInjectionProperties.$uibModalInstance, 'dismiss');
           var controller = $controller('EnrollModalController', mockInjectionProperties);
           $httpBackend.flush();
 
@@ -223,7 +223,7 @@ describe('Unit: Ironic-webclient enroll-node modal controller',
 
       it('closes the window on a successful creation.',
         function() {
-          var spy = spyOn(mockInjectionProperties.$modalInstance, 'close');
+          var spy = spyOn(mockInjectionProperties.$uibModalInstance, 'close');
           var controller = $controller('EnrollModalController', mockInjectionProperties);
 
           // Load a driver
@@ -248,7 +248,7 @@ describe('Unit: Ironic-webclient enroll-node modal controller',
             })
           };
 
-          var spy = spyOn(mockInjectionProperties.$modalInstance, 'close');
+          var spy = spyOn(mockInjectionProperties.$uibModalInstance, 'close');
           var controller = $controller('EnrollModalController', mockInjectionProperties);
 
           // Load a driver

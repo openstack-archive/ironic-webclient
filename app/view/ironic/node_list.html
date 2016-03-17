@@ -34,10 +34,10 @@
             <i class="fa fa-spin fa-cog"></i> Rebooting
           </div>
           <div class="text-muted" ng-if="!!node.power_state && node.power_state != 'rebooting'">
-            <div dropdown is-open="status.isopen" class="btn-group">
+            <div uib-dropdown is-open="status.isopen" class="btn-group">
               <button type="button"
                       class="btn btn-default"
-                      dropdown-toggle
+                      uib-dropdown-toggle
                       ng-disabled="true">
                 <span ng-if="node.power_state == 'power on'">On</span>
                 <span ng-if="node.power_state == 'power off'">Off</span>

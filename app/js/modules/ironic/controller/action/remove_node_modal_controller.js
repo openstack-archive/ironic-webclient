@@ -18,7 +18,7 @@
  * This controller backs the "Remove Node" modal.
  */
 angular.module('ironic').controller('RemoveNodeModalController',
-  function($modalInstance, nodes, $q) {
+  function($uibModalInstance, nodes, $q) {
     'use strict';
     var vm = this;
 
@@ -66,9 +66,9 @@ angular.module('ironic').controller('RemoveNodeModalController',
           // If all are successful, just close.
           vm.deleting = false;
           if (vm.someDeleted) {
-            $modalInstance.close();
+            $uibModalInstance.close();
           } else {
-            $modalInstance.dismiss();
+            $uibModalInstance.dismiss();
           }
         },
         function() {
@@ -85,10 +85,10 @@ angular.module('ironic').controller('RemoveNodeModalController',
     vm.close = function() {
       if (vm.someDeleted) {
         // Something was changed.
-        $modalInstance.close();
+        $uibModalInstance.close();
       } else {
         // Nothing was changed.
-        $modalInstance.dismiss();
+        $uibModalInstance.dismiss();
       }
     };
   });

@@ -8,7 +8,7 @@ describe('Unit: Ironic-webclient Add-Configuration Controller',
     var $controller;
     var mockInjectionProperties = {
       $scope: {},
-      $modalInstance: {
+      $uibModalInstance: {
         close: function() {
         },
         dismiss: function() {
@@ -65,7 +65,7 @@ describe('Unit: Ironic-webclient Add-Configuration Controller',
     describe('$scope.close', function() {
       it('calls dismiss when close() is called.',
         function() {
-          var spy = spyOn(mockInjectionProperties.$modalInstance, 'dismiss');
+          var spy = spyOn(mockInjectionProperties.$uibModalInstance, 'dismiss');
           var controller = $controller('ConfigurationAddController', mockInjectionProperties);
           controller.close();
           expect(spy).toHaveBeenCalled();
@@ -76,7 +76,7 @@ describe('Unit: Ironic-webclient Add-Configuration Controller',
     describe('$scope.save', function() {
       it('resolves the modal promise with a valid configuration when close() is called',
         function() {
-          var spy = spyOn(mockInjectionProperties.$modalInstance, 'close');
+          var spy = spyOn(mockInjectionProperties.$uibModalInstance, 'close');
           var controller = $controller('ConfigurationAddController', mockInjectionProperties);
 
           // Simulate form input
