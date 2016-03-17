@@ -24,7 +24,7 @@ describe('Unit: Ironic-webclient node list controller',
     var $controller, $httpBackend;
     var mockInjectionProperties = {
       $scope: {},
-      $modal: {
+      $uibModal: {
         open: function() {
         }
       }
@@ -110,7 +110,7 @@ describe('Unit: Ironic-webclient node list controller',
     describe('$scope.enroll', function() {
       it('should open a modal',
         inject(function($q) {
-          var spy = spyOn(mockInjectionProperties.$modal, 'open').and.callFake(function() {
+          var spy = spyOn(mockInjectionProperties.$uibModal, 'open').and.callFake(function() {
             return {result: $q.resolve({})};
           });
           var controller = $controller('NodeListController', mockInjectionProperties);
@@ -123,7 +123,7 @@ describe('Unit: Ironic-webclient node list controller',
       it('should reload the node list if a new node was added.',
         inject(function($q) {
           // Set up a spy.
-          var spy = spyOn(mockInjectionProperties.$modal, 'open').and.callFake(function() {
+          var spy = spyOn(mockInjectionProperties.$uibModal, 'open').and.callFake(function() {
             return {result: $q.resolve({})};
           });
 

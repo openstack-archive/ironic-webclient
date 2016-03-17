@@ -30,7 +30,7 @@ describe('RemoveNodeModalController',
 
       mockInjectionProperties = {
         $scope: {},
-        $modalInstance: {
+        $uibModalInstance: {
           close: function() {
           },
           dismiss: function() {
@@ -92,8 +92,8 @@ describe('RemoveNodeModalController',
     describe('close()', function() {
       it('invokes dismiss() if nothing deleted',
         function() {
-          var spyDismiss = spyOn(mockInjectionProperties.$modalInstance, 'dismiss');
-          var spyClose = spyOn(mockInjectionProperties.$modalInstance, 'close');
+          var spyDismiss = spyOn(mockInjectionProperties.$uibModalInstance, 'dismiss');
+          var spyClose = spyOn(mockInjectionProperties.$uibModalInstance, 'close');
 
           var controller = $controller('RemoveNodeModalController', mockInjectionProperties);
           controller.someDeleted = false;
@@ -105,8 +105,8 @@ describe('RemoveNodeModalController',
 
       it('invokes close() if something deleted',
         function() {
-          var spyDismiss = spyOn(mockInjectionProperties.$modalInstance, 'dismiss');
-          var spyClose = spyOn(mockInjectionProperties.$modalInstance, 'close');
+          var spyDismiss = spyOn(mockInjectionProperties.$uibModalInstance, 'dismiss');
+          var spyClose = spyOn(mockInjectionProperties.$uibModalInstance, 'close');
 
           var controller = $controller('RemoveNodeModalController', mockInjectionProperties);
           controller.someDeleted = true;
@@ -150,7 +150,7 @@ describe('RemoveNodeModalController',
 
       it('dismisses the modal if invoked with no nodes..',
         function() {
-          var spyDismiss = spyOn(mockInjectionProperties.$modalInstance, 'dismiss');
+          var spyDismiss = spyOn(mockInjectionProperties.$uibModalInstance, 'dismiss');
           var controller = $controller('RemoveNodeModalController', mockInjectionProperties);
           expect(controller.deleting).toBeFalsy();
           expect(controller.someDeleted).toBeFalsy();
@@ -173,8 +173,8 @@ describe('RemoveNodeModalController',
 
       it('flips the someDeleted flag if some nodes are deleted and others are not',
         function() {
-          var spyDismiss = spyOn(mockInjectionProperties.$modalInstance, 'dismiss');
-          var spyClose = spyOn(mockInjectionProperties.$modalInstance, 'close');
+          var spyDismiss = spyOn(mockInjectionProperties.$uibModalInstance, 'dismiss');
+          var spyClose = spyOn(mockInjectionProperties.$uibModalInstance, 'close');
           mockInjectionProperties.nodes = [
             {$remove: removeMock(true)},
             {$remove: removeMock(false)}
@@ -233,10 +233,10 @@ describe('RemoveNodeModalController',
           expect(controller.nodes[0].error).toBeDefined();
         });
 
-      it('invokes $modalInstance.close() if all nodes have been deleted.',
+      it('invokes $uibModalInstance.close() if all nodes have been deleted.',
         function() {
-          var spyDismiss = spyOn(mockInjectionProperties.$modalInstance, 'dismiss');
-          var spyClose = spyOn(mockInjectionProperties.$modalInstance, 'close');
+          var spyDismiss = spyOn(mockInjectionProperties.$uibModalInstance, 'dismiss');
+          var spyClose = spyOn(mockInjectionProperties.$uibModalInstance, 'close');
           mockInjectionProperties.nodes = [
             {$remove: removeMock(true)},
             {$remove: removeMock(true)}
