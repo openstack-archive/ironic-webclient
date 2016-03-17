@@ -26,15 +26,16 @@
 
       'frameworks': ['jasmine'],
 
-      'browsers': ['PhantomJS', 'Chrome', 'Firefox'],
+      'browsers': ['Chrome', 'Firefox'],
 
       'reporters': ['progress', 'coverage', 'threshold'],
+
+      'browserNoActivityTimeout': 30000,
 
       'plugins': [
         'karma-jasmine',
         'karma-coverage',
         'karma-threshold-reporter',
-        'karma-phantomjs-launcher',
         'karma-chrome-launcher',
         'karma-firefox-launcher'
       ],
