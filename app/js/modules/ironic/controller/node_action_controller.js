@@ -50,10 +50,10 @@ angular.module('ironic').controller('NodeActionController',
 
       // Return the result of the modal.
       return $modal.open({
-        'templateUrl': 'view/ironic/action/remove_node.html',
-        'controller': 'RemoveNodeModalController as ctrl',
-        'backdrop': 'static',
-        'resolve': {
+        templateUrl: 'view/ironic/action/remove_node.html',
+        controller: 'RemoveNodeModalController as ctrl',
+        backdrop: 'static',
+        resolve: {
           nodes: function() {
             return [vm.node];
           }

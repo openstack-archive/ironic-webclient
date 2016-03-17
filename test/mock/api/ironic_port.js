@@ -27,18 +27,18 @@ angular.module('ironic.api.mock.IronicPort',
     $httpBackend
       .whenGET('http://ironic.example.com:1000/ports?node=test_node_1')
       .respond(200, {
-        'ports': []
+        ports: []
       });
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/ports?node=test_node_2')
       .respond(200, {
-        'ports': []
+        ports: []
       });
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/ports?node=test_node_3')
       .respond(200, {
-        'ports': []
+        ports: []
       });
   });

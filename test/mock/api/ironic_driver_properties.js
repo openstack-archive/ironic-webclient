@@ -26,19 +26,19 @@ angular.module('ironic.api.mock.IronicDriverProperties',
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/drivers/properties?driver_name=test_driver_1')
-      .respond(200, {'name': 'test_driver_1'});
+      .respond(200, {name: 'test_driver_1'});
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/drivers/properties?driver_name=test_driver_2')
-      .respond(200, {'name': 'test_driver_2'});
+      .respond(200, {name: 'test_driver_2'});
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/drivers/properties?driver_name=invalid')
       .respond(400, {
         error_message: angular.toJson({
-          'debuginfo': null,
-          'faultcode': 'Client',
-          'faultstring': 'Test fault string'
+          debuginfo: null,
+          faultcode: 'Client',
+          faultstring: 'Test fault string'
         })
       });
   });

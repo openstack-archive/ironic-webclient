@@ -27,31 +27,31 @@ angular.module('ironic.api.mock.IronicNode',
     $httpBackend
       .whenGET('http://ironic.example.com:1000/nodes')
       .respond(200, {
-        'nodes': [
-          {'uuid': 'test_node_1'},
-          {'uuid': 'test_node_2'},
-          {'uuid': 'test_node_3'}
+        nodes: [
+          {uuid: 'test_node_1'},
+          {uuid: 'test_node_2'},
+          {uuid: 'test_node_3'}
         ]
       });
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/nodes/test_node_1')
       .respond(200, {
-        "uuid": "test_node_1",
-        "driver": "test_driver_1"
+        uuid: "test_node_1",
+        driver: "test_driver_1"
       });
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/nodes/test_node_2')
       .respond(200, {
-        "uuid": "test_node_2",
-        "driver": "test_driver_1"
+        uuid: "test_node_2",
+        driver: "test_driver_1"
       });
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/nodes/test_node_3')
       .respond(200, {
-        "uuid": "test_node_3",
-        "driver": "test_driver_2  "
+        uuid: "test_node_3",
+        driver: "test_driver_2  "
       });
   });

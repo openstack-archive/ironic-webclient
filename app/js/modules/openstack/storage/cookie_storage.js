@@ -31,7 +31,7 @@ angular.module('openstack').factory('$$cookieStorage',
        *
        * @returns {boolean} True if it is supported, otherwise false.
        */
-      'isSupported': function() {
+      isSupported: function() {
         return true;
       },
 
@@ -43,7 +43,7 @@ angular.module('openstack').factory('$$cookieStorage',
        * @param {*} value The value to store.
        * @return {*} The stored value.
        */
-      'set': function(key, value) {
+      set: function(key, value) {
         $cookies.put(key, angular.toJson(value));
         return value;
       },
@@ -54,7 +54,7 @@ angular.module('openstack').factory('$$cookieStorage',
        * @param {String} key The key to retrieve.
        * @return {*|undefined} The value, or undefined if it is not set.
        */
-      'get': function(key) {
+      get: function(key) {
         var result = angular.fromJson($cookies.get(key));
         if (result) {
           return result;
@@ -67,7 +67,7 @@ angular.module('openstack').factory('$$cookieStorage',
        * @param {String} key The key to remove.
        * @returns {void}
        */
-      'remove': function(key) {
+      remove: function(key) {
         $cookies.remove(key);
       },
 
@@ -76,7 +76,7 @@ angular.module('openstack').factory('$$cookieStorage',
        *
        * @returns {Array} An array of all registered keys.
        */
-      'keys': function() {
+      keys: function() {
         var all = $cookies.getAll();
         var keys = [];
         /*eslint-disable guard-for-in*/
@@ -92,7 +92,7 @@ angular.module('openstack').factory('$$cookieStorage',
        *
        * @returns {void}
        */
-      'clearAll': function() {
+      clearAll: function() {
         var all = $cookies.getAll();
         /*eslint-disable guard-for-in*/
         for (var key in all) {
@@ -106,7 +106,7 @@ angular.module('openstack').factory('$$cookieStorage',
        *
        * @returns {number} The number of keys in storage.
        */
-      'length': function() {
+      length: function() {
         return this.keys().length;
       }
     };

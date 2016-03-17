@@ -9,7 +9,7 @@ describe('Unit: OpenStack Ironic Driver Properties Resource',
 
     // Create some test data
     var testReturnData = {
-      'foo': 'bar'
+      foo: 'bar'
     };
 
     // Load common configuration mocks.
@@ -105,10 +105,10 @@ describe('Unit: OpenStack Ironic Driver Properties Resource',
         // Try a request
         $httpBackend.expectGET('http://ironic.example.com:1000/drivers/properties?driver_name=foo')
           .respond(400, {
-            'error_message': angular.toJson({
-              'debuginfo': null,
-              'faultcode': 'Client',
-              'faultstring': 'Test fault string'
+            error_message: angular.toJson({
+              debuginfo: null,
+              faultcode: 'Client',
+              faultstring: 'Test fault string'
             })
           });
 
@@ -158,10 +158,10 @@ describe('Unit: OpenStack Ironic Driver Properties Resource',
         $httpBackend
           .expectGET('http://ironic.example.com:1000/drivers/properties?driver_name=foo')
           .respond(400, {
-            'error_message': angular.toJson({
-              'debuginfo': null,
-              'faultcode': 'Client',
-              'faultstring': 'Test fault string'
+            error_message: angular.toJson({
+              debuginfo: null,
+              faultcode: 'Client',
+              faultstring: 'Test fault string'
             })
           });
 

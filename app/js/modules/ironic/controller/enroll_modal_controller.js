@@ -49,7 +49,7 @@ angular.module('ironic').controller('EnrollModalController',
       };
 
       var params = {
-        'driver_name': driverName
+        driver_name: driverName
       };
 
       IronicDriverProperties.read(params).$promise.then(

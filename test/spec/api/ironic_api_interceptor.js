@@ -24,7 +24,7 @@ describe('Unit: OpenStack Ironic API Transformation Methods',
      * A dummy response object for a valid list of objects.
      */
     var listResponse = {
-      'resourceName': [
+      resourceName: [
         angular.copy(objectResponse)
       ]
     };
@@ -33,10 +33,10 @@ describe('Unit: OpenStack Ironic API Transformation Methods',
      * A dummy error response.
      */
     var errorResponse = {
-      'error_message': {
-        'debuginfo': null,
-        'faultcode': 'Client',
-        'faultstring': 'Test fault string'
+      error_message: {
+        debuginfo: null,
+        faultcode: 'Client',
+        faultstring: 'Test fault string'
       }
     };
     var encodedErrorResponse = angular.copy(errorResponse);

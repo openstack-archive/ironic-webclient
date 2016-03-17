@@ -45,7 +45,7 @@ angular.module('openstack').factory('$$resourceCache',
        * @param {*} resource The resource to store.
        * @return {*} The stored resource.
        */
-      'set': function(uri, resource) {
+      set: function(uri, resource) {
         resourceCache[uri] = resource;
         return resource;
       },
@@ -56,7 +56,7 @@ angular.module('openstack').factory('$$resourceCache',
        * @param {String} uri The uri of the resource to retrieve.
        * @return {*|undefined} The resource, or undefined.
        */
-      'get': function(uri) {
+      get: function(uri) {
         if (resourceCache[uri]) {
           return resourceCache[uri];
         }
@@ -68,7 +68,7 @@ angular.module('openstack').factory('$$resourceCache',
        * @param {String} uri The uri of the resource to check.
        * @return {true|false} Whether this resource has already been cached.
        */
-      'has': function(uri) {
+      has: function(uri) {
         return resourceCache.hasOwnProperty(uri);
       },
 
@@ -78,7 +78,7 @@ angular.module('openstack').factory('$$resourceCache',
        * @param {String} uri The uri of the resource to remove.
        * @returns {void}
        */
-      'remove': function(uri) {
+      remove: function(uri) {
         if (resourceCache.hasOwnProperty(uri)) {
           delete resourceCache[uri];
         }
@@ -89,7 +89,7 @@ angular.module('openstack').factory('$$resourceCache',
        *
        * @returns {Array} An array of all registered uri keys.
        */
-      'keys': function() {
+      keys: function() {
         var keys = [];
         /*eslint-disable guard-for-in*/
         for (var key in resourceCache) {
@@ -104,7 +104,7 @@ angular.module('openstack').factory('$$resourceCache',
        *
        * @returns {void}
        */
-      'clearAll': function() {
+      clearAll: function() {
         var keys = this.keys();
         for (var i = 0; i < keys.length; i++) {
           delete resourceCache[keys[i]];
@@ -116,7 +116,7 @@ angular.module('openstack').factory('$$resourceCache',
        *
        * @returns {number} The number of resources cached.
        */
-      'length': function() {
+      length: function() {
         return this.keys().length;
       }
     };

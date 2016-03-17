@@ -33,7 +33,7 @@ angular.module('openstack').service('$$selectedConfiguration',
        *
        * @returns {*} The configuration.
        */
-      'get': function() {
+      get: function() {
         // If we're in the process of selecting one, return that.
         if (selectingConfiguration) {
           return selectingConfiguration;
@@ -56,7 +56,7 @@ angular.module('openstack').service('$$selectedConfiguration',
        * @param {String} configurationId The configuration to activate.
        * @returns {*} The active configuration.
        */
-      'set': function(configurationId) {
+      set: function(configurationId) {
         // Normalize input
 
         if (angular.isObject(configurationId)) {

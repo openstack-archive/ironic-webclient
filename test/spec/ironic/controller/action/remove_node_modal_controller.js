@@ -77,7 +77,7 @@ describe('RemoveNodeModalController',
 
       it('Creates a scope object for each passed node',
         function() {
-          mockInjectionProperties.nodes = [{'node': 'node1'}, {'node': 'node2'}];
+          mockInjectionProperties.nodes = [{node: 'node1'}, {node: 'node2'}];
           var controller = $controller('RemoveNodeModalController', mockInjectionProperties);
 
           expect(controller.nodes.length).toBe(2);

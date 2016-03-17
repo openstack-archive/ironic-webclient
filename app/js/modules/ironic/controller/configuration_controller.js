@@ -25,9 +25,9 @@ angular.module('ironic').controller('ConfigurationController',
     vm.configurations = [];
 
     vm.location = {
-      'host': $location.host(),
-      'protocol': $location.protocol(),
-      'port': $location.port()
+      host: $location.host(),
+      protocol: $location.protocol(),
+      port: $location.port()
     };
 
     /**
@@ -61,11 +61,11 @@ angular.module('ironic').controller('ConfigurationController',
     vm.add = function() {
       //  var deferred = $q.defer();
       $modal.open({
-        'templateUrl': 'view/ironic/config_add.html',
-        'controller': 'ConfigurationAddController as ctrl',
-        'backdrop': 'static',
-        'resolve': {
-          'configuration': function() {
+        templateUrl: 'view/ironic/config_add.html',
+        controller: 'ConfigurationAddController as ctrl',
+        backdrop: 'static',
+        resolve: {
+          configuration: function() {
             return $$configuration.query({}).$promise;
           }
         }

@@ -47,7 +47,7 @@ describe('Unit: OpenStack Ironic Driver Resource',
 
         // Try a request
         $httpBackend.expectGET('http://ironic.example.com:1000/drivers')
-          .respond(200, {'drivers': [{}]});
+          .respond(200, {drivers: [{}]});
         var result1 = IronicDriver.query({});
         expect(result1.$promise).toBeDefined();
         expect(result1.$resolved).toBeFalsy();
@@ -63,7 +63,7 @@ describe('Unit: OpenStack Ironic Driver Resource',
 
         // Try a request
         $httpBackend.expect('GET', 'http://ironic.example.com:2000/drivers')
-          .respond(200, {'drivers': [{}, {}]});
+          .respond(200, {drivers: [{}, {}]});
         var result2 = IronicDriver.query({});
         expect(result2.$promise).toBeDefined();
         expect(result2.$resolved).toBeFalsy();
@@ -79,7 +79,7 @@ describe('Unit: OpenStack Ironic Driver Resource',
 
         // Try a request
         $httpBackend.expect('GET', 'http://ironic.example.com:1000/drivers')
-          .respond(200, {'drivers': [{}]});
+          .respond(200, {drivers: [{}]});
         var result3 = IronicDriver.query({});
         expect(result3.$promise).toBeDefined();
         expect(result3.$resolved).toBeFalsy();
@@ -91,12 +91,12 @@ describe('Unit: OpenStack Ironic Driver Resource',
 
     it('should return a failed resource if an invalid config has been selected',
       inject(function(IronicDriver) {
-        var queryResult = IronicDriver.query({'id': 'meaningless'});
+        var queryResult = IronicDriver.query({id: 'meaningless'});
         expect(angular.isArray(queryResult)).toBeTruthy();
         expect(queryResult.$promise).toBeDefined();
         expect(queryResult.$resolved).toBeFalsy();
 
-        var createResult = IronicDriver.create({'id': 'meaningless'});
+        var createResult = IronicDriver.create({id: 'meaningless'});
         expect(angular.isObject(createResult)).toBeTruthy();
         expect(createResult.$promise).toBeDefined();
         expect(createResult.$resolved).toBeFalsy();
@@ -105,7 +105,7 @@ describe('Unit: OpenStack Ironic Driver Resource',
         expect(createResult.$resolved).toBeTruthy();
         expect(createResult.$promise.$$state.status).toBe(2);
 
-        var updateResult = IronicDriver.update({'id': 'meaningless'});
+        var updateResult = IronicDriver.update({id: 'meaningless'});
         expect(angular.isObject(updateResult)).toBeTruthy();
         expect(updateResult.$promise).toBeDefined();
         expect(updateResult.$resolved).toBeFalsy();
@@ -114,7 +114,7 @@ describe('Unit: OpenStack Ironic Driver Resource',
         expect(updateResult.$resolved).toBeTruthy();
         expect(updateResult.$promise.$$state.status).toBe(2);
 
-        var readResult = IronicDriver.read({'id': 'meaningless'});
+        var readResult = IronicDriver.read({id: 'meaningless'});
         expect(angular.isObject(readResult)).toBeTruthy();
         expect(readResult.$promise).toBeDefined();
         expect(readResult.$resolved).toBeFalsy();
@@ -123,7 +123,7 @@ describe('Unit: OpenStack Ironic Driver Resource',
         expect(readResult.$resolved).toBeTruthy();
         expect(readResult.$promise.$$state.status).toBe(2);
 
-        var removeResult = IronicDriver.remove({'id': 'meaningless'});
+        var removeResult = IronicDriver.remove({id: 'meaningless'});
         expect(angular.isObject(removeResult)).toBeTruthy();
         expect(removeResult.$promise).toBeDefined();
         expect(removeResult.$resolved).toBeFalsy();
@@ -141,10 +141,10 @@ describe('Unit: OpenStack Ironic Driver Resource',
         // Try a request
         $httpBackend.expectGET('http://ironic.example.com:1000/drivers')
           .respond(400, {
-            'error_message': angular.toJson({
-              'debuginfo': null,
-              'faultcode': 'Client',
-              'faultstring': 'Test fault string'
+            error_message: angular.toJson({
+              debuginfo: null,
+              faultcode: 'Client',
+              faultstring: 'Test fault string'
             })
           });
 
@@ -192,10 +192,10 @@ describe('Unit: OpenStack Ironic Driver Resource',
         // Try a request
         $httpBackend.expectGET('http://ironic.example.com:1000/drivers/1')
           .respond(400, {
-            'error_message': angular.toJson({
-              'debuginfo': null,
-              'faultcode': 'Client',
-              'faultstring': 'Test fault string'
+            error_message: angular.toJson({
+              debuginfo: null,
+              faultcode: 'Client',
+              faultstring: 'Test fault string'
             })
           });
 

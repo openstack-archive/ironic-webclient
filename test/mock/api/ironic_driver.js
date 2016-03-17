@@ -28,20 +28,20 @@ angular.module('ironic.api.mock.IronicDriver',
       .whenGET('http://ironic.example.com:1000/drivers')
       .respond(200, {
         drivers: [
-          {'name': 'test_driver_1'},
-          {'name': 'test_driver_2'}
+          {name: 'test_driver_1'},
+          {name: 'test_driver_2'}
         ]
       });
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/drivers/test_driver_1')
       .respond(200, {
-        "name": "test_driver_1"
+        name: "test_driver_1"
       });
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/drivers/test_driver_2')
       .respond(200, {
-        "name": "test_driver_2"
+        name: "test_driver_2"
       });
   });
