@@ -4,13 +4,13 @@
   "description": "A webclient for OpenStack Ironic.",
   "license": "Apache-2.0",
   "dependencies": {
-    "angular": "1.4.6",
+    "angular": "1.5.1",
     "angular-bootstrap": "0.13.4",
-    "angular-cookies": "1.4.6",
-    "angular-resource": "1.4.6",
-    "angular-ui-router": "0.2.15",
-    "bootstrap-sass": "3.3.5",
-    "fontawesome": "4.4.0"
+    "angular-cookies": "1.5.1",
+    "angular-resource": "1.5.1",
+    "angular-ui-router": "0.2.18",
+    "bootstrap-sass": "3.3.6",
+    "fontawesome": "4.5.0"
   },
   "devDependencies": {},
   "overrides": {
