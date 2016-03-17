@@ -18,7 +18,7 @@
  * This controller handles the enrollment of a new, single, node
  */
 angular.module('ironic').controller('EnrollModalController',
-  function($scope, $modalInstance, IronicDriver, IronicDriverProperties,
+  function($scope, $uibModalInstance, IronicDriver, IronicDriverProperties,
            IronicNode) {
     'use strict';
     var vm = this;
@@ -65,7 +65,7 @@ angular.module('ironic').controller('EnrollModalController',
       vm.errorMessage = null;
       IronicNode.create(vm.node,
         function(node) {
-          $modalInstance.close(node);
+          $uibModalInstance.close(node);
         },
         function(error) {
           vm.errorMessage = error.data.error_message;
@@ -74,7 +74,7 @@ angular.module('ironic').controller('EnrollModalController',
     };
 
     vm.close = function() {
-      $modalInstance.dismiss();
+      $uibModalInstance.dismiss();
     };
 
     // Initialize the drivers.

@@ -98,10 +98,10 @@ describe('Unit: Ironic-webclient NodeActionController',
         });
 
       it('open a modal if called with a node.',
-        inject(function($q, $modal) {
+        inject(function($q, $uibModal) {
           var controller = $controller('NodeActionController', mockInjectionProperties);
           var mockNode = {};
-          var spy = spyOn($modal, 'open').and.callThrough();
+          var spy = spyOn($uibModal, 'open').and.callThrough();
           $httpBackend.expectGET('view/ironic/action/remove_node.html').respond(200, '');
           controller.init(mockNode);
 

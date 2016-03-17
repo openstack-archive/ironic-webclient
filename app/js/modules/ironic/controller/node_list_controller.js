@@ -18,7 +18,7 @@
  * Node handling for the Ironic UI.
  */
 angular.module('ironic')
-  .controller('NodeListController', function($scope, IronicNode, $modal, $log) {
+  .controller('NodeListController', function($scope, IronicNode, $uibModal, $log) {
     'use strict';
     var vm = this;
 
@@ -50,7 +50,7 @@ angular.module('ironic')
     };
 
     vm.enroll = function() {
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'view/ironic/enroll/index.html',
         controller: 'EnrollModalController as ctrl',
         backdrop: 'static'

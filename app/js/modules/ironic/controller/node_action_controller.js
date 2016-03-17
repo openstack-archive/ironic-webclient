@@ -18,7 +18,7 @@
  * Controller which handles manipulation of individual nodes.
  */
 angular.module('ironic').controller('NodeActionController',
-  function($modal, $q) {
+  function($uibModal, $q) {
     'use strict';
 
     var vm = this;
@@ -49,7 +49,7 @@ angular.module('ironic').controller('NodeActionController',
       }
 
       // Return the result of the modal.
-      return $modal.open({
+      return $uibModal.open({
         templateUrl: 'view/ironic/action/remove_node.html',
         controller: 'RemoveNodeModalController as ctrl',
         backdrop: 'static',
