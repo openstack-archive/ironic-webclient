@@ -89,7 +89,7 @@ angular.module('openstack').provider('$$configuration',
      */
     var defaultConfig = {
       id: 'default',
-      name: 'Default',
+      name: 'Default Cloud',
       source: 'default'
     };
 
