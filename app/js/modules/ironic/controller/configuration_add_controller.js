@@ -24,16 +24,16 @@ angular.module('ironic').controller('ConfigurationAddController',
 
     vm.configuration = configuration;
     vm.newConfiguration = {
-      'name': '',
-      'ironic': {
-        'apiRoot': ''
+      name: '',
+      ironic: {
+        apiRoot: ''
       }
     };
 
     vm.location = {
-      'host': $location.host(),
-      'protocol': $location.protocol(),
-      'port': $location.port()
+      host: $location.host(),
+      protocol: $location.protocol(),
+      port: $location.port()
     };
 
     vm.save = function() {

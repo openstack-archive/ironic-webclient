@@ -28,7 +28,7 @@ angular.module('ironic').controller('NodeDetailPortsController',
 
     // Load the node.
     vm.ports = IronicPort.query({
-      'node': nodeUuid
+      node: nodeUuid
     }, angular.noop, function(error) {
       // Set the error message and clear the node promise.
       vm.errorMessage = error.data.error_message;

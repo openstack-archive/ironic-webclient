@@ -50,42 +50,42 @@ angular.module('ironic.api').factory('IronicDriver',
 
       if (!$$resourceCache.has(driverUrl)) {
         $log.debug("Creating new IronicDriver at: " + driverUrl);
-        var resource = $resource(driverUrl, {'uuid': '@uuid'}, {
-          'query': {
-            'method': 'GET',
-            'isArray': true,
-            'headers': {
+        var resource = $resource(driverUrl, {uuid: '@uuid'}, {
+          query: {
+            method: 'GET',
+            isArray: true,
+            headers: {
               'X-OpenStack-Ironic-API-Version': ironicApiVersion
             },
-            'transformResponse': ironicApiInterceptor.response('drivers')
+            transformResponse: ironicApiInterceptor.response('drivers')
           },
-          'create': {
-            'method': 'POST',
-            'headers': {
+          create: {
+            method: 'POST',
+            headers: {
               'X-OpenStack-Ironic-API-Version': ironicApiVersion
             },
-            'transformResponse': ironicApiInterceptor.response()
+            transformResponse: ironicApiInterceptor.response()
           },
-          'read': {
-            'method': 'GET',
-            'headers': {
+          read: {
+            method: 'GET',
+            headers: {
               'X-OpenStack-Ironic-API-Version': ironicApiVersion
             },
-            'transformResponse': ironicApiInterceptor.response()
+            transformResponse: ironicApiInterceptor.response()
           },
-          'update': {
-            'method': 'PUT',
-            'headers': {
+          update: {
+            method: 'PUT',
+            headers: {
               'X-OpenStack-Ironic-API-Version': ironicApiVersion
             },
-            'transformResponse': ironicApiInterceptor.response()
+            transformResponse: ironicApiInterceptor.response()
           },
-          'remove': {
-            'method': 'DELETE',
-            'headers': {
+          remove: {
+            method: 'DELETE',
+            headers: {
               'X-OpenStack-Ironic-API-Version': ironicApiVersion
             },
-            'transformResponse': ironicApiInterceptor.response()
+            transformResponse: ironicApiInterceptor.response()
           }
         });
 
@@ -96,23 +96,23 @@ angular.module('ironic.api').factory('IronicDriver',
     }
 
     return {
-      'query': function() {
+      query: function() {
         var r = getResource();
         return r.query.apply(r, arguments);
       },
-      'create': function() {
+      create: function() {
         var r = getResource();
         return r.create.apply(r, arguments);
       },
-      'read': function() {
+      read: function() {
         var r = getResource();
         return r.read.apply(r, arguments);
       },
-      'update': function() {
+      update: function() {
         var r = getResource();
         return r.update.apply(r, arguments);
       },
-      'remove': function() {
+      remove: function() {
         var r = getResource();
         return r.remove.apply(r, arguments);
       }

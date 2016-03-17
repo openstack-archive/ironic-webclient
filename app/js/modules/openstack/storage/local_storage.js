@@ -52,7 +52,7 @@ angular.module('openstack').factory('$$localStorage',
        *
        * @returns {boolean} True if it is supported, otherwise false.
        */
-      'isSupported': function() {
+      isSupported: function() {
         return isSupported;
       },
 
@@ -64,7 +64,7 @@ angular.module('openstack').factory('$$localStorage',
        * @param {*} value The value to store.
        * @return {*} The stored value.
        */
-      'set': function(key, value) {
+      set: function(key, value) {
         if (isSupported) {
           $window.localStorage.setItem(key, angular.toJson(value));
           return value;
@@ -78,7 +78,7 @@ angular.module('openstack').factory('$$localStorage',
        * @param {String} key The key to retrieve.
        * @return {*|undefined} The value, or undefined if it is not set.
        */
-      'get': function(key) {
+      get: function(key) {
         if (isSupported) {
           var result = angular.fromJson($window.localStorage.getItem(key));
           if (result) {
@@ -95,7 +95,7 @@ angular.module('openstack').factory('$$localStorage',
        * @param {String} key The key to remove.
        * @returns {void}
        */
-      'remove': function(key) {
+      remove: function(key) {
         if (isSupported) {
           return $window.localStorage.removeItem(key);
         }
@@ -107,7 +107,7 @@ angular.module('openstack').factory('$$localStorage',
        *
        * @returns {Array} An array of all registered keys.
        */
-      'keys': function() {
+      keys: function() {
         if (isSupported) {
           var keys = [];
           for (var i = 0; i < $window.localStorage.length; i++) {
@@ -124,7 +124,7 @@ angular.module('openstack').factory('$$localStorage',
        *
        * @returns {void}
        */
-      'clearAll': function() {
+      clearAll: function() {
         if (isSupported) {
           var keys = this.keys();
           for (var i = 0; i < keys.length; i++) {
@@ -139,7 +139,7 @@ angular.module('openstack').factory('$$localStorage',
        *
        * @returns {number} The number of keys in storage.
        */
-      'length': function() {
+      length: function() {
         if (isSupported) {
           return $window.localStorage.length;
         }

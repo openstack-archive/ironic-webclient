@@ -76,9 +76,9 @@ describe('Unit: NodeDetailDriverController',
         function() {
           var errorResponse = {
             error_message: angular.toJson({
-              'debuginfo': null,
-              'faultcode': 'Client',
-              'faultstring': 'Test fault string'
+              debuginfo: null,
+              faultcode: 'Client',
+              faultstring: 'Test fault string'
             })
           };
 
@@ -98,9 +98,9 @@ describe('Unit: NodeDetailDriverController',
         function() {
           var errorResponse = {
             error_message: angular.toJson({
-              'debuginfo': null,
-              'faultcode': 'Client',
-              'faultstring': 'Test fault string'
+              debuginfo: null,
+              faultcode: 'Client',
+              faultstring: 'Test fault string'
             })
           };
 

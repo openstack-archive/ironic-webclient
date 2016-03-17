@@ -43,7 +43,7 @@ describe('Unit: Ironic-webclient Add-Configuration Controller',
       it('sets the newConfiguration property to a valid cloud configuration with an ironic apiBase',
         function() {
           var controller = $controller('ConfigurationAddController', mockInjectionProperties);
-          expect(controller.newConfiguration.ironic).toEqual({'apiRoot': ''});
+          expect(controller.newConfiguration.ironic).toEqual({apiRoot: ''});
           expect(controller.newConfiguration.name).toBeDefined();
         });
 
@@ -55,9 +55,9 @@ describe('Unit: Ironic-webclient Add-Configuration Controller',
 
           var controller = $controller('ConfigurationAddController', mockInjectionProperties);
           expect(controller.location).toEqual({
-            'host': 'example.com',
-            'protocol': 'https',
-            'port': 1234
+            host: 'example.com',
+            protocol: 'https',
+            port: 1234
           });
         }));
     });
