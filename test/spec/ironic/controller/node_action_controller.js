@@ -113,4 +113,22 @@ describe('Unit: Ironic-webclient NodeActionController',
         }));
     });
 
+    describe('$scope.enroll', function() {
+      var enrollInjectionProperties = angular.copy(mockInjectionProperties);
+      enrollInjectionProperties.$uibModal = {
+        open: function() {
+        }
+      };
+
+      it('should open a modal',
+        inject(function($q) {
+          var spy = spyOn(enrollInjectionProperties.$uibModal, 'open').and.callFake(function() {
+            return {result: $q.resolve({})};
+          });
+          var controller = $controller('NodeActionController', enrollInjectionProperties);
+          controller.enroll();
+
+          expect(spy.calls.count()).toBe(1);
+        }));
+    });
   });

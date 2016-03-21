@@ -1,13 +1,20 @@
-<div class="row">
+<div class="row padding-top">
   <div class="col-xs-12">
-    <button ng-click="nodeListCtrl.enroll()" class="btn btn-default pull-right-bottom">
-      <i class="fa fa-gear"></i>
-      Enroll Node
-    </button>
-    <h1>Nodes</h1>
+
+    <!-- Split button -->
+    <div class="btn-group" uib-dropdown>
+      <button type="button" class="btn btn-default" disabled>Power On</button>
+      <button type="button" class="btn btn-default" uib-dropdown-toggle disabled>
+        <i class="caret"></i>
+      </button>
+      <ul uib-dropdown-menu role="menu" aria-labelledby="split-button">
+      </ul>
+    </div>
+    <button type="button" class="btn btn-default" disabled>Reboot</button>
+    <button type="button" class="btn btn-default" disabled>Refresh</button>
   </div>
 </div>
-<div class="row">
+<div class="row padding-top">
   <div class="col-xs-12">
     <table class="table table-condensed table-striped">
       <thead>

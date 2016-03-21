@@ -48,7 +48,7 @@ angular.module('ironic').controller('ConfigurationController',
     vm.select = function(configuration) {
       $$selectedConfiguration.set(configuration).$promise.then(
         function() {
-          $state.go('root.ironic');
+          $state.go('root.ironic.nodes');
         }
       );
     };
