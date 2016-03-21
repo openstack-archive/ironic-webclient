@@ -60,4 +60,17 @@ angular.module('ironic').controller('NodeActionController',
         }
       }).result;
     };
+
+    /**
+     * Enroll a new node.
+     *
+     * @return {Promise} A promise that will resolve true if a node has been added.
+     */
+    vm.enroll = function() {
+      return $uibModal.open({
+        templateUrl: 'view/ironic/enroll/index.html',
+        controller: 'EnrollModalController as ctrl',
+        backdrop: 'static'
+      }).result;
+    };
   });
