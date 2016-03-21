@@ -106,41 +106,4 @@ describe('Unit: Ironic-webclient node list controller',
           expect(controller.nodes).toBeFalsy();
         });
     });
-
-    describe('$scope.enroll', function() {
-      it('should open a modal',
-        inject(function($q) {
-          var spy = spyOn(mockInjectionProperties.$uibModal, 'open').and.callFake(function() {
-            return {result: $q.resolve({})};
-          });
-          var controller = $controller('NodeListController', mockInjectionProperties);
-          controller.enroll();
-          $httpBackend.flush();
-
-          expect(spy.calls.count()).toBe(1);
-        }));
-
-      it('should reload the node list if a new node was added.',
-        inject(function($q) {
-          // Set up a spy.
-          var spy = spyOn(mockInjectionProperties.$uibModal, 'open').and.callFake(function() {
-            return {result: $q.resolve({})};
-          });
-
-          // Initialize the controller.
-          var controller = $controller('NodeListController', mockInjectionProperties);
-          $httpBackend.flush();
-
-          // Setup expected calls
-          $httpBackend
-            .expectGET('http://ironic.example.com:1000/nodes')
-            .respond(200, []);
-
-          // Call Enroll
-          controller.enroll();
-          $httpBackend.flush();
-
-          expect(spy.calls.count()).toBe(1);
-        }));
-    });
   });

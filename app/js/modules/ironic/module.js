@@ -25,7 +25,7 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.ap
     'use strict';
 
     // Default UI route
-    $urlRouterProvider.otherwise('/ironic');
+    $urlRouterProvider.otherwise('/ironic/nodes');
 
     // Enable all of our configuration detection methods
     $$configurationProvider.$enableDefault(true);
@@ -38,18 +38,18 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.ap
       .state('root', {
         abstract: true,
         url: '',
-        templateUrl: 'view/ironic/index.html'
+        templateUrl: 'view/ironic/root.html'
       })
       .state('root.ironic', {
+        abstract: true,
         url: '/ironic',
         views: {
           header: {
             templateUrl: 'view/ironic/header.html',
             controller: 'HeaderController as headerCtrl'
           },
-          main: {
-            templateUrl: 'view/ironic/node_list.html',
-            controller: 'NodeListController as nodeListCtrl'
+          root: {
+            templateUrl: 'view/ironic/ironic.html'
           }
         },
         resolve: {
@@ -72,8 +72,13 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.ap
         }
       })
       .state('root.ironic.nodes', {
-        abstract: true,
-        url: '/nodes'
+        url: '/nodes',
+        views: {
+          'main@root.ironic': {
+            templateUrl: 'view/ironic/node_list.html',
+            controller: 'NodeListController as nodeListCtrl'
+          }
+        }
       })
       .state('root.ironic.nodes.detail', {
         abstract: true,
@@ -84,7 +89,7 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.ap
           }
         },
         views: {
-          'main@root': {
+          'main@root.ironic': {
             templateUrl: 'view/ironic/detail.html',
             controller: 'NodeDetailController as nodeCtrl'
           }
@@ -104,13 +109,21 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.ap
         templateUrl: 'view/ironic/detail_driver.html',
         controller: 'NodeDetailDriverController as driverCtrl'
       })
+      .state('root.ironic.drivers', {
+        url: '/drivers',
+        views: {
+          'main@root.ironic': {
+            templateUrl: 'view/ironic/driver_list.html'
+          }
+        }
+      })
       .state('root.config', {
         url: '/config',
         views: {
           header: {
             templateUrl: 'view/ironic/config_header.html'
           },
-          main: {
+          root: {
             templateUrl: 'view/ironic/config.html',
             controller: 'ConfigurationController as ctrl'
           }
@@ -125,7 +138,7 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.ap
         if (reason === 'no_config') {
           $state.go('root.config');
         } else {
-          $state.go('root.ironic');
+          $state.go('root.ironic.nodes');
         }
       });
     $rootScope.$on('$destroy', listener);
