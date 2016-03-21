@@ -14,77 +14,41 @@
 </div>
 <div class="row padding-top">
   <div class="col-xs-12">
-    <table class="table table-condensed table-striped">
+    <table class="table table-condensed table-striped table-bordered">
       <thead>
       <tr>
-        <th>Power State</th>
-        <th>Name (UUID)</th>
+        <th><input type="checkbox" disabled/></th>
+        <th>UUID</th>
+        <th>Name</th>
         <th>Instance</th>
         <th>Provision State</th>
         <th>Maintenance</th>
-        <th>&nbsp;</th>
+        <th>Power</th>
       </tr>
       </thead>
       <tbody ng-if="nodeListCtrl.nodes.$resolved && nodeListCtrl.nodes.length > 0">
       <tr ng-repeat="node in nodeListCtrl.nodes"
           ng-controller="NodeActionController as nodeCtrl"
           ng-init="nodeCtrl.init(node)">
-        <td>
-
-          <!-- Four power states: 'power on', 'power off', 'rebooting', and <no value> -->
-          <div class="text-muted" ng-if="!node.power_state">
-            <i class="fa fa-power-off"></i> Unknown
-          </div>
-          <div class="text-muted" ng-if="node.power_state == 'rebooting'">
-            <i class="fa fa-spin fa-cog"></i> Rebooting
-          </div>
-          <div class="text-muted" ng-if="!!node.power_state && node.power_state != 'rebooting'">
-            <div uib-dropdown is-open="status.isopen" class="btn-group">
-              <button type="button"
-                      class="btn btn-default"
-                      uib-dropdown-toggle
-                      ng-disabled="true">
-                <span ng-if="node.power_state == 'power on'">On</span>
-                <span ng-if="node.power_state == 'power off'">Off</span>
-                <i class="fa fa-caret-down"></i>
-              </button>
-              <ul class="dropdown-menu">
-                <li role="menuitem" ng-if="node.power_state == 'power off'">
-                  <a href="#" ng-click="nodeListCtrl.setPowerState(node, 'power on')">On</a>
-                </li>
-                <li role="menuitem" ng-if="node.power_state == 'power on'">
-                  <a href="#" ng-click="nodeListCtrl.setPowerState(node, 'power off')">Off</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </td>
-        <td>
-          <a href="#/ironic/nodes/{{nodeCtrl.node.uuid}}/node">
-            {{nodeCtrl.node.name || nodeCtrl.node.uuid}}
-          </a>
-        </td>
+        <td><input type="checkbox" disabled/></td>
+        <td><a href="#/ironic/nodes/{{nodeCtrl.node.uuid}}/node">{{nodeCtrl.node.uuid}}</a></td>
+        <td>{{nodeCtrl.node.name || 'Unnamed'}}</td>
         <td>{{nodeCtrl.node.instance_uuid || 'None'}}</td>
         <td>{{nodeCtrl.node.provision_state}}</td>
-        <td>{{nodeCtrl.node.maintenance}}</td>
-        <td>
-          <button type="button" class="close"
-                  ng-click="nodeCtrl.remove().then(nodeListCtrl.loadNodes)">
-            <span>&times;</span>
-          </button>
-        </td>
+        <td>{{nodeCtrl.node.maintenance ? 'True' : 'False'}}</td>
+        <td>{{nodeCtrl.node.power_state || 'Unknown'}}</td>
       </tr>
       </tbody>
       <tbody ng-if="nodeListCtrl.nodes.$resolved && nodeListCtrl.nodes.length == 0">
       <tr>
-        <td colspan="6" class="text-center text-muted">
+        <td colspan="7" class="text-center text-muted">
           <small><em>No nodes were found.</em></small>
         </td>
       </tr>
       </tbody>
       <tbody ng-if="!nodeListCtrl.nodes.$resolved">
       <tr>
-        <td colspan="6" class="text-center text-muted">
+        <td colspan="7" class="text-center text-muted">
           <i class="fa fa-refresh fa-spin"></i>
           Loading nodes...
         </td>

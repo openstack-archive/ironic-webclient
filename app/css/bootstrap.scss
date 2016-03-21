@@ -65,3 +65,12 @@
     padding-top: $padding-large-vertical;
   }
 }
+
+/**
+ * Additional table styles
+ */
+table.table {
+  th {
+    background-color: $gray-lighter;
+  }
+}
