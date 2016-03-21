@@ -56,3 +56,12 @@
 .btn-danger-gradient {
   @include button-gradient-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
 }
+
+/**
+ * Additional spacer styles for vertical padding
+ */
+.row {
+  &.padding-top {
+    padding-top: $padding-large-vertical;
+  }
+}
