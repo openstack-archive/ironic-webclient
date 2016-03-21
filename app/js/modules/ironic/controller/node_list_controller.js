@@ -49,13 +49,5 @@ angular.module('ironic')
       $log.info('Set power state on ' + node.uuid + ' to ' + stateName);
     };
 
-    vm.enroll = function() {
-      $uibModal.open({
-        templateUrl: 'view/ironic/enroll/index.html',
-        controller: 'EnrollModalController as ctrl',
-        backdrop: 'static'
-      }).result.then(vm.loadNodes);
-    };
-
     vm.loadNodes();
   });
