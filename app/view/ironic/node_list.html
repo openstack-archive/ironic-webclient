@@ -17,7 +17,10 @@
     <table class="table table-condensed table-striped table-bordered">
       <thead>
       <tr>
-        <th><input type="checkbox" disabled/></th>
+        <th><input type="checkbox"
+                   ng-model="nodeListCtrl.selectAll"
+                   ng-change="nodeListCtrl.toggleSelectAll(nodeListCtrl.selectAll)"
+        /></th>
         <th>UUID</th>
         <th>Name</th>
         <th>Instance</th>
@@ -30,7 +33,11 @@
       <tr ng-repeat="node in nodeListCtrl.nodes"
           ng-controller="NodeActionController as nodeCtrl"
           ng-init="nodeCtrl.init(node)">
-        <td><input type="checkbox" disabled/></td>
+        <td>
+          <input type="checkbox"
+                 checklist-model="nodeListCtrl.selectedNodes"
+                 checklist-value="node.uuid"/>
+        </td>
         <td><a href="#/ironic/nodes/{{nodeCtrl.node.uuid}}/node">{{nodeCtrl.node.uuid}}</a></td>
         <td>{{nodeCtrl.node.name || 'Unnamed'}}</td>
         <td>{{nodeCtrl.node.instance_uuid || 'None'}}</td>

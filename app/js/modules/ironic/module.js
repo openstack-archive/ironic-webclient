@@ -20,7 +20,8 @@
  * This module defines dependencies and root routes, but no actual
  * functionality.
  */
-angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.api'])
+angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.api',
+    'checklist-model'])
   .config(function($urlRouterProvider, $httpProvider, $stateProvider, $$configurationProvider) {
     'use strict';
 
