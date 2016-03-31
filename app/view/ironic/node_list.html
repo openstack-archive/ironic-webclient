@@ -9,7 +9,11 @@
       </ul>
     </div>
     <button type="button" class="btn btn-default" disabled>Reboot</button>
-    <button type="button" class="btn btn-default" disabled>Refresh</button>
+    <button type="button" class="btn btn-default"
+            ng-disabled="!nodeListCtrl.nodes.$resolved"
+            ng-click="nodeListCtrl.loadNodes()">
+      Refresh
+    </button>
   </div>
 </div>
 <div class="row padding-top">
