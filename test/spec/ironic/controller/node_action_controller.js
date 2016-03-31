@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 Hewlett-Packard Development Company, L.P.
+ * Copyright (c) 2016 Hewlett Packard Enterprise Development Company, L.P.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -21,7 +21,7 @@ describe('Unit: Ironic-webclient NodeActionController',
   function() {
     'use strict';
 
-    var $controller, $httpBackend;
+    var $controller, $httpBackend, $rootScope;
     var mockInjectionProperties = {
       $scope: {}
     };
@@ -35,6 +35,7 @@ describe('Unit: Ironic-webclient NodeActionController',
     beforeEach(inject(function(_$controller_, $injector) {
       $httpBackend = $injector.get('$httpBackend');
       $controller = _$controller_;
+      $rootScope = $injector.get('$rootScope');
     }));
 
     afterEach(inject(function($$persistentStorage) {
@@ -60,52 +61,17 @@ describe('Unit: Ironic-webclient NodeActionController',
           expect(controller.errorMessage).toBeDefined();
           expect(controller.errorMessage).toBeFalsy();
         });
-
-      it('starts without a node object',
-        function() {
-          var controller = $controller('NodeActionController', mockInjectionProperties);
-
-          expect(controller.node).toBeDefined();
-          expect(controller.node).toBeFalsy();
-        });
-    });
-
-    describe('Controller Initialization', function() {
-      it('should assign the node property via init()',
-        function() {
-          var controller = $controller('NodeActionController', mockInjectionProperties);
-
-          expect(controller.node).toBeDefined();
-          expect(controller.node).toBeFalsy();
-
-          var mockNode = {};
-          controller.init(mockNode);
-          expect(controller.node).toBeDefined();
-          expect(controller.node).toEqual(mockNode);
-        });
     });
 
     describe('remove', function() {
-      it('should do nothing if no node is found.',
-        function() {
-          var controller = $controller('NodeActionController', mockInjectionProperties);
-
-          expect(controller.node).toBeDefined();
-          expect(controller.node).toBeFalsy();
-
-          var promise = controller.remove();
-          expect(promise.$$state.status).toEqual(2);
-        });
-
       it('open a modal if called with a node.',
         inject(function($q, $uibModal) {
           var controller = $controller('NodeActionController', mockInjectionProperties);
           var mockNode = {};
           var spy = spyOn($uibModal, 'open').and.callThrough();
           $httpBackend.expectGET('view/ironic/action/remove_node.html').respond(200, '');
-          controller.init(mockNode);
 
-          var promise = controller.remove();
+          var promise = controller.remove(mockNode);
           expect(promise.$$state.status).toEqual(0); // Unresolved promise.
           expect(spy.calls.count()).toBe(1);
 
@@ -129,6 +95,97 @@ describe('Unit: Ironic-webclient NodeActionController',
           controller.enroll();
 
           expect(spy.calls.count()).toBe(1);
+        }));
+    });
+
+    describe('provisionAction()', function() {
+
+      it('should open a modal',
+        inject(function($q, $uibModal) {
+          var spy = spyOn($uibModal, 'open').and.callThrough();
+          $httpBackend.expectGET('view/ironic/action/unknown.html').respond(200, '');
+
+          var testNode = {provision_state: 'enroll'};
+          var controller = $controller('NodeActionController', mockInjectionProperties);
+
+          controller.provisionAction('manage', [testNode]);
+
+          expect(spy.calls.count()).toBe(1);
+          var lastArgs = spy.calls.mostRecent().args[0];
+          expect(lastArgs.controller).toBe('UnknownActionModalController as ctrl');
+          $httpBackend.flush();
+        }));
+
+      it('should open an unsupported modal for unknown actions',
+        inject(function($q, $uibModal) {
+          var unknownActions = [
+            'foo', 'bar',
+
+            // The following are not yet implemented.
+            'manage', 'rebuild', 'delete', 'deploy', 'fail', 'abort', 'clean', 'inspect',
+            'provide'
+          ];
+
+          var spy = spyOn($uibModal, 'open').and.callThrough();
+          $httpBackend.expectGET('view/ironic/action/unknown.html').respond(200, '');
+
+          angular.forEach(unknownActions, function(actionName) {
+            var testNode = {provision_state: 'enroll'};
+
+            var controller = $controller('NodeActionController', mockInjectionProperties);
+            controller.provisionAction(actionName, [testNode]);
+
+            expect(spy.calls.count()).toBe(1);
+            var lastArgs = spy.calls.mostRecent().args[0];
+            expect(lastArgs.controller).toBe('UnknownActionModalController as ctrl');
+            spy.calls.reset();
+          });
+          $httpBackend.flush();
+        }));
+    });
+
+    describe('powerAction()', function() {
+
+      it('should open a modal',
+        inject(function($q, $uibModal) {
+          var spy = spyOn($uibModal, 'open').and.callThrough();
+          $httpBackend.expectGET('view/ironic/action/unknown.html').respond(200, '');
+
+          var testNode = {power_state: 'power off'};
+          var controller = $controller('NodeActionController', mockInjectionProperties);
+
+          controller.powerAction('power on', [testNode]);
+
+          expect(spy.calls.count()).toBe(1);
+          var lastArgs = spy.calls.mostRecent().args[0];
+          expect(lastArgs.controller).toBe('UnknownActionModalController as ctrl');
+          $httpBackend.flush();
+        }));
+
+      it('should open an unsupported modal for unknown actions',
+        inject(function($q, $uibModal) {
+          var unknownActions = [
+            'foo', 'bar',
+
+            // The following are not yet implemented.
+            'power on', 'power off', 'reboot'
+          ];
+
+          var spy = spyOn($uibModal, 'open').and.callThrough();
+          $httpBackend.expectGET('view/ironic/action/unknown.html').respond(200, '');
+
+          angular.forEach(unknownActions, function(actionName) {
+            var testNode = {power_state: 'power off'};
+
+            var controller = $controller('NodeActionController', mockInjectionProperties);
+            controller.powerAction(actionName, [testNode]);
+
+            expect(spy.calls.count()).toBe(1);
+            var lastArgs = spy.calls.mostRecent().args[0];
+            expect(lastArgs.controller).toBe('UnknownActionModalController as ctrl');
+            spy.calls.reset();
+          });
+          $httpBackend.flush();
         }));
     });
   });

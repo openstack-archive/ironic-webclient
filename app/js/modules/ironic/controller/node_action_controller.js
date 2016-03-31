@@ -25,28 +25,38 @@ angular.module('ironic').controller('NodeActionController',
 
     // Set up controller parameters
     vm.errorMessage = null;
-    vm.node = null;
 
     /**
-     * Initialize this controller with a specific node.
+     * Generic unknown action handler, here as a placeholder until we get actual actions built out.
      *
-     * @param {IronicNode} node The node to initialize this controller with.
-     * @return {void}
+     * @param {String} actionName The name of the action to perform.
+     * @param {[{}]} nodes An array of nodes on which to perform this action.
+     * @returns {Promise} A promise that resolves when the user performs the action.
      */
-    vm.init = function(node) {
-      vm.node = node;
-    };
+    function unknownActionHandler (actionName, nodes) {
+      return $uibModal.open({
+        templateUrl: 'view/ironic/action/unknown.html',
+        controller: 'UnknownActionModalController as ctrl',
+        resolve: {
+          actionName: function() {
+            return actionName;
+          },
+          nodes: function() {
+            return nodes;
+          }
+        }
+      }).result;
+    }
+
+    vm.powerAction = unknownActionHandler;
+    vm.provisionAction = unknownActionHandler;
 
     /**
      * Delete the node in this controller.
      *
      * @return {Promise} A promise that will resolve true if the modal closed with some deletions.
      */
-    vm.remove = function() {
-      if (vm.node === null) {
-        // init() not called, or called with invalid value.
-        return $q.reject();
-      }
+    vm.remove = function(node) {
 
       // Return the result of the modal.
       return $uibModal.open({
@@ -55,7 +65,7 @@ angular.module('ironic').controller('NodeActionController',
         backdrop: 'static',
         resolve: {
           nodes: function() {
-            return [vm.node];
+            return [node];
           }
         }
       }).result;
