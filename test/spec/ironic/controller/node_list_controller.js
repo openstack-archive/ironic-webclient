@@ -109,6 +109,30 @@ describe('Unit: Ironic-webclient node list controller',
           expect(controller.nodes.length).toBe(3);
         });
 
+      it('should populate the power transition list with a resolving promise',
+        function() {
+          var controller = $controller('NodeListController', mockInjectionProperties);
+          expect(controller.powerTransitions).toBeDefined();
+          expect(angular.isArray(controller.powerTransitions)).toBeTruthy();
+          expect(controller.powerTransitions.$resolved).toBeFalsy();
+
+          $httpBackend.flush();
+          expect(controller.powerTransitions.$resolved).toBeTruthy();
+          expect(controller.powerTransitions.length).toBe(3);
+        });
+
+      it('should populate the provision transition list with a resolving promise',
+        function() {
+          var controller = $controller('NodeListController', mockInjectionProperties);
+          expect(controller.provisionTransitions).toBeDefined();
+          expect(angular.isArray(controller.provisionTransitions)).toBeTruthy();
+          expect(controller.provisionTransitions.$resolved).toBeFalsy();
+
+          $httpBackend.flush();
+          expect(controller.provisionTransitions.$resolved).toBeTruthy();
+          expect(controller.provisionTransitions.length).toBe(7);
+        });
+
       it('should report an error message if nodes could not be loaded.',
         function() {
           var errorResponse = {
@@ -130,6 +154,28 @@ describe('Unit: Ironic-webclient node list controller',
           expect(controller.errorMessage.faultcode).toBe('Client');
           expect(controller.nodes).toBeFalsy();
         });
+    });
+
+    describe('init()', function() {
+
+      it('should refresh nodes, power transitions, and provisionTransitions', function() {
+        var controller = $controller('NodeListController', mockInjectionProperties);
+
+        $httpBackend.flush();
+        expect(controller.nodes.$resolved).toBeTruthy();
+        expect(controller.provisionTransitions.$resolved).toBeTruthy();
+        expect(controller.powerTransitions.$resolved).toBeTruthy();
+
+        controller.init();
+        expect(controller.nodes.$resolved).toBeFalsy();
+        expect(controller.provisionTransitions.$resolved).toBeFalsy();
+        expect(controller.powerTransitions.$resolved).toBeFalsy();
+
+        $httpBackend.flush();
+        expect(controller.nodes.$resolved).toBeTruthy();
+        expect(controller.provisionTransitions.$resolved).toBeTruthy();
+        expect(controller.powerTransitions.$resolved).toBeTruthy();
+      });
     });
 
     describe('List selection handling', function() {

@@ -18,7 +18,8 @@
  * Node handling for the Ironic UI.
  */
 angular.module('ironic')
-  .controller('NodeListController', function($scope, IronicNode) {
+  .controller('NodeListController', function($scope, $q, IronicNode, IronicNodeProvisionTransition,
+                                             IronicNodePowerTransition) {
     'use strict';
     var vm = this;
 
@@ -27,6 +28,19 @@ angular.module('ironic')
     vm.nodes = [];
     vm.selectedNodes = [];
     vm.selectAll = false;
+    vm.provisionTransitions = [];
+    vm.powerTransitions = [];
+
+    /**
+     * Initialize the controller.
+     *
+     * @returns {void}
+     */
+    vm.init = function() {
+      vm.loadProvisionTransitions();
+      vm.loadPowerTransitions();
+      vm.loadNodes();
+    };
 
     // Load the node list.
     vm.loadNodes = function() {
@@ -72,5 +86,67 @@ angular.module('ironic')
       }
     };
 
-    vm.loadNodes();
+    /**
+     * Load all valid user power transition names into the controller.
+     *
+     * @returns {void}
+     */
+    vm.loadPowerTransitions = function() {
+      var transitionPromise = IronicNodePowerTransition.query({actor: 'user'}).$promise;
+
+      vm.powerTransitions = [];
+      vm.powerTransitions.$resolved = false;
+      vm.powerTransitions.$promise = transitionPromise
+        .then(mapTransitionNames)
+        .then(function(names) {
+          angular.forEach(names, function(name) {
+            vm.powerTransitions.push(name);
+          });
+          vm.powerTransitions.$resolved = true;
+        });
+    };
+
+    /**
+     * Load all valid user provisioning transitions names into the controller.
+     *
+     * @returns {void}
+     */
+    vm.loadProvisionTransitions = function() {
+      var transitionPromise = IronicNodeProvisionTransition.query({actor: 'user'}).$promise;
+
+      vm.provisionTransitions = [];
+      vm.provisionTransitions.$resolved = false;
+      vm.provisionTransitions.$promise = transitionPromise
+        .then(mapTransitionNames)
+        .then(function(names) {
+          angular.forEach(names, function(name) {
+            vm.provisionTransitions.push(name);
+          });
+          vm.provisionTransitions.$resolved = true;
+        });
+    };
+
+    /**
+     * This helper method reduces the transition data format down to the actual action name that
+     * can be performed on a node.
+     *
+     * @param {[{}]} transitions The list of resolved transitions.
+     * @returns {Array} The reduced list of available transitions.
+     */
+    function mapTransitionNames (transitions) {
+      var reducedTransitions = [];
+      transitions = transitions.map(function(item) {
+        return item.event;
+      });
+      // deduplicate.
+
+      angular.forEach(transitions, function(name) {
+        if (reducedTransitions.indexOf(name) === -1) {
+          reducedTransitions.push(name);
+        }
+      });
+      return reducedTransitions;
+    }
+
+    vm.init();
   });
