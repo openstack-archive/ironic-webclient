@@ -35,34 +35,34 @@ describe('Unit: OpenStack Ironic Node Resource',
     }
 
     it('should implement the query method',
-      inject(function(IronicNodeTransition) {
-        expect(IronicNodeTransition.query).toBeDefined();
+      inject(function(IronicNodeProvisionTransition) {
+        expect(IronicNodeProvisionTransition.query).toBeDefined();
 
         // CRUD methods not supported on this resource.
-        expect(IronicNodeTransition.create).not.toBeDefined();
-        expect(IronicNodeTransition.read).not.toBeDefined();
-        expect(IronicNodeTransition.update).not.toBeDefined();
-        expect(IronicNodeTransition.remove).not.toBeDefined();
+        expect(IronicNodeProvisionTransition.create).not.toBeDefined();
+        expect(IronicNodeProvisionTransition.read).not.toBeDefined();
+        expect(IronicNodeProvisionTransition.update).not.toBeDefined();
+        expect(IronicNodeProvisionTransition.remove).not.toBeDefined();
       }));
 
     it('should return a "resource-like" array"',
-      inject(function(IronicNodeTransition) {
-        var transitions = IronicNodeTransition.query();
+      inject(function(IronicNodeProvisionTransition) {
+        var transitions = IronicNodeProvisionTransition.query();
         $rootScope.$apply();
         expect(transitions.$resolved).toBeTruthy();
         expect(transitions.$promise.$$state.status).toBe(1);
       }));
 
     it('should permit filtering.',
-      inject(function(IronicNodeTransition) {
-        var transitions = IronicNodeTransition.query({
+      inject(function(IronicNodeProvisionTransition) {
+        var transitions = IronicNodeProvisionTransition.query({
           from_state: 'manageable'
         });
         $rootScope.$apply();
 
         expect(transitions.length).toEqual(3);
 
-        var conductorTransitions = IronicNodeTransition.query({
+        var conductorTransitions = IronicNodeProvisionTransition.query({
           from_state: 'manageable',
           actor: 'conductor'
         });
@@ -72,9 +72,9 @@ describe('Unit: OpenStack Ironic Node Resource',
       }));
 
     it('should permit query promise handlers.',
-      inject(function(IronicNodeTransition) {
+      inject(function(IronicNodeProvisionTransition) {
         var success = false;
-        IronicNodeTransition.query({
+        IronicNodeProvisionTransition.query({
           from_state: 'manageable'
         }, function() {
           success = true;
@@ -85,8 +85,8 @@ describe('Unit: OpenStack Ironic Node Resource',
       }));
 
     it('should return the expected transition graph.',
-      inject(function(IronicNodeTransition) {
-        var transitions = IronicNodeTransition.query();
+      inject(function(IronicNodeProvisionTransition) {
+        var transitions = IronicNodeProvisionTransition.query();
         $rootScope.$apply();
 
         var USER = "user";

@@ -15,12 +15,12 @@
  */
 
 /**
- * IronicNodeTransition is a mock API that returns the transitions list for
+ * IronicNodeProvisionTransition is a mock API that returns the transitions list for
  * the ironic state machine. It is intended to be supplanted when the work for
  * https://review.openstack.org/#/c/224022/ is completed, though it may continue
  * to exist for legacy API microversions.
  */
-angular.module('ironic.api').factory('IronicNodeTransition',
+angular.module('ironic.api').factory('IronicNodeProvisionTransition',
   function($q) {
     'use strict';
 
