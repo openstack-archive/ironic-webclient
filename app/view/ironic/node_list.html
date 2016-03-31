@@ -46,7 +46,7 @@
         <td><a href="#/ironic/nodes/{{nodeCtrl.node.uuid}}/node">{{nodeCtrl.node.uuid}}</a></td>
         <td>{{nodeCtrl.node.name || 'Unnamed'}}</td>
         <td>{{nodeCtrl.node.instance_uuid || 'None'}}</td>
-        <td>{{nodeCtrl.node.provision_state}}</td>
+        <td>{{nodeCtrl.node.provision_state | capitalize}}</td>
         <td>{{nodeCtrl.node.maintenance ? 'True' : 'False'}}</td>
         <td>{{nodeCtrl.node.power_state || 'Unknown'}}</td>
       </tr>
