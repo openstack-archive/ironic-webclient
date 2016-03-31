@@ -20,6 +20,7 @@
         <th><input type="checkbox"
                    ng-model="nodeListCtrl.selectAll"
                    ng-change="nodeListCtrl.toggleSelectAll(nodeListCtrl.selectAll)"
+                   ng-if="nodeListCtrl.nodes.length > 0"
         /></th>
         <th>UUID</th>
         <th>Name</th>
