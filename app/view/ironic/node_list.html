@@ -1,17 +1,40 @@
 <div class="row padding-top">
   <div class="col-xs-12">
     <div class="btn-group" uib-dropdown>
-      <button type="button" class="btn btn-default" disabled>Power On</button>
-      <button type="button" class="btn btn-default" uib-dropdown-toggle disabled>
+      <button type="button"
+              class="btn btn-default"
+              ng-disabled="nodeListCtrl.selectedNodes.length == 0">
+        {{nodeListCtrl.powerTransitions[0] | capitalize}}
+      </button>
+      <button type="button"
+              class="btn btn-default"
+              uib-dropdown-toggle
+              ng-disabled="nodeListCtrl.selectedNodes.length == 0">
         <i class="caret"></i>
       </button>
       <ul uib-dropdown-menu>
+        <li ng-repeat="event in nodeListCtrl.powerTransitions">
+          <a ng-disabled="nodeListCtrl.selectedNodes.length == 0"
+             href="">
+            {{event | capitalize}}
+          </a>
+        </li>
+        <li role="separator" class="divider"></li>
+        <li ng-repeat="event in nodeListCtrl.provisionTransitions">
+          <a ng-disabled="nodeListCtrl.selectedNodes.length == 0"
+             href="">
+            {{event | capitalize}}
+          </a>
+        </li>
       </ul>
     </div>
-    <button type="button" class="btn btn-default" disabled>Reboot</button>
+    <button type="button" class="btn btn-default"
+            ng-disabled="nodeListCtrl.selectedNodes.length == 0">
+      Reboot
+    </button>
     <button type="button" class="btn btn-default"
             ng-disabled="!nodeListCtrl.nodes.$resolved"
-            ng-click="nodeListCtrl.loadNodes()">
+            ng-click="nodeListCtrl.init()">
       Refresh
     </button>
   </div>
