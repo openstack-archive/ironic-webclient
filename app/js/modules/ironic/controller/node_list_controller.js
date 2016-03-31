@@ -43,18 +43,6 @@ angular.module('ironic')
     };
 
     /**
-     * Set the power state for the provided node node.
-     *
-     * @param {IronicNode} node The ironic node to modify.
-     * @param {String} stateName The name of the power state.
-     * @return {void}
-     */
-    vm.setPowerState = function(node, stateName) {
-      // Do nothing, yet.
-      $log.info('Set power state on ' + node.uuid + ' to ' + stateName);
-    };
-
-    /**
      * Check the selected nodes anytime we suspect that the selectAll property may no longer be
      * valid.
      */
