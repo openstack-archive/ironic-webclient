@@ -18,7 +18,7 @@
  * Node handling for the Ironic UI.
  */
 angular.module('ironic')
-  .controller('NodeListController', function($scope, IronicNode, $uibModal, $log) {
+  .controller('NodeListController', function($scope, IronicNode) {
     'use strict';
     var vm = this;
 
@@ -40,18 +40,6 @@ angular.module('ironic')
         vm.selectAll = false;
         vm.nodes = null;
       });
-    };
-
-    /**
-     * Set the power state for the provided node node.
-     *
-     * @param {IronicNode} node The ironic node to modify.
-     * @param {String} stateName The name of the power state.
-     * @return {void}
-     */
-    vm.setPowerState = function(node, stateName) {
-      // Do nothing, yet.
-      $log.info('Set power state on ' + node.uuid + ' to ' + stateName);
     };
 
     /**
