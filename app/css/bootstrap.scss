@@ -72,5 +72,17 @@
 table.table {
   th {
     background-color: $gray-lighter;
+
+    white-space: nowrap;
   }
+}
+
+/**
+ * Form controls inside of table columns.
+ */
+table th .form-control {
+  display: inline-block;
+  width: auto;
+  padding: $padding-xs-vertical $padding-xs-horizontal;
+  height: auto;
 }
