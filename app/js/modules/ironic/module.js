@@ -114,6 +114,7 @@ angular.module('ironic', ['ui.router', 'ui.bootstrap', 'ironic.util', 'ironic.ap
         url: '/drivers',
         views: {
           'main@root.ironic': {
+            controller: 'DriverListController as driverListCtrl',
             templateUrl: 'view/ironic/driver_list.html'
           }
         }
