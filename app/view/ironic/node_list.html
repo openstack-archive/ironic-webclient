@@ -58,8 +58,22 @@
         <th>Name</th>
         <th>Instance</th>
         <th>Provision State</th>
-        <th>Maintenance</th>
-        <th>Power</th>
+        <th>
+          <select class="form-control input-sm pull-right" disabled>
+            <option value="-1">All</option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+          Maintenance
+        </th>
+        <th>
+          <select class="form-control input-sm pull-right" disabled>
+            <option value="-1">All</option>
+            <option value="on">On</option>
+            <option value="off">Off</option>
+          </select>
+          Power
+        </th>
       </tr>
       </thead>
       <tbody ng-if="nodeListCtrl.nodes.$resolved && nodeListCtrl.nodes.length > 0">
