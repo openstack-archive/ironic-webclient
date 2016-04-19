@@ -128,7 +128,7 @@ describe('Unit: OpenStack Ironic Node Resource',
 
         // AVAILABLE state
         assertHasTransition(transitions, "available", USER, "manage", "manageable");
-        assertHasTransition(transitions, "available", USER, "deploy", "deploying");
+        assertHasTransition(transitions, "available", USER, "active", "deploying");
 
         // DEPLOYING state
         assertHasTransition(transitions, "deploying", CONDUCTOR, "wait", "wait call-back");
@@ -141,7 +141,7 @@ describe('Unit: OpenStack Ironic Node Resource',
 
         // DEPLOY FAILED state
         assertHasTransition(transitions, "deploy failed", USER, "rebuild", "deploying");
-        assertHasTransition(transitions, "deploy failed", USER, "deploy", "deploying");
+        assertHasTransition(transitions, "deploy failed", USER, "active", "deploying");
         assertHasTransition(transitions, "deploy failed", USER, "delete", "deleting");
 
         // WAIT CALL_BACK state
