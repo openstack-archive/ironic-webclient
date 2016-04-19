@@ -24,34 +24,39 @@ angular.module('ironic.api.mock.IronicNode',
   .run(function($httpBackend) {
     'use strict';
 
+    var nodes = [
+      {
+        uuid: 'test_node_1',
+        driver: 'test_driver_1',
+        provision_state: 'enroll'
+      },
+      {
+        uuid: 'test_node_2',
+        driver: 'test_driver_1',
+        provision_state: 'enroll'
+      },
+      {
+        uuid: 'test_node_3',
+        driver: 'test_driver_2',
+        provision_state: 'manageable'
+      }
+    ];
+
     $httpBackend
       .whenGET('http://ironic.example.com:1000/nodes')
       .respond(200, {
-        nodes: [
-          {uuid: 'test_node_1'},
-          {uuid: 'test_node_2'},
-          {uuid: 'test_node_3'}
-        ]
+        nodes: angular.copy(nodes)
       });
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/nodes/test_node_1')
-      .respond(200, {
-        uuid: "test_node_1",
-        driver: "test_driver_1"
-      });
+      .respond(200, angular.copy(nodes[0]));
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/nodes/test_node_2')
-      .respond(200, {
-        uuid: "test_node_2",
-        driver: "test_driver_1"
-      });
+      .respond(200, angular.copy(nodes[1]));
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/nodes/test_node_3')
-      .respond(200, {
-        uuid: "test_node_3",
-        driver: "test_driver_2  "
-      });
+      .respond(200, angular.copy(nodes[3]));
   });
