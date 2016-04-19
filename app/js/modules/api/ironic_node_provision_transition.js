@@ -47,7 +47,7 @@ angular.module('ironic.api').factory('IronicNodeProvisionTransition',
       },
       {
         from_state: "available",
-        event: "deploy",
+        event: "active",
         target_state: "deploying",
         actor: "user"
       },
@@ -101,7 +101,7 @@ angular.module('ironic.api').factory('IronicNodeProvisionTransition',
       },
       {
         from_state: "deploy failed",
-        event: "deploy",
+        event: "active",
         target_state: "deploying",
         actor: "user"
       },
