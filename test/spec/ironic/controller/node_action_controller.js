@@ -98,45 +98,27 @@ describe('Unit: Ironic-webclient NodeActionController',
     });
 
     describe('provisionAction()', function() {
-
-      it('should open a modal',
-        inject(function($q, $uibModal) {
-          var spy = spyOn($uibModal, 'open').and.callThrough();
-          $httpBackend.expectGET('view/ironic/action/unknown.html').respond(200, '');
-
-          var testNode = {provision_state: 'enroll'};
-          var controller = $controller('NodeActionController', mockInjectionProperties);
-
-          controller.provisionAction('manage', [testNode]);
-
-          expect(spy.calls.count()).toBe(1);
-          var lastArgs = spy.calls.mostRecent().args[0];
-          expect(lastArgs.controller).toBe('UnknownActionModalController as ctrl');
-          $httpBackend.flush();
-        }));
-
-      it('should open an unsupported modal for unknown actions',
+      it('should open an supported modal for known actions',
         inject(function($q, $uibModal) {
           var unknownActions = [
-            'foo', 'bar',
-
-            // The following are not yet implemented.
             'manage', 'rebuild', 'delete', 'deploy', 'fail', 'abort', 'clean', 'inspect',
             'provide'
           ];
 
           var spy = spyOn($uibModal, 'open').and.callThrough();
-          $httpBackend.expectGET('view/ironic/action/unknown.html').respond(200, '');
+          $httpBackend.expectGET('view/ironic/action/provision.html').respond(200, '');
 
           angular.forEach(unknownActions, function(actionName) {
-            var testNode = {provision_state: 'enroll'};
+            var testNodeId = 'random_uuid';
+            $httpBackend.expectGET('http://ironic.example.com:1000/nodes/random_uuid')
+              .respond(200, {uuid: 'random_uuid'});
 
             var controller = $controller('NodeActionController', mockInjectionProperties);
-            controller.provisionAction(actionName, [testNode]);
+            controller.provisionAction(actionName, [testNodeId]);
 
             expect(spy.calls.count()).toBe(1);
             var lastArgs = spy.calls.mostRecent().args[0];
-            expect(lastArgs.controller).toBe('UnknownActionModalController as ctrl');
+            expect(lastArgs.controller).toBe('ProvisionActionModalController as ctrl');
             spy.calls.reset();
           });
           $httpBackend.flush();

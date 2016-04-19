@@ -49,7 +49,44 @@ angular.module('ironic').controller('NodeActionController',
     }
 
     vm.powerAction = unknownActionHandler;
-    vm.provisionAction = unknownActionHandler;
+
+    /**
+     * Provision action handler, delegates the provision action to the modal controller.
+     *
+     * @param {String} actionName The name of the action to perform.
+     * @param {[{}]} nodes An array of nodes on which to perform this action.
+     * @returns {Promise} A promise that resolves when the user performs the action.
+     */
+    vm.provisionAction = function provisionActionHandler (actionName, nodes) {
+      var modalParams = {
+        templateUrl: 'view/ironic/action/provision.html',
+        controller: 'ProvisionActionModalController as ctrl',
+        resolve: {
+          actionName: function() {
+            return actionName;
+          },
+          nodeIds: function() {
+            return nodes;
+          }
+        }
+      };
+
+      switch (actionName) {
+        case 'manage':
+        case 'rebuild':
+        case 'delete':
+        case 'deploy':
+        case 'fail':
+        case 'abort':
+        case 'clean':
+        case 'inspect':
+        case 'provide':
+        default:
+          modalParams.templateUrl = 'view/ironic/action/provision.html';
+      }
+
+      return $uibModal.open(modalParams).result;
+    };
 
     /**
      * Delete the node in this controller.
