@@ -106,7 +106,7 @@ describe('Unit: Ironic-webclient node list controller',
 
           $httpBackend.flush();
           expect(controller.nodes.$resolved).toBeTruthy();
-          expect(controller.nodes.length).toBe(3);
+          expect(controller.nodes.length).toBe(5);
         });
 
       it('should populate the power transition list with a resolving promise',

@@ -100,7 +100,7 @@ describe('Unit: Ironic-webclient NodeActionController',
     describe('provisionAction()', function() {
       it('should open an supported modal for known actions',
         inject(function($q, $uibModal) {
-          var unknownActions = [
+          var knownActions = [
             'manage', 'rebuild', 'delete', 'deploy', 'fail', 'abort', 'clean', 'inspect',
             'provide'
           ];
@@ -108,7 +108,7 @@ describe('Unit: Ironic-webclient NodeActionController',
           var spy = spyOn($uibModal, 'open').and.callThrough();
           $httpBackend.expectGET('view/ironic/action/provision.html').respond(200, '');
 
-          angular.forEach(unknownActions, function(actionName) {
+          angular.forEach(knownActions, function(actionName) {
             var testNodeId = 'random_uuid';
             $httpBackend.expectGET('http://ironic.example.com:1000/nodes/random_uuid')
               .respond(200, {uuid: 'random_uuid'});
@@ -126,44 +126,24 @@ describe('Unit: Ironic-webclient NodeActionController',
     });
 
     describe('powerAction()', function() {
-
-      it('should open a modal',
+      it('should open an supported modal for known actions',
         inject(function($q, $uibModal) {
-          var spy = spyOn($uibModal, 'open').and.callThrough();
-          $httpBackend.expectGET('view/ironic/action/unknown.html').respond(200, '');
-
-          var testNode = {power_state: 'power off'};
-          var controller = $controller('NodeActionController', mockInjectionProperties);
-
-          controller.powerAction('power on', [testNode]);
-
-          expect(spy.calls.count()).toBe(1);
-          var lastArgs = spy.calls.mostRecent().args[0];
-          expect(lastArgs.controller).toBe('UnknownActionModalController as ctrl');
-          $httpBackend.flush();
-        }));
-
-      it('should open an unsupported modal for unknown actions',
-        inject(function($q, $uibModal) {
-          var unknownActions = [
-            'foo', 'bar',
-
-            // The following are not yet implemented.
-            'power on', 'power off', 'reboot'
-          ];
+          var knownActions = ['power on', 'power off', 'reboot'];
 
           var spy = spyOn($uibModal, 'open').and.callThrough();
-          $httpBackend.expectGET('view/ironic/action/unknown.html').respond(200, '');
+          $httpBackend.expectGET('view/ironic/action/power.html').respond(200, '');
 
-          angular.forEach(unknownActions, function(actionName) {
-            var testNode = {power_state: 'power off'};
+          angular.forEach(knownActions, function(actionName) {
+            var testNodeId = 'random_uuid';
+            $httpBackend.expectGET('http://ironic.example.com:1000/nodes/random_uuid')
+              .respond(200, {uuid: 'random_uuid'});
 
             var controller = $controller('NodeActionController', mockInjectionProperties);
-            controller.powerAction(actionName, [testNode]);
+            controller.powerAction(actionName, [testNodeId]);
 
             expect(spy.calls.count()).toBe(1);
             var lastArgs = spy.calls.mostRecent().args[0];
-            expect(lastArgs.controller).toBe('UnknownActionModalController as ctrl');
+            expect(lastArgs.controller).toBe('PowerActionModalController as ctrl');
             spy.calls.reset();
           });
           $httpBackend.flush();

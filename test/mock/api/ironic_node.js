@@ -28,17 +28,32 @@ angular.module('ironic.api.mock.IronicNode',
       {
         uuid: 'test_node_1',
         driver: 'test_driver_1',
-        provision_state: 'enroll'
+        provision_state: 'enroll',
+        power_state: null
       },
       {
         uuid: 'test_node_2',
         driver: 'test_driver_1',
-        provision_state: 'enroll'
+        provision_state: 'enroll',
+        power_state: null
       },
       {
         uuid: 'test_node_3',
         driver: 'test_driver_2',
-        provision_state: 'manageable'
+        provision_state: 'manageable',
+        power_state: 'power off'
+      },
+      {
+        uuid: 'test_node_4',
+        driver: 'test_driver_2',
+        provision_state: 'manageable',
+        power_state: 'power off'
+      },
+      {
+        uuid: 'test_node_5',
+        driver: 'test_driver_2',
+        provision_state: 'active',
+        power_state: 'power on'
       }
     ];
 
@@ -58,5 +73,13 @@ angular.module('ironic.api.mock.IronicNode',
 
     $httpBackend
       .whenGET('http://ironic.example.com:1000/nodes/test_node_3')
+      .respond(200, angular.copy(nodes[2]));
+
+    $httpBackend
+      .whenGET('http://ironic.example.com:1000/nodes/test_node_4')
       .respond(200, angular.copy(nodes[3]));
+
+    $httpBackend
+      .whenGET('http://ironic.example.com:1000/nodes/test_node_5')
+      .respond(200, angular.copy(nodes[4]));
   });

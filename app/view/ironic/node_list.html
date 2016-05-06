@@ -89,7 +89,7 @@
         <td>{{node.instance_uuid || 'None'}}</td>
         <td>{{node.provision_state | capitalize}}</td>
         <td>{{node.maintenance ? 'True' : 'False'}}</td>
-        <td>{{node.power_state || 'Unknown'}}</td>
+        <td>{{node.power_state || 'Unknown' | capitalize}}</td>
       </tr>
       </tbody>
       <tbody ng-if="nodeListCtrl.nodes.$resolved && nodeListCtrl.nodes.length == 0">

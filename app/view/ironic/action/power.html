@@ -1,0 +1,58 @@
+<div class="modal-header">
+  <button type="button"
+          class="close"
+          ng-disabled="!ctrl.nodes.$resolved || ctrl.updating"
+          ng-click="ctrl.close()">&times;</button>
+  <h3 class="panel-title">{{ctrl.actionName | capitalize }} Node</h3>
+</div>
+<div class="modal-body" ng-if="!ctrl.nodes.$resolved">
+  <div class="row">
+    <div class="col-xs-12">
+      <p class="text-center text-muted">
+        <i class="fa fa-spin fa-refresh"></i> Loading Details...
+      </p>
+    </div>
+  </div>
+</div>
+<div class="modal-body" ng-if="ctrl.nodes.$resolved && ctrl.nodes.length > 0">
+  <div class="row">
+    <div class="col-xs-12">
+      <p>Ironic will {{ctrl.actionName}} the following nodes.</p>
+      <table class="table table-condensed table-striped">
+        <tr>
+          <th>Node ID</th>
+          <th>Node Name</th>
+          <th>Power State</th>
+        </tr>
+        <tr ng-repeat="ctx in ctrl.nodes">
+          <td>{{ctx.node.uuid}}</td>
+          <td>{{ctx.node.name || 'None'}}</td>
+          <td ng-switch="ctx.state">
+            <div ng-switch-when="updating" class="text-warning">
+              <i class="fa fa-spin fa-refresh"></i> Updating...
+            </div>
+            <div ng-switch-when="complete" class="text-muted">
+              Complete
+            </div>
+            <div ng-switch-when="error" class="text-danger">
+              <i class="fa fa-exclamation-triangle"></i> Error
+            </div>
+            <div ng-switch-default>
+              {{ctx.node.power_state || "power off" | capitalize}}
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal-footer ng-scope">
+  <button class="btn btn-danger" ng-click="ctrl.apply()"
+          ng-disabled="!ctrl.nodes.$resolved || ctrl.updating">
+    {{ ctrl.actionName | capitalize }}
+  </button>
+  <button class="btn btn-default" ng-click="ctrl.close()"
+          ng-disabled="!ctrl.nodes.$resolved || ctrl.updating">
+    Cancel
+  </button>
+</div>

@@ -27,28 +27,36 @@ angular.module('ironic').controller('NodeActionController',
     vm.errorMessage = null;
 
     /**
-     * Generic unknown action handler, here as a placeholder until we get actual actions built out.
+     * Power action handler. Launches a modal that permits powering on, off, or rebooting a node.
      *
      * @param {String} actionName The name of the action to perform.
      * @param {[{}]} nodes An array of nodes on which to perform this action.
      * @returns {Promise} A promise that resolves when the user performs the action.
      */
-    function unknownActionHandler (actionName, nodes) {
-      return $uibModal.open({
-        templateUrl: 'view/ironic/action/unknown.html',
-        controller: 'UnknownActionModalController as ctrl',
+    vm.powerAction = function powerActionHandler (actionName, nodes) {
+      var modalParams = {
+        templateUrl: 'view/ironic/action/power.html',
+        controller: 'PowerActionModalController as ctrl',
         resolve: {
           actionName: function() {
             return actionName;
           },
-          nodes: function() {
+          nodeIds: function() {
             return nodes;
           }
         }
-      }).result;
-    }
+      };
 
-    vm.powerAction = unknownActionHandler;
+      switch (actionName) {
+        case 'power on':
+        case 'power off':
+        case 'reboot':
+        default:
+          modalParams.templateUrl = 'view/ironic/action/power.html';
+      }
+
+      return $uibModal.open(modalParams).result;
+    };
 
     /**
      * Provision action handler, delegates the provision action to the modal controller.
