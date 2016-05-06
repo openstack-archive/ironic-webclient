@@ -71,7 +71,7 @@
       // Coverage threshold values.
       thresholdReporter: {
         statements: 94, // target 100
-        branches: 96, // target 100
+        branches: 97, // target 100
         functions: 92, // target 100
         lines: 94 // target 100
       },
