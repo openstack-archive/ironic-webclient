@@ -1,6 +1,9 @@
 (function initializeGulp () {
   'use strict';
 
+  var SERVER_PORT = process.env.PORT || 8000;
+  var SERVER_HOST = process.env.IPADDR || process.env.IP || 'localhost';
+
   var gulp = require('gulp');
   var sass = require('gulp-sass');
   var concat = require('gulp-concat');
@@ -92,6 +95,8 @@
 
     return gulp.src(dir.dist)
       .pipe(webserver({
+        host: SERVER_HOST,
+        port: SERVER_PORT,
         livereload: true,
         open: true
       }));
