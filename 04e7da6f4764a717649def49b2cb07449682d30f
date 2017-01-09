@@ -1,0 +1,8 @@
+Code-Review+2: Jim Rollenhagen <jim@jimrollenhagen.com>
+Workflow+1: Jim Rollenhagen <jim@jimrollenhagen.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Mon, 09 Jan 2017 13:53:16 +0000
+Reviewed-on: https://review.openstack.org/413755
+Project: openstack/ironic-webclient
+Branch: refs/heads/master
